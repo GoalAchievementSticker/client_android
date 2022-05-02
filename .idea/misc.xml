@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/USER/AndroidStudioProjects/test/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/test/app/src/main/res/layout/custom_dialog.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/test/app/src/main/res/layout/cutom_grid.xml" value="0.1" />
+        <entry key="..\:/Users/qmfps/AndroidStudioProjects/GoalSticker/app/src/main/res/layout/activity_main.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/qmfps/AndroidStudioProjects/GoalSticker/app/src/main/res/layout/custom_dialog.xml" value="0.264" />
+        <entry key="..\:/Users/qmfps/AndroidStudioProjects/GoalSticker/app/src/main/res/layout/custom_grid.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/qmfps/AndroidStudioProjects/GoalSticker/app/src/main/res/layout/header.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/qmfps/AndroidStudioProjects/GoalSticker/app/src/main/res/layout/recycler_item.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/qmfps/AndroidStudioProjects/GoalSticker/app/src/main/res/layout/sticker_count.xml" value="0.264" />
       </map>
     </option>
   </component>
@@ -14,5 +17,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="GoalSticker.app" />
+      </set>
+    </option>
   </component>
 </project>

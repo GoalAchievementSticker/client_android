@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends BaseAdapter {
 
-    ArrayList<GridItem> items = new ArrayList<GridItem>();
+    ArrayList<GridItem> items = new ArrayList<>();
 
     @Override
     public int getCount(){

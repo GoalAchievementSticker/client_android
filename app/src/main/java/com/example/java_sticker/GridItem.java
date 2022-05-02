@@ -8,7 +8,6 @@ public class GridItem {
         this.resId = resId;
     }
 
-
     public int getResId(){
         return resId;
     }

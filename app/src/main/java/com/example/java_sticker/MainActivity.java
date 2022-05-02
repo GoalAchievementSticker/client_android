@@ -4,32 +4,40 @@ import static java.lang.Integer.parseInt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Objects;
+
+import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private GridView gridView = null;
+    private TextView header_goal;
     private CustomAdapter adapter = null;
-    GridItem gridItem;
     ArrayList<GridItem> items;
+    private GridViewWithHeaderAndFooter gridView = null;
     Dialog custom_dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        gridView = (GridView) findViewById(R.id.gridView);
+        gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);
         adapter = new CustomAdapter();
         items = new ArrayList<GridItem>();
         custom_dialog = new Dialog(MainActivity.this);
@@ -40,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn = (Button) findViewById(R.id.dialogButton);
 
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,49 +56,50 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        gridView.setAdapter(adapter);
+//        gridView.setAdapter(adapter);
     }
 
 
-    public void showDialog(){
+    public void showDialog() {
         custom_dialog.show();
 
 
         EditText sticker_count = (EditText) custom_dialog.findViewById(R.id.sticker_count);
+        EditText sticker_goal = (EditText) custom_dialog.findViewById(R.id.sticker_goal);
+
         Button noBtn = custom_dialog.findViewById(R.id.noBtn);
         Button yesBtn = custom_dialog.findViewById(R.id.yesBtn);
 
+        noBtn.setOnClickListener(view -> custom_dialog.dismiss());
 
-        noBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                custom_dialog.dismiss();
-            }
-        });
+        yesBtn.setOnClickListener(view -> {
+            // Header 추가
+            View header = getLayoutInflater().inflate(R.layout.header, null, false);
+            header_goal = (TextView) header.findViewById(R.id.header_goal);
+            gridView.addHeaderView(header);
+            header_goal.setText(sticker_goal.getText().toString().trim());
+            gridView.setAdapter(adapter);
 
-        yesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String vi = sticker_count.getText().toString();
-                int it = 0;
-                try {
-                    it = NumberFormat.getInstance().parse(vi).intValue();
-                    //Toast.makeText(getApplicationContext(), it, Toast.LENGTH_LONG).show();
-                    for(int i=0; i<it; i++){
-                        items.add(new GridItem(R.drawable.heart));
-                    }
+            String vi = sticker_count.getText().toString();
+            String goal = sticker_goal.getText().toString();
+            int it = 0;
+            try {
+                it = Objects.requireNonNull(NumberFormat.getInstance().parse(vi)).intValue();
 
-                    adapter.items = items;
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                for (int i = 0; i < it; i++) {
+                    items.add(new GridItem(R.drawable.heart));
                 }
 
-
-                adapter.notifyDataSetChanged();
-
-
-                custom_dialog.dismiss();
+                adapter.items = items;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+
+            adapter.notifyDataSetChanged();
+
+
+            custom_dialog.dismiss();
         });
 
 
