@@ -4,6 +4,7 @@ public class GridItem {
 
     int resId;
 
+
     public GridItem(int resId){
         this.resId = resId;
     }
@@ -14,4 +15,6 @@ public class GridItem {
     public void  setResId(int resId){
         this.resId = resId;
     }
+
+
 }

@@ -15,6 +15,7 @@
         android:id="@+id/sticker_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:padding="8dp"
         android:hint="1~50까지 입력 가능합니다"/>
 
