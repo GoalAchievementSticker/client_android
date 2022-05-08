@@ -117,6 +117,18 @@ public class MainActivity extends AppCompatActivity {
 
                 adapter.items = items;
 
+                databaseReference.child("personal_goal").child("1").setValue(items).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(MainActivity.this, "저장함", Toast.LENGTH_LONG).show();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, "저장못함", Toast.LENGTH_LONG).show();
+                    }
+                });
 
             } catch (Exception e) {
                 e.printStackTrace();
