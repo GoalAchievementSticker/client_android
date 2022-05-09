@@ -3,35 +3,24 @@ package com.example.java_sticker;
 import static java.lang.Integer.parseInt;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
@@ -45,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
     Dialog custom_dialog;
 
 
-     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-     DatabaseReference databaseReference = firebaseDatabase.getReference();
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = firebaseDatabase.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,15 +90,13 @@ public class MainActivity extends AppCompatActivity {
             int vi = Integer.parseInt(sticker_count.getText().toString());
             String goal = sticker_goal.getText().toString();
 
-            HashMap result = new HashMap<>();
-            result.put("sticker_count",vi);
-            result.put("sticker_goal",goal);
+            HashMap<Object, Object> result = new HashMap<>();
+            result.put("sticker_count", vi);
+            result.put("sticker_goal", goal);
 
-            writePersonalDialog("1", vi,goal );
+            writePersonalDialog("1", vi, goal);
 
 
-
-            int it = 0;
             try {
                 for (int i = 0; i < vi; i++) {
                     items.add(new GridItem(R.drawable.heart));
@@ -117,18 +104,9 @@ public class MainActivity extends AppCompatActivity {
 
                 adapter.items = items;
 
-                databaseReference.child("personal_goal").child("1").setValue(items).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(MainActivity.this, "저장함", Toast.LENGTH_LONG).show();
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "저장못함", Toast.LENGTH_LONG).show();
-                    }
-                });
+//                databaseReference.child(userid).child("personal_goal").child("1").setValue(items).addOnSuccessListener(unused
+//                        -> Toast.makeText(MainActivity.this, "목표 저장완", Toast.LENGTH_LONG).show())
+//                        .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "저장못함", Toast.LENGTH_LONG).show());
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -144,20 +122,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void writePersonalDialog(String userid, int count, String tittle){
+    private void writePersonalDialog(String userid, int count, String tittle) {
         personalDialog pDialog = new personalDialog(count, tittle);
 
-        databaseReference.child("dialog_personal").child(userid).setValue(pDialog).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(MainActivity.this, "저장함", Toast.LENGTH_LONG).show();
+        databaseReference.child("dialog_personal").child(userid).setValue(pDialog).addOnSuccessListener(unused ->
+                Toast.makeText(MainActivity.this, "다이얼로그 저장완", Toast.LENGTH_LONG).show())
+                .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "저장못함", Toast.LENGTH_LONG).show());
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "저장못함", Toast.LENGTH_LONG).show();
-            }
-        });
+
+        printPersonalGoal(userid);
+    }
+
+    private void printPersonalGoal(String userid) {
+        String mGroupId =databaseReference.child(userid).push().getKey();
+        assert mGroupId != null;
+        databaseReference.child(mGroupId).child("goal_personal").setValue(items).addOnSuccessListener(unused
+                -> Toast.makeText(MainActivity.this, "목표 저장완", Toast.LENGTH_LONG).show())
+                .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "저장못함", Toast.LENGTH_LONG).show());
+
     }
 }

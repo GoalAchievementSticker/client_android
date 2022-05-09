@@ -1,5 +1,7 @@
 package com.example.java_sticker;
 
+import androidx.annotation.NonNull;
+
 public class personalDialog {
 
         int resCount;
@@ -30,6 +32,7 @@ public class personalDialog {
         this.resTittle = resTittle;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "personalDialog{" +
