@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "66269082738",
+    "firebase_url": "https://goal-sticker-default-rtdb.firebaseio.com",
+    "project_id": "goal-sticker",
+    "storage_bucket": "goal-sticker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66269082738:android:6ef2b4ad9768012d167eeb",
+        "android_client_info": {
+          "package_name": "com.example.java_sticker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66269082738-e5sv83rjosq4n035ionc62t0bmo70jlm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcXqS9PmjpXKcBL8A5cRoxNnc2IcQ6AlM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66269082738-e5sv83rjosq4n035ionc62t0bmo70jlm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
