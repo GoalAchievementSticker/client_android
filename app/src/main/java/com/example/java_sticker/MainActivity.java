@@ -49,11 +49,10 @@ public class MainActivity extends AppCompatActivity {
         Button btn = (Button) findViewById(R.id.dialogButton);
 
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialog();
-            }
+        btn.setOnClickListener(view -> showDialog());
+
+        gridView.setOnClickListener(view ->{
+            Toast.makeText(this,"스티커 클릭",Toast.LENGTH_LONG).show();
         });
 
 //        gridView.setAdapter(adapter);
@@ -78,16 +77,15 @@ public class MainActivity extends AppCompatActivity {
             header_goal = (TextView) header.findViewById(R.id.header_goal);
             gridView.addHeaderView(header);
             header_goal.setText(sticker_goal.getText().toString().trim());
-            gridView.setAdapter(adapter);
+            gridView.setAdapter(adapter);//이 코드가 헤더코드 무조건 아래에 있어야 함
 
             String vi = sticker_count.getText().toString();
-            String goal = sticker_goal.getText().toString();
-            int it = 0;
+            int it;
             try {
                 it = Objects.requireNonNull(NumberFormat.getInstance().parse(vi)).intValue();
 
                 for (int i = 0; i < it; i++) {
-                    items.add(new GridItem(R.drawable.heart));
+                    items.add(new GridItem(R.drawable.ic_baseline_add_circle_24));
                 }
 
                 adapter.items = items;
@@ -101,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
             custom_dialog.dismiss();
         });
+
 
 
     }

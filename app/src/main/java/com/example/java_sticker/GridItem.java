@@ -1,5 +1,6 @@
 package com.example.java_sticker;
 
+//스티커이미지,헤더,도장판개수
 public class GridItem {
 
     int resId;
