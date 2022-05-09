@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -102,52 +103,63 @@ public class MainActivity extends AppCompatActivity {
             result.put("sticker_count",vi);
             result.put("sticker_goal",goal);
 
+            //다이얼로그 값 저장
             writePersonalDialog("2", vi,goal );
 
+
+            //다이얼로그 값 불러오기
             readPersonalDialog();
 
-            //목표를 가져왔다면?
-            if(p_tittle != null){
-                // Header 추가 -> 반영
-                View header = getLayoutInflater().inflate(R.layout.header, null, false);
-                header_goal = (TextView) header.findViewById(R.id.header_goal);
-                gridView.addHeaderView(header);
-                header_goal.setText(p_tittle);
-                gridView.setAdapter(adapter);
 
-                try {
+            //다이얼로그 값 불러오고 딜레이를 줘서 타이틀값 가져오기 해결
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //목표를 가져왔다면?
+                    if(p_tittle != null) {
+                        // Header 추가 -> 반영
+                        View header = getLayoutInflater().inflate(R.layout.header, null, false);
+                        header_goal = (TextView) header.findViewById(R.id.header_goal);
+                        gridView.addHeaderView(header);
+                        header_goal.setText(p_tittle);
+                        gridView.setAdapter(adapter);
+
+                        try {
 
 
-                    //vi는 원래 p_count여야하는데 아직 잘 안가져와서 vi로 해둠
-                    for (int i = 0; i <vi ; i++) {
-                        items.add(new GridItem(i,R.drawable.heart));
+                            //vi는 원래 p_count여야하는데 아직 잘 안가져와서 vi로 해둠
+                            for (int i = 0; i < vi; i++) {
+                                items.add(new GridItem(i, R.drawable.heart));
+                            }
+
+                            adapter.items = items;
+
+                            databaseReference.child("dialog_personal").child("2").child(p_tittle).child("goal").setValue(items).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(MainActivity.this, "저장함", Toast.LENGTH_LONG).show();
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(MainActivity.this, "실패", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        adapter.notifyDataSetChanged();
+
+
+                        custom_dialog.dismiss();
                     }
-
-                    adapter.items = items;
-
-                    databaseReference.child("goal_personal").child("2").setValue(items).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(MainActivity.this, "저장함", Toast.LENGTH_LONG).show();
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, "실패", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+            },400);
 
-                adapter.notifyDataSetChanged();
 
-
-                custom_dialog.dismiss();
-
-            }
 
 
 
