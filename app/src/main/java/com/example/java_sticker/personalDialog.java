@@ -2,39 +2,39 @@ package com.example.java_sticker;
 
 public class personalDialog {
 
-        int resCount;
-        String resTittle;
+        int pCount;
+        String pTittle;
 
         public personalDialog(){
 
         }
 
-        public personalDialog(int resCount, String resTittle){
-            this.resCount = resCount;
-            this.resTittle = resTittle;
+        public personalDialog(int pCount, String pTittle){
+            this.pCount = pCount;
+            this.pTittle = pTittle;
         }
 
-    public int getResCount() {
-        return resCount;
+    public int getpCount() {
+        return pCount;
     }
 
-    public void setResCount(int resCount) {
-        this.resCount = resCount;
+    public void setpCount(int pCount) {
+        this.pCount = pCount;
     }
 
-    public String getResTittle() {
-        return resTittle;
+    public String getpTittle() {
+        return pTittle;
     }
 
-    public void setResTittle(String resTittle) {
-        this.resTittle = resTittle;
+    public void setpTittle(String pTittle) {
+        this.pTittle = pTittle;
     }
 
     @Override
     public String toString() {
         return "personalDialog{" +
-                "resCount='" + resCount + '\'' +
-                ", resTittle='" + resTittle + '\'' +
+                "pCount='" + pCount + '\'' +
+                ", pTittle='" + pTittle + '\'' +
                 '}';
     }
 }

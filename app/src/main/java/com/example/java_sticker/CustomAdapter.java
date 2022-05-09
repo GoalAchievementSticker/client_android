@@ -39,7 +39,7 @@ public class CustomAdapter extends BaseAdapter {
 
             ImageView sticker_img = (ImageView) convertView.findViewById(R.id.sticker_img);
 
-            sticker_img.setImageResource(gridItem.getResId());
+            sticker_img.setImageResource(gridItem.getGoal_img_Id());
         }else{
             View view = new View(context);
             view = (View) convertView;
