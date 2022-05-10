@@ -127,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
                         try {
 
 
-                            //vi는 원래 p_count여야하는데 아직 잘 안가져와서 vi로 해둠
-                            for (int i = 0; i < vi; i++) {
+                            //다이얼로그 p_count 만큼 for문 돌려 도장판 배열칸 생성 성공
+                            for (int i = 0; i < p_count; i++) {
                                 items.add(new GridItem(i, R.drawable.heart));
                             }
 
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                             databaseReference.child("dialog_personal").child("2").child(p_tittle).child("goal").setValue(items).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-                                    Toast.makeText(MainActivity.this, "저장함", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(MainActivity.this, "생성", Toast.LENGTH_SHORT).show();
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -192,18 +192,22 @@ public class MainActivity extends AppCompatActivity {
         databaseReference.child("dialog_personal").child("2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                p_tittle = (String) snapshot.child("pTittle").getValue();
-                //p_count = (int) snapshot.child("pCount").getValue();
 
+                //다이얼로그 저장값 가져오기
+                personalDialog read_p_dialog = snapshot.getValue(personalDialog.class);
+
+                //저장된 클래스 get소환해서 값넣기
+                p_tittle = read_p_dialog.getpTittle();
+                p_count = read_p_dialog.getpCount();
                 //목표값 가져왔는 확인하게끔 toast 메세지
-                Toast.makeText(MainActivity.this, p_tittle, Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, p_tittle, Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-                Toast.makeText(MainActivity.this, "못함", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "저장실패", Toast.LENGTH_LONG).show();
             }
         });
     }
