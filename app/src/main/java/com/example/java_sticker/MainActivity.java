@@ -1,40 +1,24 @@
 package com.example.java_sticker;
 
-import static java.lang.Integer.parseInt;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 public class MainActivity extends AppCompatActivity {
@@ -70,14 +54,7 @@ public class MainActivity extends AppCompatActivity {
         Button btn = (Button) findViewById(R.id.dialogButton);
 
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialog();
-            }
-        });
-
-//        gridView.setAdapter(adapter);
+        btn.setOnClickListener(view -> showDialog());
     }
 
 
@@ -112,60 +89,39 @@ public class MainActivity extends AppCompatActivity {
 
 
             //다이얼로그 값 불러오고 딜레이를 줘서 타이틀값 가져오기 해결
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //목표를 가져왔다면?
-                    if(p_tittle != null) {
-                        // Header 추가 -> 반영
-                        View header = getLayoutInflater().inflate(R.layout.header, null, false);
-                        header_goal = (TextView) header.findViewById(R.id.header_goal);
-                        gridView.addHeaderView(header);
-                        header_goal.setText(p_tittle);
-                        gridView.setAdapter(adapter);
+            new Handler().postDelayed(() -> {
+                //목표를 가져왔다면?
+                if(p_tittle != null) {
+                    // Header 추가 -> 반영
+                    View header = getLayoutInflater().inflate(R.layout.header, null, false);
+                    header_goal = (TextView) header.findViewById(R.id.header_goal);
+                    gridView.addHeaderView(header);
+                    header_goal.setText(p_tittle);
+                    gridView.setAdapter(adapter);
 
-                        try {
+                    try {
 
-
-                            //다이얼로그 p_count 만큼 for문 돌려 도장판 배열칸 생성 성공
-                            for (int i = 0; i < p_count; i++) {
-                                items.add(new GridItem(i, R.drawable.heart));
-                            }
-
-                            adapter.items = items;
-
-                            databaseReference.child("dialog_personal").child("2").child(p_tittle).child("goal").setValue(items).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(MainActivity.this, "생성", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(MainActivity.this, "실패", Toast.LENGTH_LONG).show();
-                                }
-                            });
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        //다이얼로그 p_count 만큼 for문 돌려 도장판 배열칸 생성 성공
+                        for (int i = 0; i < p_count; i++) {
+                            items.add(new GridItem(i, R.drawable.ic_baseline_add_circle_24));
                         }
 
-                        adapter.notifyDataSetChanged();
+                        adapter.items = items;
 
+                        databaseReference.child("dialog_personal").child("2").child(p_tittle).child("goal").setValue(items).addOnSuccessListener(unused
+                                -> Toast.makeText(MainActivity.this, "생성", Toast.LENGTH_SHORT).show())
+                                .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "실패", Toast.LENGTH_LONG).show());
 
-                        custom_dialog.dismiss();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+
+                    adapter.notifyDataSetChanged();
+                    custom_dialog.dismiss();
                 }
             },400);
 
-
-
-
-
-
         });
-
 
     }
 
@@ -173,23 +129,19 @@ public class MainActivity extends AppCompatActivity {
     private void writePersonalDialog(String userid, int count, String tittle){
         personalDialog pDialog = new personalDialog(count, tittle);
 
-        databaseReference.child("dialog_personal").child(userid).setValue(pDialog).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                //Toast.makeText(MainActivity.this, "다이얼로그 저장", Toast.LENGTH_SHORT).show();
+        databaseReference.child("dialog_personal").child(userid).setValue(pDialog).addOnSuccessListener(unused -> {
+            //Toast.makeText(MainActivity.this, "다이얼로그 저장", Toast.LENGTH_SHORT).show();
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(MainActivity.this, "다이얼로그 저장못함", Toast.LENGTH_SHORT).show();
-            }
+        }).addOnFailureListener(e -> {
+            //Toast.makeText(MainActivity.this, "다이얼로그 저장못함", Toast.LENGTH_SHORT).show();
         });
     }
 
     //다이얼로그 저장된 함수 가져오기
     private void readPersonalDialog(){
         databaseReference.child("dialog_personal").child("2").addValueEventListener(new ValueEventListener() {
+
+            //경로의 전체 내용을 읽고 변경사항을 수신 대기
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
