@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:hint="1~50까지 입력 가능합니다"/>
+        android:hint="목표를 입력해주세요"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

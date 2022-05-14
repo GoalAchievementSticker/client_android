@@ -22,6 +22,7 @@ public class Custom_p_item_adapter extends RecyclerView.Adapter<Custom_p_item_ad
 
     Context context;
     ArrayList<personalDialog> items;
+    Intent intent;
     //int item_layout;
 
     public Custom_p_item_adapter(Context context,ArrayList<personalDialog> items){
@@ -50,6 +51,10 @@ public class Custom_p_item_adapter extends RecyclerView.Adapter<Custom_p_item_ad
             @Override
             public void onClick(View view) {
 
+                intent = new Intent(view.getContext(), custom_p_goal_click.class);
+                intent.putExtra("tittle",item.getpTittle());
+                intent.putExtra("key", item.getKey());
+                view.getContext().startActivity(intent);
 
 
             }
@@ -79,19 +84,7 @@ public class Custom_p_item_adapter extends RecyclerView.Adapter<Custom_p_item_ad
             cardView = (CardView) itemView.findViewById(R.id.custom_p_goal_cardView);
 
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    int pos = getAdapterPosition();
-//                    if(pos != RecyclerView.NO_POSITION){
-//                        Intent intent = new Intent(context, custom_p_goal_click.class);
-//
-//                        intent.putExtra("p_goal", pos);
-//
-//                        context.startActivities(new Intent[]{intent});
-//                    }
-//                }
-//            });
         }
+
     }
 }
