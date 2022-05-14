@@ -44,11 +44,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<GridItem> items;
     ArrayList<personalDialog> pDialog;
     Dialog custom_dialog;
-    String p_tittle;
-    int p_count;
     Custom_p_item_adapter pAdapter;
     RecyclerView p_goal_recycler;
-    ChildEventListener mchildEventListener;
     ProgressBar circleProgressBar;
     TextView custom_p_goal_tittle;
     String uid;
@@ -64,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         //다이얼로그 선언
         pDialog = new ArrayList<>();
-        custom_dialog = new Dialog(MainActivity.this);
-        custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        custom_dialog.setContentView(R.layout.custom_dialog);
+
         Button btn = (Button) findViewById(R.id.dialogButton);
 
 
@@ -103,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                custom_dialog = new Dialog(MainActivity.this);
+                custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                custom_dialog.setContentView(R.layout.custom_dialog);
                 showDialog();
             }
         });
@@ -153,12 +151,6 @@ public class MainActivity extends AppCompatActivity {
             DatabaseReference keyRef = databaseReference.child(uid).child("dialog_personal").child(key);
             keyRef.setValue(personalDialog);
 
-            //databaseReference.addValueEventListener(postListener);
-            //다이얼로그 값 저장
-           // writePersonalDialog(vi, goal,key);
-
-
-
             for (int i = 0; i < vi; i++) {
                 items.add(new GridItem(i, R.drawable.heart));
             }
@@ -166,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             DatabaseReference goalRef = databaseReference.child(uid).child("dialog_personal").child(key).child("도장판");
             goalRef.setValue(items);
-
 
 
             new Handler().postDelayed(new Runnable() {
@@ -191,33 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
     //다이얼로그 저장된 함수 가져오기
    private void ReadPersonalDialog() {
-//        mchildEventListener = databaseReference.child(uid).child("dialog_personal").addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                personalDialog personalDialog = snapshot.getValue(personalDialog.class);
-//                pDialog.add(personalDialog);
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+
        databaseReference.child(uid).child("dialog_personal").addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
