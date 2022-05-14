@@ -1,19 +1,22 @@
 package com.example.java_sticker;
 
-import androidx.annotation.NonNull;
+import java.util.ArrayList;
 
 public class personalDialog {
 
         int pCount;
         String pTittle;
+        String key;
 
         public personalDialog(){
 
         }
 
-        public personalDialog(int pCount, String pTittle){
+        public personalDialog(int pCount, String pTittle, String key){
             this.pCount = pCount;
             this.pTittle = pTittle;
+            this.key = key;
+
         }
 
     public int getpCount() {
@@ -32,12 +35,16 @@ public class personalDialog {
         this.pTittle = pTittle;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return "personalDialog{" +
-                "pCount='" + pCount + '\'' +
-                ", pTittle='" + pTittle + '\'' +
-                '}';
+    public String getKey() {
+        return key;
     }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+
+
+
+
 }
