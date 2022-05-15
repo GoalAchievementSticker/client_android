@@ -14,6 +14,7 @@ public class CustomAdapter extends BaseAdapter {
 
     ArrayList<GridItem> items = new ArrayList<>();
 
+
     @Override
     public int getCount(){
         return items.size();
