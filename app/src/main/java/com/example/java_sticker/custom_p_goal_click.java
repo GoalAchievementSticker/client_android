@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
+/*도장판 액티비티*/
 public class custom_p_goal_click extends AppCompatActivity {
 
     private TextView header_goal;

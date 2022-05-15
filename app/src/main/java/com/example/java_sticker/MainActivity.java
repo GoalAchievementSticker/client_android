@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+/*리사이클러뷰 메인*/
 public class MainActivity extends AppCompatActivity {
 
 
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         custom_dialog = new Dialog(MainActivity.this);
         custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         custom_dialog.setContentView(R.layout.custom_dialog);
-        Button btn = (Button) findViewById(R.id.dialogButton);
+        Button btn = (Button) findViewById(R.id.dialogButton); //소환버튼
 
 
         //리사이클러뷰 선언
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         uid = user.getUid();
 
 

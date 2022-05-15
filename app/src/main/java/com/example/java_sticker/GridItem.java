@@ -1,6 +1,6 @@
 package com.example.java_sticker;
 
-//스티커이미지,헤더,도장판개수
+//그리드뷰 데이터 클래스
 public class GridItem {
 
     int goal_id;

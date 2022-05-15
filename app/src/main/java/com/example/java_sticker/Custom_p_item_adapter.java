@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/*카드뷰 리사이틀러 어댑터*/
 public class Custom_p_item_adapter extends RecyclerView.Adapter<Custom_p_item_adapter.ViewHolder> {
 
     Context context;

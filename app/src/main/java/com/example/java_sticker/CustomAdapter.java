@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+/*도장판 그리드뷰 어댑터*/
 public class CustomAdapter extends BaseAdapter {
 
     ArrayList<GridItem> items = new ArrayList<>();

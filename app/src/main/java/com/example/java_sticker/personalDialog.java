@@ -2,6 +2,7 @@ package com.example.java_sticker;
 
 import java.util.ArrayList;
 
+/*다이어로그 데이터클래스*/
 public class personalDialog {
 
         int pCount;
