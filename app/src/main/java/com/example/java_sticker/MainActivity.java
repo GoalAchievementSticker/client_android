@@ -3,7 +3,6 @@ package com.example.java_sticker;
 import static java.lang.Integer.parseInt;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -20,11 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,9 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView header_goal;
     private CustomAdapter adapter;
     ArrayList<GridItem> items;
+    //GridItem gitems;
     ArrayList<personalDialog> pDialog;
     Dialog custom_dialog;
     Custom_p_item_adapter pAdapter;
@@ -76,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
         pAdapter = new Custom_p_item_adapter(this,pDialog);
         p_goal_recycler.setAdapter(pAdapter);
         //리사이클러뷰 클릭했을때 나오는 도장판 연결
-        adapter = new CustomAdapter();
-        items = new ArrayList<GridItem>();
+        items = new ArrayList<>();
+        adapter = new CustomAdapter(items);
+
 
 
 
@@ -141,24 +138,33 @@ public class MainActivity extends AppCompatActivity {
             pAdapter.notifyDataSetChanged();
 
 
-            //헤시맵으로 키값과 함께 레코드 생성
-//            HashMap result = new HashMap<>();
-//            result.put("sticker_count", vi);
-//            result.put("sticker_goal", goal);
-//            result.put("key", key);
 
             //생성된 레코드 파이어베이스 저장
             DatabaseReference keyRef = databaseReference.child(uid).child("dialog_personal").child(key);
             keyRef.setValue(personalDialog);
 
-            for (int i = 0; i < vi; i++) {
-                items.add(new GridItem(i, R.drawable.heart));
-            }
-            adapter.items = items;
-            adapter.notifyDataSetChanged();
-            DatabaseReference goalRef = databaseReference.child(uid).child("dialog_personal").child(key).child("도장판");
-            goalRef.setValue(items);
 
+            //헤시맵으로 키값과 함께 레코드 생성
+            Map<String, List<GridItem>> result = new HashMap<>();
+            //result.put("key", i);
+            //result.put("GridItem", gridItem);
+
+            //String read = key+"A";
+            DatabaseReference goalRef = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
+            //String t = goalRef.push().getKey();
+            for (int i = 0; i < vi; i++) {
+                items.add(new GridItem( i,"test"));
+            }
+            result.put("key",items);
+            goalRef.setValue(result);
+
+//            for(int i =0; i< items.size(); i++){
+//                GridItem gridItem = items.get(i);
+//                goalRef.child(t).setValue(result);
+//            }
+            //result.put("key",items);
+            //items.add(result);
+            //adapter.notifyDataSetChanged();
 
             new Handler().postDelayed(new Runnable() {
                 @Override
