@@ -3,8 +3,8 @@ package com.example.java_sticker;
 //그리드뷰 데이터 클래스
 public class GridItem {
 
-    int goal_id;
-    int goal_img_Id;
+    int goal_id; //도장판 아이디=도장판 개수(0~N)
+    int goal_img_Id; //이미지
 
     public GridItem(){
 

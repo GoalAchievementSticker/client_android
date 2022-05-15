@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
-/*도장판 액티비티*/
+/*도장판 그리드뷰*/
 public class custom_p_goal_click extends AppCompatActivity {
 
     private TextView header_goal;
@@ -36,7 +36,6 @@ public class custom_p_goal_click extends AppCompatActivity {
     ArrayList<GridItem> items;
     ArrayList<personalDialog> pDialog;
     private GridViewWithHeaderAndFooter gridView = null;
-    Dialog custom_dialog;
     String p_tittle;
     String key;
     String uid;
@@ -51,7 +50,7 @@ public class custom_p_goal_click extends AppCompatActivity {
 
 
         gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);
-        pDialog = new ArrayList<personalDialog>();
+        pDialog = new ArrayList<>();
 
 
         //리사이클러뷰 클릭했을때 나오는 도장판 연결
@@ -61,6 +60,7 @@ public class custom_p_goal_click extends AppCompatActivity {
 
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         uid = user.getUid();
 
        intent = getIntent();
@@ -75,11 +75,6 @@ public class custom_p_goal_click extends AppCompatActivity {
         gridView.setAdapter(adapter);
 
         ReadPersonalDialog();
-
-        //adapter.items = items;
-        //adapter.notifyDataSetChanged();
-
-//        gridView.setAdapter(adapter);
     }
 
 
@@ -93,6 +88,8 @@ public class custom_p_goal_click extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
                     GridItem read_click = dataSnapshot.getValue(GridItem.class);
+                    assert read_click != null;
+                    assert key != null;
                     read_click.goal_id = Integer.parseInt(key);
                     Toast.makeText(custom_p_goal_click.this,key,Toast.LENGTH_SHORT).show();
                     //String tittle = read_p.getpTittle();

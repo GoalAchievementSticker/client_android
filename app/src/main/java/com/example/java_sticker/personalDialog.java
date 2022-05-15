@@ -5,9 +5,9 @@ import java.util.ArrayList;
 /*다이어로그 데이터클래스*/
 public class personalDialog {
 
-        int pCount;
-        String pTittle;
-        String key;
+        int pCount; //개수
+        String pTittle; //목표
+        String key; //고유키
 
         public personalDialog(){
 
