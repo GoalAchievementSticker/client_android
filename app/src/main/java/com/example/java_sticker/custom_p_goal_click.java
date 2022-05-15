@@ -74,6 +74,7 @@ public class custom_p_goal_click extends AppCompatActivity {
         items = new ArrayList<>();
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         uid = user.getUid();
 
        intent = getIntent();
