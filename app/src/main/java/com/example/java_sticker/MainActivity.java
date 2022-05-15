@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*메인 리사이클러뷰*/
 public class MainActivity extends AppCompatActivity {
 
 
@@ -82,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
         uid = user.getUid();
 
 
@@ -95,18 +92,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         //삽입버튼으로 값을 넣을때
-        btn.setOnClickListener(view -> {
-            custom_dialog = new Dialog(MainActivity.this);
-            custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            custom_dialog.setContentView(R.layout.custom_dialog);
-            showDialog();
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                custom_dialog = new Dialog(MainActivity.this);
+                custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                custom_dialog.setContentView(R.layout.custom_dialog);
+                showDialog();
+            }
         });
 
 
     }
 
 
-    @SuppressLint("NotifyDataSetChanged")
     public void showDialog() {
         //다이얼로그를 보여준다
         custom_dialog.show();
@@ -141,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
 
 
             //생성된 레코드 파이어베이스 저장
-            assert key != null;
             DatabaseReference keyRef = databaseReference.child(uid).child("dialog_personal").child(key);
             keyRef.setValue(personalDialog);
 
@@ -162,14 +160,18 @@ public class MainActivity extends AppCompatActivity {
 
 //            for(int i =0; i< items.size(); i++){
 //                GridItem gridItem = items.get(i);
-            
 //                goalRef.child(t).setValue(result);
 //            }
             //result.put("key",items);
             //items.add(result);
             //adapter.notifyDataSetChanged();
 
-            new Handler().postDelayed(this::ReadPersonalDialog,400);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ReadPersonalDialog();
+                }
+            },400);
 
 
             custom_dialog.dismiss();
@@ -188,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
    private void ReadPersonalDialog() {
 
        databaseReference.child(uid).child("dialog_personal").addValueEventListener(new ValueEventListener() {
-           @SuppressLint("NotifyDataSetChanged")
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
                pDialog.clear();
@@ -197,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
                    personalDialog read_p = dataSnapshot.getValue(personalDialog.class);
                    //String tittle = read_p.getpTittle();
                    //Toast.makeText(MainActivity.this, tittle,Toast.LENGTH_SHORT).show();
-                   assert read_p != null;
                    read_p.key = key;
 
                    pDialog.add(read_p);
