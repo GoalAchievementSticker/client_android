@@ -4,22 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".custom_p_goal_click">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <in.srain.cube.views.GridViewWithHeaderAndFooter
+        android:id="@+id/gridView"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <in.srain.cube.views.GridViewWithHeaderAndFooter
-            android:id="@+id/gridView"
-            android:choiceMode="singleChoice"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:horizontalSpacing="5dp"
-            android:numColumns="5"
-            android:verticalSpacing="5dp" />
-    </LinearLayout>
+        android:layout_width="match_parent"
+        android:numColumns="5"
+        android:paddingVertical="4dp" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

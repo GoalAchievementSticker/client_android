@@ -55,6 +55,7 @@ public class Custom_p_item_adapter extends RecyclerView.Adapter<Custom_p_item_ad
                 intent = new Intent(view.getContext(), custom_p_goal_click.class);
                 intent.putExtra("tittle",item.getpTittle());
                 intent.putExtra("key", item.getKey());
+                intent.putExtra("count", item.getpCount());
                 view.getContext().startActivity(intent);
 
 
