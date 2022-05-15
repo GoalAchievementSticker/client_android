@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import in.srain.cube.views.GridViewWithHeaderAndFooter;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar circleProgressBar;
     TextView custom_p_goal_tittle;
     String uid;
+    GridViewWithHeaderAndFooter gridView;
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference("personalDialog");
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         //다이얼로그 선언
         pDialog = new ArrayList<>();
-
+        gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);
         Button btn = (Button) findViewById(R.id.dialogButton);
 
 
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         p_goal_recycler.setAdapter(pAdapter);
         //리사이클러뷰 클릭했을때 나오는 도장판 연결
         items = new ArrayList<>();
-        adapter = new CustomAdapter(items);
+        //adapter = new CustomAdapter(items);
 
 
 
@@ -150,13 +153,15 @@ public class MainActivity extends AppCompatActivity {
             //result.put("GridItem", gridItem);
 
             //String read = key+"A";
-            DatabaseReference goalRef = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
+            //DatabaseReference goalRef = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
             //String t = goalRef.push().getKey();
             for (int i = 0; i < vi; i++) {
-                items.add(new GridItem( i,"test"));
+                addGoal(key);
             }
-            result.put("key",items);
-            goalRef.setValue(result);
+            //result.put("key",items);
+            adapter = new CustomAdapter(items);
+            //gridView.setAdapter(adapter);
+            //goalRef.setValue();
 
 //            for(int i =0; i< items.size(); i++){
 //                GridItem gridItem = items.get(i);
@@ -186,6 +191,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void addGoal(String key){
+        DatabaseReference goalRef = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
+        String td = databaseReference.push().getKey();
+        GridItem gd = new GridItem(td, "test");
+        goalRef.child(td).setValue(gd);
+    }
     //다이얼로그 저장된 함수 가져오기
    private void ReadPersonalDialog() {
 
@@ -196,8 +207,6 @@ public class MainActivity extends AppCompatActivity {
                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                    String key = dataSnapshot.getKey();
                    personalDialog read_p = dataSnapshot.getValue(personalDialog.class);
-                   //String tittle = read_p.getpTittle();
-                   //Toast.makeText(MainActivity.this, tittle,Toast.LENGTH_SHORT).show();
                    read_p.key = key;
 
                    pDialog.add(read_p);

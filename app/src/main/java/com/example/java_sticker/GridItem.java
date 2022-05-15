@@ -4,22 +4,22 @@ import java.util.ArrayList;
 
 public class GridItem {
 
-    int goal_id;
+    String goal_id;
     String test;
 
 
-    public GridItem(int goal_id,String test){
+    public GridItem(String goal_id,String test){
         this.goal_id = goal_id;
         //this.goal_img_Id = goal_img_Id;
         this.test = test;
 
     }
 
-    public int getGoal_id() {
+    public String getGoal_id() {
         return goal_id;
     }
 
-    public void setGoal_id(int goal_id) {
+    public void setGoal_id(String goal_id) {
         this.goal_id = goal_id;
     }
 
