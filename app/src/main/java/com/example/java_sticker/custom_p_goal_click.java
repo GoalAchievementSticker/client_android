@@ -3,9 +3,11 @@ package com.example.java_sticker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.Person;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,10 +48,12 @@ public class custom_p_goal_click extends AppCompatActivity {
     int count;
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference = firebaseDatabase.getReference();
+    DatabaseReference databaseReference = firebaseDatabase.getReference("personalDialog");
 
     DatabaseReference ds;
     //List<String> ds;
+    StorageReference storageReference= FirebaseStorage.getInstance().getReference();
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +61,12 @@ public class custom_p_goal_click extends AppCompatActivity {
         setContentView(R.layout.activity_custom_pgoal_click);
 
 
-        gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);
+        gridView = findViewById(R.id.gridView);
         //pDialog = new ArrayList<personalDialog>();
         items = new ArrayList<>();
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         uid = user.getUid();
 
        intent = getIntent();
@@ -68,6 +75,7 @@ public class custom_p_goal_click extends AppCompatActivity {
        count = intent.getIntExtra("count", 5);
 
 
+        @SuppressLint("InflateParams")
         View header = getLayoutInflater().inflate(R.layout.header, null, false);
         header_goal = (TextView) header.findViewById(R.id.header_goal);
         gridView.addHeaderView(header);
@@ -77,7 +85,7 @@ public class custom_p_goal_click extends AppCompatActivity {
         //gridView.setAdapter(adapter);
 
         //ds = new ArrayList<>();
-        ds = databaseReference.child(uid).child("dialog_personal");
+        ds = databaseReference.child(uid).child("dialog_personal").child(key).child("도장판");
 
         //Log.d("TAG", ds);
 
@@ -87,8 +95,7 @@ public class custom_p_goal_click extends AppCompatActivity {
 
 
     }
-
-
+    heroine
     //다이얼로그 저장된 함수 가져오기
     private void ReadPersonalDialog2() {
 

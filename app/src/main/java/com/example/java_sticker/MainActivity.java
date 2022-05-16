@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -25,6 +27,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,6 +132,17 @@ public class MainActivity extends AppCompatActivity {
 
         //예습 버튼 클릭시 다이얼로그 동작
         yesBtn.setOnClickListener(view -> {
+//
+//            //storage 객체 만들고 참조
+//            FirebaseStorage storage = FirebaseStorage.getInstance(); //스토리지 인스턴스를 만들고,
+//            StorageReference storageRef = storage.getReference();//스토리지를 참조한다
+//            //파일명을 만들자.
+//            String filename = "profile" + num + ".jpg";  //ex) profile1.jpg 로그인하는 사람에 따라 그에 식별값에 맞는 프로필 사진 가져오기
+//            Uri file = uri;
+//            Log.d("유알", String.valueOf(file));
+//            //여기서 원하는 이름 넣어준다. (filename 넣어주기)
+//            StorageReference riversRef = storageRef.child("profile_img/" + filename);
+//            UploadTask uploadTask = riversRef.putFile(file);
 
             //다이얼로그에 입력한값 형 변환
             int vi = Integer.parseInt(sticker_count.getText().toString());
@@ -143,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             //생성된 레코드 파이어베이스 저장
+            assert key != null;
             DatabaseReference keyRef = databaseReference.child(uid).child("dialog_personal").child(key);
             keyRef.setValue(personalDialog);
 
@@ -192,9 +209,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addGoal(String key){
-        DatabaseReference goalRef = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
-        String td = databaseReference.push().getKey();
-        GridItem gd = new GridItem(td, "test");
+        DatabaseReference goalRef = databaseReference.child(uid).child("dialog_personal").child(key).child("도장판");
+        String td = databaseReference.push().getKey(); //랜덤한 키 생성
+        GridItem gd = new GridItem(td, Uri.parse("https://firebasestorage.googleapis.com/v0/b/goal-sticker.appspot.com/o/heart.jpg?alt=media&token=f2538f86-d0d7-4e7e-9557-9598b95430c4"));
+        assert td != null;
         goalRef.child(td).setValue(gd);
     }
     //다이얼로그 저장된 함수 가져오기
@@ -207,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                    String key = dataSnapshot.getKey();
                    personalDialog read_p = dataSnapshot.getValue(personalDialog.class);
+                   assert read_p != null;
                    read_p.key = key;
 
                    pDialog.add(read_p);

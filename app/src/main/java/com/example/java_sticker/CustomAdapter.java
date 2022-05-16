@@ -135,8 +135,9 @@ public class CustomAdapter extends BaseAdapter {
             //ImageView sticker_img = (ImageView) convertView.findViewById(R.id.sticker_img);
             TextView sticker_img = (TextView) convertView.findViewById(R.id.sticker_img);
 
-            //sticker_img.setImageResource(gridItem.getGoal_img_Id());
-            sticker_img.setText(gridItem.getTest());
+            //sticker_img.setImageResource(gridItem.getGoal_img_I
+            // d());
+            sticker_img.setText((CharSequence) gridItem.getUri());
         }else{
             View view = new View(context);
             view = (View) convertView;
