@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             //생성된 레코드 파이어베이스 저장
+            assert key != null;
             DatabaseReference keyRef = databaseReference.child(uid).child("dialog_personal").child(key);
             keyRef.setValue(personalDialog);
 
