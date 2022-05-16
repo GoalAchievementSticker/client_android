@@ -9,6 +9,9 @@ public class GridItem {
     String goal_id;
     Uri uri;
 
+    public GridItem(){
+
+    }
 
     public GridItem(String goal_id,Uri uri){
         this.goal_id = goal_id;
