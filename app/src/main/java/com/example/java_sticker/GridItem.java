@@ -7,6 +7,9 @@ public class GridItem {
     String goal_id;
     String test;
 
+    public GridItem(){
+
+    }
 
     public GridItem(String goal_id,String test){
         this.goal_id = goal_id;

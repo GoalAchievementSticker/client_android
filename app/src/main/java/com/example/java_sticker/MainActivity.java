@@ -3,6 +3,7 @@ package com.example.java_sticker;
 import static java.lang.Integer.parseInt;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         p_goal_recycler.setAdapter(pAdapter);
         //리사이클러뷰 클릭했을때 나오는 도장판 연결
         items = new ArrayList<>();
-        //adapter = new CustomAdapter(items);
+        adapter = new CustomAdapter(this,items);
 
 
 
@@ -155,26 +158,17 @@ public class MainActivity extends AppCompatActivity {
             //String read = key+"A";
             //DatabaseReference goalRef = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
             //String t = goalRef.push().getKey();
-            for (int i = 0; i < vi; i++) {
-                addGoal(key);
-            }
-            //result.put("key",items);
-            adapter = new CustomAdapter(items);
-            //gridView.setAdapter(adapter);
-            //goalRef.setValue();
-
-//            for(int i =0; i< items.size(); i++){
-//                GridItem gridItem = items.get(i);
-//                goalRef.child(t).setValue(result);
+//            for (int i = 0; i < vi; i++) {
+//                addGoal();
 //            }
-            //result.put("key",items);
-            //items.add(result);
+
             //adapter.notifyDataSetChanged();
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     ReadPersonalDialog();
+                    //goal_read();
                 }
             },400);
 
@@ -191,11 +185,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void addGoal(String key){
-        DatabaseReference goalRef = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
-        String td = databaseReference.push().getKey();
+    //아이템 key값으로 for문 만큼 저장
+    private GridItem addGoal(){
+        DatabaseReference goalRef = databaseReference.child(uid).child("goal").child("도장판");
+        String td = goalRef.push().getKey();
         GridItem gd = new GridItem(td, "test");
         goalRef.child(td).setValue(gd);
+        return gd;
     }
     //다이얼로그 저장된 함수 가져오기
    private void ReadPersonalDialog() {
@@ -204,15 +200,51 @@ public class MainActivity extends AppCompatActivity {
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
                pDialog.clear();
+              // Log.d("TAG", String.valueOf(snapshot));
                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                    String key = dataSnapshot.getKey();
                    personalDialog read_p = dataSnapshot.getValue(personalDialog.class);
                    read_p.key = key;
+                   //Log.d("TAG", key);
 
                    pDialog.add(read_p);
 
                }
                pAdapter.notifyDataSetChanged();
+
+
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError error) {
+
+               Toast.makeText(MainActivity.this, "불러오기 실패", Toast.LENGTH_SHORT).show();
+           }
+       });
+
+   }
+
+
+   private void goal_read(){
+       databaseReference.child(uid).child("goal").child("도장판").addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+               //pDialog.clear();
+               Log.d("TAG", String.valueOf(snapshot));
+               for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                   String key = dataSnapshot.getKey();
+                   GridItem gd = dataSnapshot.getValue(GridItem.class);
+                   items.add(gd);
+                   gd.goal_id = key;
+                  // Log.d("TAG", key);
+                   //Log.d("TAG", String.valueOf(items));
+
+                   //pDialog.add(read_p);
+
+               }
+               adapter = new CustomAdapter(getApplication(),items);
+               adapter.notifyDataSetChanged();
+              // pAdapter.notifyDataSetChanged();
 
 
            }
