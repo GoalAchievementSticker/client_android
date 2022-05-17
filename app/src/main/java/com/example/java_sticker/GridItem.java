@@ -4,25 +4,25 @@ import java.util.ArrayList;
 
 public class GridItem {
 
-    String goal_id;
-    String test;
+    String goal_id; //도장판 아이디(0~1)
+    String test;//도장판(텍스트)
 
     public GridItem(){
 
     }
 
-    public GridItem(String goal_id,String test){
+    public GridItem(  String goal_id,String test){
         this.goal_id = goal_id;
         //this.goal_img_Id = goal_img_Id;
         this.test = test;
 
     }
 
-    public String getGoal_id() {
+    public  String getGoal_id() {
         return goal_id;
     }
 
-    public void setGoal_id(String goal_id) {
+    public void setGoal_id( String goal_id) {
         this.goal_id = goal_id;
     }
 

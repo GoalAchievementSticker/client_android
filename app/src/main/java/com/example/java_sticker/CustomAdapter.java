@@ -2,6 +2,7 @@ package com.example.java_sticker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,20 +28,21 @@ public class CustomAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<GridItem> items;
+    TextView sticker_img;
 
-    public CustomAdapter(Context context,ArrayList<GridItem> items) {
+    public CustomAdapter(Context context, ArrayList<GridItem> items) {
         this.context = context;
         this.items = items;
-     }
+    }
 
 
     @Override
-    public int getCount(){
+    public int getCount() {
         return items.size();
     }
 
     @Override
-    public Object getItem(int position){
+    public Object getItem(int position) {
         return items.get(position);
     }
 
@@ -50,12 +52,12 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup){
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
         Context context = viewGroup.getContext();
         GridItem gridItem = items.get(position);
 
-        TextView sticker_img;
-        if(convertView == null){
+
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custom_grid, viewGroup, false);
             //ImageView sticker_img = (ImageView) convertView.findViewById(R.id.sticker_img);
@@ -63,26 +65,21 @@ public class CustomAdapter extends BaseAdapter {
             sticker_img = (TextView) convertView.findViewById(R.id.sticker_img);
             sticker_img.setText(gridItem.getTest());
 
-
-            int pos = position;
-            sticker_img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Intent intent3 = new Intent(view.getContext(),custom_p_goal_click.class);
-                    intent3.putExtra("pos",pos);
-                    //gridItem.setTest("무지개");
-                    //sticker_img.setText("무지개");
-                }
-            });
-        }else{
+        } else {
             View view = new View(context);
             view = (View) convertView;
 
 
         }
+        sticker_img.setOnClickListener(view -> {
+            Intent intent3 = new Intent(view.getContext(), custom_p_goal_click.class);
+            intent3.putExtra("pos", position);
 
+//            context.startActivity(intent3);
 
+            //gridItem.setTest("무지개");
+            //sticker_img.setText("무지개");
+        });
 
 
         return convertView;
