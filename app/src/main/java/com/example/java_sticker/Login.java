@@ -39,16 +39,16 @@ public class Login extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        //자동 로그인
-        if (user != null) {
-            // User is signed in (getCurrentUser() will be null if not signed in)
-            Intent i = new Intent(Login.this, MainActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
-        } else {
-            // User is signed out
-            Log.d(TAG, "onAuthStateChanged:signed_out");
-        }
+//        //자동 로그인
+//        if (user != null) {
+//            // User is signed in (getCurrentUser() will be null if not signed in)
+//            Intent i = new Intent(Login.this, MainActivity.class);
+//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(i);
+//        } else {
+//            // User is signed out
+//            Log.d(TAG, "onAuthStateChanged:signed_out");
+//        }
 
         login_check.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,22 +1,20 @@
 package com.example.java_sticker;
 
-import android.net.Uri;
-
 import java.util.ArrayList;
 
 public class GridItem {
 
     String goal_id;
-    Uri uri;
+    String test;
 
     public GridItem(){
 
     }
 
-    public GridItem(String goal_id,Uri uri){
+    public GridItem(String goal_id,String test){
         this.goal_id = goal_id;
         //this.goal_img_Id = goal_img_Id;
-        this.uri =uri;
+        this.test = test;
 
     }
 
@@ -28,12 +26,12 @@ public class GridItem {
         this.goal_id = goal_id;
     }
 
-    public Uri getUri() {
-        return uri;
+    public String getTest() {
+        return test;
     }
 
-    public void setUri(Uri uri) {
-        this.uri = uri;
+    public void setTest(String test) {
+        this.test = test;
     }
 
 
