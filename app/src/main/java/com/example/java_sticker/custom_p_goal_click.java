@@ -2,12 +2,13 @@ package com.example.java_sticker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,8 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
@@ -37,8 +36,9 @@ public class custom_p_goal_click extends AppCompatActivity {
     private Intent intent3;
     CustomAdapter adapter;
     GridItem gddd;
-    public ArrayList<GridItem> items;
+    private ArrayList<GridItem> items=null;
     GridViewWithHeaderAndFooter gridView;
+    //RecyclerView gridView;
     Dialog custom_dialog;
     String p_tittle;
     String key;
@@ -52,8 +52,10 @@ public class custom_p_goal_click extends AppCompatActivity {
     String dss;
     int click;
     int point_1_index;
-    int pos;//어댑터에서 받은 view position
-    private List<String> goal_key; //키값 배열
+    //List<String> ds;
+    String pos;
+    String td;
+    private List<String> goal_key = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,21 +65,25 @@ public class custom_p_goal_click extends AppCompatActivity {
 
         items = new ArrayList<>();
         adapter = new CustomAdapter(this, items);
-        gridView = findViewById(R.id.gridView);
-//        pDialog = new ArrayList<personalDialog>();
-        items = new ArrayList<>();
+        gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);
+        //pDialog = new ArrayList<personalDialog>();
+        //items = new ArrayList<>();
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
         uid = user.getUid();
-
         intent = getIntent();
         p_tittle = intent.getStringExtra("tittle");
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
         intent3 = getIntent();
-        pos = intent3.getIntExtra("pos", pos);//어댑터에서 putextra 한 pos get
-        goal_key = new ArrayList<>();
+        // pos = intent3.getIntExtra("pos", pos);
+
+
+        //SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("Item Index", Context.MODE_PRIVATE);
+        pos = prefs.getString("pos","no data"); //no id: default value
+        //Log.d("TAG", pos);
+
 
         View header = getLayoutInflater().inflate(R.layout.header, null, false);
         header_goal = (TextView) header.findViewById(R.id.header_goal);
@@ -88,13 +94,12 @@ public class custom_p_goal_click extends AppCompatActivity {
 
         //ds = new ArrayList<>();
         ds = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
-
+        td = ds.push().getKey();
         DatabaseReference ke = databaseReference.child(uid).child("goal_personal");
 
         //Log.d("TAG", ds.child(key).getKey());
 
         header_goal.setText(p_tittle);
-        gridView.setAdapter(adapter);
 
 
         //도장판이 존재한다면 읽어오기, 없다면 for문 만큼 생성
@@ -102,7 +107,8 @@ public class custom_p_goal_click extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    ReadPersonalDialog2();
+                    for (int i = 0; i < count; i++)
+                        ReadPersonalDialog2(i);
                 } else {
                     for (int i = 0; i < count; i++) {
                         items.add(addGoal(i));
@@ -122,19 +128,34 @@ public class custom_p_goal_click extends AppCompatActivity {
 
 
         //그리드뷰 각 칸 클릭시, 데이터 수정
-        //pos의 키값 get ->id, value update하기
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
             //이 위치는 어댑터에서 가져온 pos, 즉 position값을 의미한다
-            i = pos;
-            Log.d("TAG", "클릭한 아이템 포지션: " +pos);
-//            Map<String, String> os = new HashMap<>();
+            //i = pos;
+       //     final GridItem gi=(GridItem) adapterView.getItemAtPosition(i);
+            Log.d("TAG", String.valueOf(i));
+
+
+            ds.child(String.valueOf(i)).child("goal_id").setValue("GOALID");
+            ds.child(String.valueOf(i)).child("test").setValue("TeSt");
+//                try{
+//                    HashMap<String,Object> map=new HashMap<>();
+//                    map.put(String.valueOf(i),String.valueOf(i));
 //
-//            os.put("test", "무지개");
-            //키값 배열에서 pos라는 위치의 값을 가져와서 업데이트하는데 안에 뭘 넣지. .
-            //ds.child(goal_key.get(i)).updateChildren();
+//                    ds.child(td).child(goal_key.get(i)).updateChildren(map,(databaseError, databaseReference)->{
+//
+//                    } );
+//                }catch(IndexOutOfBoundsException e){
+//                    e.printStackTrace();}
+//
+
+
+//                Map<String, String> os = new HashMap<>();
+//                os.put("test", "무지개");
+//                //키값 배열에서 pos라는 위치의 값을 가져와서 업데이트하는데 안에 뭘 넣지. .
+//                //ds.child(goal_key.get(i)).updateChildren();
         });
 
-        ReadPersonalDialog2();
+        // ReadPersonalDialog2();
 
 
         //Log.d("TAG", String.valueOf(adapter));
@@ -143,22 +164,21 @@ public class custom_p_goal_click extends AppCompatActivity {
 
         //adapter.notifyDataSetChanged();
 
+        gridView.setAdapter(adapter);
 
     }
 
 
     private GridItem addGoal(int i) {
-        DatabaseReference goalRef = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
-        String td = goalRef.push().getKey();
         GridItem gd = new GridItem(String.valueOf(i), "test");
         assert td != null;
-        goalRef.child(td).setValue(gd);
+        ds.child(String.valueOf(i)).setValue(gd);
         return gd;
     }
 
 
     //다이얼로그 저장된 함수 가져오기
-    private void ReadPersonalDialog2() {
+    private void ReadPersonalDialog2(int i) {
 
         ds.addValueEventListener(new ValueEventListener() {
             @Override
@@ -166,18 +186,24 @@ public class custom_p_goal_click extends AppCompatActivity {
                 items.clear();
                 goal_key.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String key = Objects.requireNonNull(dataSnapshot.getKey());
+                    String key = dataSnapshot.getKey();
                     GridItem gd = dataSnapshot.getValue(GridItem.class);
                     assert gd != null;
-                    gd.goal_id = key;
-                    items.add(gd);
 
+                    //test
+                    gd.goal_id =String.valueOf(i);
+
+
+
+                    items.add(gd);
+//                    Log.d("TAG", gd.goal_id);
+//                    Log.d("TAG", gd.test);
                     //키만 넣는 배열
-                    goal_key.add(key);
+                    //goal_key.add(key);
 
                 }
                 adapter.notifyDataSetChanged();
-
+                gridView.setAdapter(adapter);
             }
 
             @Override
