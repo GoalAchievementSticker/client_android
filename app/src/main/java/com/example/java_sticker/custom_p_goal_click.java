@@ -77,9 +77,9 @@ public class custom_p_goal_click extends AppCompatActivity {
         setContentView(R.layout.activity_custom_pgoal_click);
 
         // Create a storage reference from our app
-        View myView = inflater.inflate(R.layout.custom_grid, viewGroup, false);
+      //  View myView = inflater.inflate(R.layout.custom_grid, viewGroup, false);
 
-        sticker_img = myView.findViewById(R.id.sticker_img);
+        sticker_img = findViewById(R.id.sticker_img);
         items = new ArrayList<>();
         adapter = new CustomAdapter(this, items);
         gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);
@@ -150,9 +150,16 @@ public class custom_p_goal_click extends AppCompatActivity {
 
 
             // ds.child(String.valueOf(i)).child("goal_id").setValue("GOALID");
-            // ds.child(String.valueOf(i)).child("test").setValue("TeSt");
+            storageRef.child("heart.jpg").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        // Got the download URL for 'plus.png'
+                        gd = new GridItem(String.valueOf(i), uri.toString());
+                        ds.child(String.valueOf(i)).setValue(gd);
+                        Log.d("TAG", uri.toString());
 
+                    }).addOnFailureListener(Throwable::printStackTrace);
 
+            Log.d("TAG",   storageRef.child("heart.png").getDownloadUrl().toString());
             // Glide.with(view).load(storageRef).into(ds.child(String.valueOf(i)).child("test")); // Glide를 사용하여 이미지 로드
 //                try{
 //                    HashMap<String,Object> map=new HashMap<>();
@@ -221,27 +228,12 @@ public class custom_p_goal_click extends AppCompatActivity {
                     //test
                     assert gridItem != null;
                     gridItem.goal_id = String.valueOf(i);
-//                    Glide.with(this)
-//                            .placeholder(e.categoryDrawable) // while loading
-//                            .fallback(e.categoryDrawable) // if load was null
-//                            .error(R.drawable.error) // e.g. if path is not valid image
-//                            .load(e.imagePath) // null or non-null image
-//                            .into(imageView);
 
-                    Glide.with(custom_p_goal_click.this)
-                            .load("https://firebasestorage.googleapis.com/v0/b/goal-sticker.appspot.com/o/plus.png?alt=media&token=60672783-93d1-4bae-bc7e-9a1db789be61")
-                            .into(sticker_img);
 
                     items.add(gridItem);
-                    Log.d("TAG", "gridItem.getTest(): " + gridItem.getTest());
-//                    Log.d("TAG", "gd.getTest(): "+gd.getTest());
-                    Log.d("TAG", "sticker_img: " + sticker_img);
-                    //키만 넣는 배열
-                    //goal_key.add(key);
 
                 }
                 adapter.notifyDataSetChanged();
-                gridView.setAdapter(adapter);
             }
 
             @Override
@@ -251,6 +243,7 @@ public class custom_p_goal_click extends AppCompatActivity {
             }
         };
         ds.addValueEventListener(postListener);
+        gridView.setAdapter(adapter);
     }
 
 

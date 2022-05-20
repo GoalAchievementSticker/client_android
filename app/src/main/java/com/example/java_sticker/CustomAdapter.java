@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -66,6 +67,10 @@ public class CustomAdapter extends BaseAdapter {
             sticker_img =  convertView.findViewById(R.id.sticker_img);
 //            sticker_img.set(gridItem.getTest());
 
+
+            Glide.with(context)
+                    .load(gridItem.getTest())
+                    .into(sticker_img);
 
             int pos = position;
             sticker_img.setOnClickListener(view -> {
