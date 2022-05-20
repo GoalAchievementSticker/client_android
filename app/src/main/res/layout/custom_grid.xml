@@ -10,10 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
+        <ImageView
             android:id="@+id/sticker_img"
+            android:src="@drawable/common_google_signin_btn_icon_dark"
             android:textColor="@color/black"
-            android:textSize="10sp"
             android:layout_width="50dp"
             android:layout_height="50dp" />
     </LinearLayout>

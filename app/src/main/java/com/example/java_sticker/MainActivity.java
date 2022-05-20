@@ -185,15 +185,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //아이템 key값으로 for문 만큼 저장
-    private GridItem addGoal(int i){
-        DatabaseReference goalRef = databaseReference.child(uid).child("goal").child("도장판");
-        String td = goalRef.push().getKey();
-        GridItem gd = new GridItem(String.valueOf(i), "test");
-        assert td != null;
-        goalRef.child(td).setValue(gd);
-        return gd;
-    }
+//    //아이템 key값으로 for문 만큼 저장
+//    private GridItem addGoal(int i){
+//        DatabaseReference goalRef = databaseReference.child(uid).child("goal").child("도장판");
+//        String td = goalRef.push().getKey();
+//        GridItem gd = new GridItem(String.valueOf(i), R.drawable.ic_baseline_add_circle_24);
+//        assert td != null;
+//        goalRef.child(td).setValue(gd);
+//        return gd;
+//    }
     //다이얼로그 저장된 함수 가져오기
     private void ReadPersonalDialog() {
 
@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     String key = dataSnapshot.getKey();
                     personalDialog read_p = dataSnapshot.getValue(personalDialog.class);
+                    assert read_p != null;
                     read_p.key = key;
                     //Log.d("TAG", key);
 

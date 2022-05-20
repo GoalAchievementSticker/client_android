@@ -57,14 +57,14 @@ public class CustomAdapter extends BaseAdapter {
         Context context = viewGroup.getContext();
         GridItem gridItem = items.get(position);
 
-        TextView sticker_img;
+        ImageView sticker_img;
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custom_grid, viewGroup, false);
             //ImageView sticker_img = (ImageView) convertView.findViewById(R.id.sticker_img);
             //sticker_img.setImageResource(gridItem.getGoal_img_Id());
-            sticker_img = (TextView) convertView.findViewById(R.id.sticker_img);
-            sticker_img.setText(gridItem.getTest());
+            sticker_img =  convertView.findViewById(R.id.sticker_img);
+//            sticker_img.set(gridItem.getTest());
 
 
             int pos = position;
