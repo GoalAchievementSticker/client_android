@@ -77,9 +77,10 @@ public class custom_p_goal_click extends AppCompatActivity {
         setContentView(R.layout.activity_custom_pgoal_click);
 
         // Create a storage reference from our app
-      //  View myView = inflater.inflate(R.layout.custom_grid, viewGroup, false);
+
 
         sticker_img = findViewById(R.id.sticker_img);
+//        sticker_img.setImageResource(R.drawable.ic_launcher_background);
         items = new ArrayList<>();
         adapter = new CustomAdapter(this, items);
         gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);
@@ -149,12 +150,12 @@ public class custom_p_goal_click extends AppCompatActivity {
             Log.d("TAG", String.valueOf(i));
 
 
-            // ds.child(String.valueOf(i)).child("goal_id").setValue("GOALID");
+             ds.child(String.valueOf(i)).child("goal_id").setValue("GOALID");
             storageRef.child("heart.jpg").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         // Got the download URL for 'plus.png'
-                        gd = new GridItem(String.valueOf(i), uri.toString());
-                        ds.child(String.valueOf(i)).setValue(gd);
+//                        gd = new GridItem(String.valueOf(i), uri.toString());
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         Log.d("TAG", uri.toString());
 
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -201,7 +202,6 @@ public class custom_p_goal_click extends AppCompatActivity {
                     // Got the download URL for 'plus.png'
                     gd = new GridItem(String.valueOf(i), uri.toString());
                     ds.child(String.valueOf(i)).setValue(gd);
-                    Log.d("TAG", uri.toString());
 
                 }).addOnFailureListener(Throwable::printStackTrace);
 
@@ -229,11 +229,16 @@ public class custom_p_goal_click extends AppCompatActivity {
                     assert gridItem != null;
                     gridItem.goal_id = String.valueOf(i);
 
+//                    Glide.with(custom_p_goal_click.this)
+//                            .load(gridItem.getTest())
+//                            .into(sticker_img);
+
 
                     items.add(gridItem);
 
                 }
                 adapter.notifyDataSetChanged();
+                gridView.setAdapter(adapter);
             }
 
             @Override
@@ -243,7 +248,6 @@ public class custom_p_goal_click extends AppCompatActivity {
             }
         };
         ds.addValueEventListener(postListener);
-        gridView.setAdapter(adapter);
     }
 
 
