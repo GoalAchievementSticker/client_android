@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle barDrawerToggle;
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,32 +91,29 @@ public class MainActivity extends AppCompatActivity {
         barDrawerToggle.syncState();
         //삼선 아이콘 화살표 아이콘 자동 변환
         drawerLayout.addDrawerListener(barDrawerToggle);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
 
 
 
         //네비게이션뷰의 아이템 클릭시
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.mypage:
-                        Intent mypageIntent = new Intent(MainActivity.this, mypage.class);
-                        startActivity(mypageIntent);
-                        //Toast.makeText(MainActivity.this, "mypage", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.group_goal:
-                        Intent groupIntent = new Intent(MainActivity.this, Group_main.class);
-                        startActivity(groupIntent);
-                        //Toast.makeText(MainActivity.this, "그룹도장판", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-
-                drawerLayout.closeDrawer(navigationView);
-
-                return false;
+        navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.mypage:
+                    Intent mypageIntent = new Intent(MainActivity.this, mypage.class);
+                    startActivity(mypageIntent);
+                    //Toast.makeText(MainActivity.this, "mypage", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.group_goal:
+                    Intent groupIntent = new Intent(MainActivity.this, Group_main.class);
+                    startActivity(groupIntent);
+                    //Toast.makeText(MainActivity.this, "그룹도장판", Toast.LENGTH_SHORT).show();
+                    break;
             }
+
+            drawerLayout.closeDrawer(navigationView);
+
+            return false;
         });
 
 
