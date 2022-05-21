@@ -42,13 +42,11 @@ public class custom_p_goal_click extends AppCompatActivity {
 
     private TextView header_goal;
     private Intent intent;
-    private Intent intent3;
     CustomAdapter adapter;
     GridItem gd;
     private ArrayList<GridItem> items = null;
     GridViewWithHeaderAndFooter gridView;
     //RecyclerView gridView;
-    Dialog custom_dialog;
     String p_tittle;
     String key;
     String uid;
@@ -58,11 +56,7 @@ public class custom_p_goal_click extends AppCompatActivity {
     DatabaseReference databaseReference = firebaseDatabase.getReference("personalDialog");
     private ImageView sticker_img;
     DatabaseReference ds;
-    String dss;
-    int click;
-    int point_1_index;
-    //List<String> ds;
-    String pos;
+
     String td;
     private List<String> goal_key = new ArrayList<>();
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -80,12 +74,10 @@ public class custom_p_goal_click extends AppCompatActivity {
 
 
         sticker_img = findViewById(R.id.sticker_img);
-//        sticker_img.setImageResource(R.drawable.ic_launcher_background);
         items = new ArrayList<>();
         adapter = new CustomAdapter(this, items);
         gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);
-        //pDialog = new ArrayList<personalDialog>();
-        //items = new ArrayList<>();
+
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -94,25 +86,18 @@ public class custom_p_goal_click extends AppCompatActivity {
         p_tittle = intent.getStringExtra("tittle");
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
-        intent3 = getIntent();
-        // pos = intent3.getIntExtra("pos", pos);
 
-        //Log.d("TAG", pos);
 
 
         View header = getLayoutInflater().inflate(R.layout.header, null, false);
         header_goal = (TextView) header.findViewById(R.id.header_goal);
         gridView.addHeaderView(header);
-        //adapter = new CustomAdapter(items);
-        //gridView.setAdapter(adapter);
-        //gridView.setAdapter(adapter);
 
-        //ds = new ArrayList<>();
+
+
         ds = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
-        td = ds.push().getKey();
-        DatabaseReference ke = databaseReference.child(uid).child("goal_personal");
 
-        //Log.d("TAG", ds.child(key).getKey());
+
 
         header_goal.setText(p_tittle);
 
@@ -144,13 +129,10 @@ public class custom_p_goal_click extends AppCompatActivity {
 
         //그리드뷰 각 칸 클릭시, 데이터 수정
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
-            //이 위치는 어댑터에서 가져온 pos, 즉 position값을 의미한다
-            //i = pos;
-            //     final GridItem gi=(GridItem) adapterView.getItemAtPosition(i);
             Log.d("TAG", String.valueOf(i));
 
 
-             ds.child(String.valueOf(i)).child("goal_id").setValue("GOALID");
+            ds.child(String.valueOf(i)).child("goal_id").setValue("GOALID");
             storageRef.child("heart.jpg").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         // Got the download URL for 'plus.png'
@@ -173,21 +155,8 @@ public class custom_p_goal_click extends AppCompatActivity {
 //                    e.printStackTrace();}
 //
 
-
-//                Map<String, String> os = new HashMap<>();
-//                os.put("test", "무지개");
-//                //키값 배열에서 pos라는 위치의 값을 가져와서 업데이트하는데 안에 뭘 넣지. .
-//                //ds.child(goal_key.get(i)).updateChildren();
         });
 
-        // ReadPersonalDialog2();
-
-
-        //Log.d("TAG", String.valueOf(adapter));
-
-        //adapter.notifyDataSetChanged();
-
-        //adapter.notifyDataSetChanged();
 
         gridView.setAdapter(adapter);
 
