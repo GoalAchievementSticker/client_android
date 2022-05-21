@@ -4,14 +4,19 @@ import static java.lang.Integer.parseInt;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -20,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -55,11 +61,62 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference("personalDialog");
 
+    //네비게이션 드로우
+    NavigationView navigationView;
+    DrawerLayout drawerLayout;
+    Toolbar toolbar;
+    ActionBarDrawerToggle barDrawerToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //네비게이션 설정
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
+        navigationView = (NavigationView) findViewById(R.id.nav);
+        navigationView.setItemIconTintList(null);
+
+        //Drawer 토글버튼 생성
+        barDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.app_name,R.string.app_name);
+        //삼선아이콘 모양으로 보이기, 동기맞춤
+        barDrawerToggle.syncState();
+        //삼선 아이콘 화살표 아이콘 자동 변환
+        drawerLayout.addDrawerListener(barDrawerToggle);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+
+
+        //네비게이션뷰의 아이템 클릭시
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.mypage:
+                        Intent mypageIntent = new Intent(MainActivity.this, mypage.class);
+                        startActivity(mypageIntent);
+                        //Toast.makeText(MainActivity.this, "mypage", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.group_goal:
+                        Intent groupIntent = new Intent(MainActivity.this, Group_main.class);
+                        startActivity(groupIntent);
+                        //Toast.makeText(MainActivity.this, "그룹도장판", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+                drawerLayout.closeDrawer(navigationView);
+
+                return false;
+            }
+        });
+
+
 
         //다이얼로그 선언
         pDialog = new ArrayList<>();
@@ -110,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
 
     public void showDialog() {

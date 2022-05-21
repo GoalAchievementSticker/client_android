@@ -62,10 +62,8 @@ public class CustomAdapter extends BaseAdapter {
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custom_grid, viewGroup, false);
-            //ImageView sticker_img = (ImageView) convertView.findViewById(R.id.sticker_img);
-            //sticker_img.setImageResource(gridItem.getGoal_img_Id());
             sticker_img =  convertView.findViewById(R.id.sticker_img);
-//            sticker_img.set(gridItem.getTest());
+
 
 
             Glide.with(context)
@@ -74,18 +72,11 @@ public class CustomAdapter extends BaseAdapter {
 
             int pos = position;
             sticker_img.setOnClickListener(view -> {
-//
-//                Intent intent3 = new Intent(view.getContext(),custom_p_goal_click.class);
-//                intent3.putExtra("pos",pos);
-//                Log.d("TAG", String.valueOf(pos));
-//                Log.d("TAG", String.valueOf(gridItem));
 
                 SharedPreferences prefs = context.getSharedPreferences("Item Index",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("pos", String.valueOf(pos)); //InputString: from the EditText
                 editor.commit(); // data 저장!
-                //gridItem.setTest("무지개");
-                //sticker_img.setText("무지개");
             });
         }else{
             View view = new View(context);

@@ -77,7 +77,7 @@ public class custom_p_goal_click extends AppCompatActivity {
         setContentView(R.layout.activity_custom_pgoal_click);
 
         // Create a storage reference from our app
-      //  View myView = inflater.inflate(R.layout.custom_grid, viewGroup, false);
+        //  View myView = inflater.inflate(R.layout.custom_grid, viewGroup, false);
 
         sticker_img = findViewById(R.id.sticker_img);
         items = new ArrayList<>();
@@ -219,7 +219,7 @@ public class custom_p_goal_click extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
                 goal_key.clear();
-               // sticker_img.setImageResource(0);
+                // sticker_img.setImageResource(0);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
                     GridItem gridItem = dataSnapshot.getValue(GridItem.class);
