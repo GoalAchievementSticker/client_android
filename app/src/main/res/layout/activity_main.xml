@@ -34,29 +34,6 @@
         </androidx.appcompat.widget.Toolbar>
 
 
-        <ScrollView
-            android:id="@+id/scrollView2"
-            android:layout_width="408dp"
-            android:layout_height="616dp"
-            app:layout_constraintBottom_toTopOf="@+id/dialogButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="0.0">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview_p_goal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </ScrollView>
-
         <Button
             android:id="@+id/dialogButton"
             android:layout_width="wrap_content"
@@ -68,6 +45,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintVertical_bias="0.982" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_p_goal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

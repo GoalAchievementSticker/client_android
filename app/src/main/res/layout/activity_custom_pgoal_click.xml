@@ -11,8 +11,7 @@
         android:id="@+id/gridView"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:numColumns="5"
-        android:paddingVertical="4dp" />
+        android:numColumns="5" />
 
 
 

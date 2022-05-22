@@ -6,12 +6,13 @@
     android:layout_marginTop="20dp"
     android:padding="5dp">
 
-        <ImageView
-            android:src="@drawable/plus"
-            android:id="@+id/sticker_img"
-            android:textColor="@color/black"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+    <ImageView
+        android:id="@+id/sticker_img"
+        android:background="@drawable/gridview_line"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/plus"
+        android:textColor="@color/black" />
     </LinearLayout>
 
 
