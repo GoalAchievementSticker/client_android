@@ -4,13 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/circleprogressbar.xml" value="0.1" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_custom_pgoal_click.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/gridview_line.xml" value="0.1" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/progressbar.xml" value="0.2415" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_custom_pgoal_click.xml" value="0.1" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_login.xml" value="0.2390625" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_signup.xml" value="0.4" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_dialog.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_grid.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_p_goal.xml" value="0.1" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_p_goal.xml" value="0.536" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/drawer_header.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/header.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/qmfps/AndroidStudioProjects/GoalSticker/app/src/main/res/layout/activity_main.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/qmfps/AndroidStudioProjects/GoalSticker/app/src/main/res/layout/custom_dialog.xml" value="0.264" />

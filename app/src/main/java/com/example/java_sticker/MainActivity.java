@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
     Dialog custom_dialog;
     Custom_p_item_adapter pAdapter;
     RecyclerView p_goal_recycler;
-    ProgressBar circleProgressBar;
+    //ProgressBar circleProgressBar;
+    com.example.java_sticker.CustomProgress customProgress;
     TextView custom_p_goal_tittle;
     String uid;
     GridViewWithHeaderAndFooter gridView;
@@ -126,7 +127,8 @@ public class MainActivity extends AppCompatActivity {
 
         //리사이클러뷰 선언
         p_goal_recycler = (RecyclerView) findViewById(R.id.recyclerview_p_goal);
-        circleProgressBar = (ProgressBar) findViewById(R.id.custom_p_goal_progressbar);
+        //circleProgressBar = (ProgressBar) findViewById(R.id.custom_p_goal_progressbar);
+        customProgress = (CustomProgress) findViewById(R.id.customProgress);
         custom_p_goal_tittle = (TextView) findViewById(R.id.custom_p_goal_tittle);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         p_goal_recycler.setLayoutManager(linearLayoutManager);
