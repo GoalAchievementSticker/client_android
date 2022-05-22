@@ -2,6 +2,7 @@ package com.example.java_sticker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -51,28 +54,35 @@ public class custom_p_goal_click extends AppCompatActivity {
     String key;
     String uid;
     int count;
+
+    //파이어베이스
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference("personalDialog");
     private ImageView sticker_img;
     DatabaseReference ds;
 
-    String td;
     private List<String> goal_key = new ArrayList<>();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     private ValueEventListener postListener;
-    LayoutInflater inflater;
-    ViewGroup viewGroup;
+
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_pgoal_click);
 
+        //toolbar
+        toolbar = (Toolbar) findViewById(R.id.goal_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+
+
+
         // Create a storage reference from our app
-
-
         sticker_img = findViewById(R.id.sticker_img);
         items = new ArrayList<>();
         adapter = new CustomAdapter(this, items);
@@ -133,7 +143,7 @@ public class custom_p_goal_click extends AppCompatActivity {
 
 
             ds.child(String.valueOf(i)).child("goal_id").setValue("GOALID");
-            storageRef.child("heart.jpg").getDownloadUrl()
+            storageRef.child("sprout.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         // Got the download URL for 'plus.png'
 //                        gd = new GridItem(String.valueOf(i), uri.toString());
@@ -162,11 +172,20 @@ public class custom_p_goal_click extends AppCompatActivity {
 
     }
 
-    ;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:{
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private GridItem addGoal(int i) {
         // Handle any errors
-        storageRef.child("plus.png").getDownloadUrl()
+        storageRef.child("not.png").getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     // Got the download URL for 'plus.png'
                     gd = new GridItem(String.valueOf(i), uri.toString());

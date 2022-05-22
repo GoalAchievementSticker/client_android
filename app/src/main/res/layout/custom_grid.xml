@@ -3,15 +3,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginTop="20dp"
-    android:padding="5dp">
+    android:background="@drawable/gridview_line"
+    android:layout_margin="20dp"
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/sticker_img"
-        android:background="@drawable/gridview_line"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/plus"
+        android:src="@drawable/not"
         android:textColor="@color/black" />
     </LinearLayout>
 

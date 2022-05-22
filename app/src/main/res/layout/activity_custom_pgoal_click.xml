@@ -7,6 +7,12 @@
     android:orientation="vertical"
     tools:context=".custom_p_goal_click">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/goal_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"/>
+
     <in.srain.cube.views.GridViewWithHeaderAndFooter
         android:id="@+id/gridView"
         android:layout_height="match_parent"
