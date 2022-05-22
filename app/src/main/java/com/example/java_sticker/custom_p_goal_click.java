@@ -152,6 +152,7 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                     }).addOnFailureListener(Throwable::printStackTrace);
 
+
             Log.d("TAG",   storageRef.child("heart.png").getDownloadUrl().toString());
             // Glide.with(view).load(storageRef).into(ds.child(String.valueOf(i)).child("test")); // Glide를 사용하여 이미지 로드
 //                try{
