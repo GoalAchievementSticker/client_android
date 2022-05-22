@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -26,7 +27,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -69,7 +72,11 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     ActionBarDrawerToggle barDrawerToggle;
+    FloatingActionButton fab_main;
+    FloatingActionButton fab_person;
 
+    //FAB
+    boolean isFabOpen;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -87,19 +94,31 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setItemIconTintList(null);
 
         //Drawer 토글버튼 생성
-        barDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.app_name,R.string.app_name);
+        barDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         //삼선아이콘 모양으로 보이기, 동기맞춤
         barDrawerToggle.syncState();
         //삼선 아이콘 화살표 아이콘 자동 변환
         drawerLayout.addDrawerListener(barDrawerToggle);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
+        //FAT
+        fab_main = findViewById(R.id.fab);
+        fab_person = findViewById(R.id.fab_person);
+        isFabOpen = false; // Fab 버튼 default는 닫혀있음
 
-
+        //FAB 클릭 시
+        fab_main.setOnClickListener(view -> toggleFab());
+        fab_person.setOnClickListener(view -> {
+                    custom_dialog = new Dialog(MainActivity.this);
+                    custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    custom_dialog.setContentView(R.layout.custom_dialog);
+                    showDialog();
+                }
+        );
 
         //네비게이션뷰의 아이템 클릭시
         navigationView.setNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.mypage:
                     Intent mypageIntent = new Intent(MainActivity.this, mypage.class);
                     startActivity(mypageIntent);
@@ -118,11 +137,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         //다이얼로그 선언
         pDialog = new ArrayList<>();
         gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);
-        Button btn = (Button) findViewById(R.id.dialogButton);
+        //Button btn = (Button) findViewById(R.id.dialogButton);
 
 
         //리사이클러뷰 선언
@@ -134,42 +152,56 @@ public class MainActivity extends AppCompatActivity {
         p_goal_recycler.setLayoutManager(linearLayoutManager);
 
         //리사이클러뷰 어댑터 연결
-        pAdapter = new Custom_p_item_adapter(this,pDialog);
+        pAdapter = new Custom_p_item_adapter(this, pDialog);
         p_goal_recycler.setAdapter(pAdapter);
         //리사이클러뷰 클릭했을때 나오는 도장판 연결
         items = new ArrayList<>();
-        adapter = new CustomAdapter(this,items);
-
-
+        adapter = new CustomAdapter(this, items);
 
 
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         uid = user.getUid();
 
 
-
         //다이얼로그 값 저장된게 있다면
-        if(pDialog != null) {
+        if (pDialog != null) {
             ReadPersonalDialog();
         }
 
 
-
         //삽입버튼으로 값을 넣을때
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                custom_dialog = new Dialog(MainActivity.this);
-                custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                custom_dialog.setContentView(R.layout.custom_dialog);
-                showDialog();
-            }
-        });
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                custom_dialog = new Dialog(MainActivity.this);
+//                custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                custom_dialog.setContentView(R.layout.custom_dialog);
+//                showDialog();
+//            }
+//        });
 
 
     }
 
+    //메인 FAB 클릭 시
+    @SuppressLint("Recycle")
+    private void toggleFab() {
+
+        Toast.makeText(this, "메인 버튼 클릭!", Toast.LENGTH_SHORT).show();
+        // 플로팅 액션 버튼 닫기 - 열려있는 플로팅 버튼 집어넣는 애니메이션
+        if (isFabOpen) {
+            ObjectAnimator.ofFloat(fab_person, "translationY", 0f).start();
+            ObjectAnimator.ofFloat(fab_main, View.ROTATION, 45f, 0f).start();
+        } else { // 플로팅 액션 버튼 열기 - 닫혀있는 플로팅 버튼 꺼내는 애니메이션
+            ObjectAnimator.ofFloat(fab_person, "translationY", -180f).start();
+            ObjectAnimator.ofFloat(fab_main, View.ROTATION, 0f, 45f).start();
+        }
+
+        isFabOpen = !isFabOpen;
+
+    }
 
 
     public void showDialog() {
@@ -204,7 +236,6 @@ public class MainActivity extends AppCompatActivity {
             pAdapter.notifyDataSetChanged();
 
 
-
             //생성된 레코드 파이어베이스 저장
             DatabaseReference keyRef = databaseReference.child(uid).child("dialog_personal").child(key);
             keyRef.setValue(personalDialog);
@@ -230,22 +261,18 @@ public class MainActivity extends AppCompatActivity {
                     ReadPersonalDialog();
                     //goal_read();
                 }
-            },400);
+            }, 400);
 
 
             custom_dialog.dismiss();
 
 
-
-
         });
-
-
 
 
     }
 
-//    //아이템 key값으로 for문 만큼 저장
+    //    //아이템 key값으로 for문 만큼 저장
 //    private GridItem addGoal(int i){
 //        DatabaseReference goalRef = databaseReference.child(uid).child("goal").child("도장판");
 //        String td = goalRef.push().getKey();
@@ -262,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pDialog.clear();
                 // Log.d("TAG", String.valueOf(snapshot));
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
                     personalDialog read_p = dataSnapshot.getValue(personalDialog.class);
                     assert read_p != null;
@@ -287,13 +314,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void goal_read(){
+    private void goal_read() {
         databaseReference.child(uid).child("goal").child("도장판").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //pDialog.clear();
                 Log.d("TAG", String.valueOf(snapshot));
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
                     GridItem gd = dataSnapshot.getValue(GridItem.class);
                     items.add(gd);
@@ -304,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
                     //pDialog.add(read_p);
 
                 }
-                adapter = new CustomAdapter(getApplication(),items);
+                adapter = new CustomAdapter(getApplication(), items);
                 adapter.notifyDataSetChanged();
                 // pAdapter.notifyDataSetChanged();
 

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <declare-styleable name="MyProgressBar">
-
         <attr name="maxValue" format="integer"/>
 
         <attr name="curValue" format="integer" />
@@ -12,5 +11,6 @@
         <attr name="backgroundColor" format="color" />
 
     </declare-styleable>
-
+    <attr name="design_fab_size_normal" tools:override="true">58dp</attr>
+    <attr name="design_fab_image_size" tools:override="true">58dp</attr>
 </resources>
