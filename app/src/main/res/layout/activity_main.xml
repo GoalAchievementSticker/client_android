@@ -34,18 +34,6 @@
         </androidx.appcompat.widget.Toolbar>
 
 
-        <!--        <Button-->
-        <!--            android:id="@+id/dialogButton"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="소환"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintHorizontal_bias="0.99"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
-        <!--            app:layout_constraintVertical_bias="0.982" />-->
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_person"

@@ -17,16 +17,19 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference("personalDialog");
+    DatabaseReference profile_databaseReference = firebaseDatabase.getReference();
 
     //네비게이션 드로우
     NavigationView navigationView;
@@ -77,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
 
     //FAB
     boolean isFabOpen;
+
+    //nav속 이미지, 이름
+    TextView nav_name;
+    ImageView nav_img;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -93,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView.setItemIconTintList(null);
 
+        //파이어베이스
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        uid = user.getUid();
+
         //Drawer 토글버튼 생성
         barDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         //삼선아이콘 모양으로 보이기, 동기맞춤
@@ -101,6 +114,34 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(barDrawerToggle);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
+        //네비게이션 프로필 이름, 이미지 가져오기 -> for문 스냅샵으로 가져오니까 .. 오류남
+        profile_databaseReference.child("user").child(uid).child("userName").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String name = snapshot.getValue(String.class);
+                    nav_name =  (TextView) findViewById(R.id.nav_name);
+                    nav_name.setText(name);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        profile_databaseReference.child("user").child(uid).child("profileImageUrl").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String uri = snapshot.getValue(String.class);
+                nav_img =(ImageView) findViewById(R.id.iv_header);
+                Glide.with(navigationView).load(uri).into(nav_img);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         //FAT
         fab_main = findViewById(R.id.fab);
         fab_person = findViewById(R.id.fab_person);
@@ -159,10 +200,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CustomAdapter(this, items);
 
 
-        //파이어베이스
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
-        uid = user.getUid();
 
 
         //다이얼로그 값 저장된게 있다면
@@ -171,16 +208,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        //삽입버튼으로 값을 넣을때
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                custom_dialog = new Dialog(MainActivity.this);
-//                custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//                custom_dialog.setContentView(R.layout.custom_dialog);
-//                showDialog();
-//            }
-//        });
 
 
     }
@@ -241,19 +268,7 @@ public class MainActivity extends AppCompatActivity {
             keyRef.setValue(personalDialog);
 
 
-            //헤시맵으로 키값과 함께 레코드 생성
-            Map<String, List<GridItem>> result = new HashMap<>();
-            //result.put("key", i);
-            //result.put("GridItem", gridItem);
 
-            //String read = key+"A";
-//            DatabaseReference goalRef = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
-//            String t = goalRef.push().getKey();
-//            for (int i = 0; i < vi; i++) {
-//                addGoal(i);
-//            }
-
-            //adapter.notifyDataSetChanged();
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -272,15 +287,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //    //아이템 key값으로 for문 만큼 저장
-//    private GridItem addGoal(int i){
-//        DatabaseReference goalRef = databaseReference.child(uid).child("goal").child("도장판");
-//        String td = goalRef.push().getKey();
-//        GridItem gd = new GridItem(String.valueOf(i), R.drawable.ic_baseline_add_circle_24);
-//        assert td != null;
-//        goalRef.child(td).setValue(gd);
-//        return gd;
-//    }
     //다이얼로그 저장된 함수 가져오기
     private void ReadPersonalDialog() {
 
