@@ -10,17 +10,10 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,7 +34,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
@@ -59,6 +51,8 @@ public class custom_p_goal_click extends AppCompatActivity {
     String key;
     String uid;
     int count;
+    int goal_count;
+    int p;
 
     //파이어베이스
     FirebaseUser user;
@@ -71,6 +65,8 @@ public class custom_p_goal_click extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     private ValueEventListener postListener;
+
+
 
     Toolbar toolbar;
     ImageView s1, s2, s3, s4, s5;
@@ -105,6 +101,7 @@ public class custom_p_goal_click extends AppCompatActivity {
         p_tittle = intent.getStringExtra("tittle");
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
+        goal_count = intent.getIntExtra("goal_count",0);
 
 
 
@@ -115,9 +112,6 @@ public class custom_p_goal_click extends AppCompatActivity {
 
 
         ds = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
-
-
-
         header_goal.setText(p_tittle);
 
         //bottom sheet
@@ -162,6 +156,9 @@ public class custom_p_goal_click extends AppCompatActivity {
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
             Log.d("TAG", String.valueOf(i));
             stickerClick(i);
+
+            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+            goal_count();
         });
 
 
@@ -190,12 +187,13 @@ public class custom_p_goal_click extends AppCompatActivity {
             Toast.makeText(this, "s2클릭", Toast.LENGTH_SHORT).show();
             storageRef.child("sprout.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-//                        gd = new GridItem(String.valueOf(i), uri.toString());
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
 
                     }).addOnFailureListener(Throwable::printStackTrace);
+            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+
+
         });
         s3.setOnClickListener(view -> {
             Toast.makeText(this, "s3클릭", Toast.LENGTH_SHORT).show();
@@ -230,13 +228,16 @@ public class custom_p_goal_click extends AppCompatActivity {
         });
 
 
+        //0으로초기화 방지
+        ReadPersonalDialog();
+        gridView.setAdapter(adapter);
+
     }
 
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:{
                 finish();
                 return true;
             }
@@ -292,4 +293,30 @@ public class custom_p_goal_click extends AppCompatActivity {
         ds.addValueEventListener(postListener);
     }
 
+    //프로그래스바 숫자 늘리기
+    private void goal_count(){
+        ReadPersonalDialog();
+        databaseReference.child(uid).child("dialog_personal").child(key).child("pGoal").setValue(++p);
+    }
+
+    //다이얼로그 저장된 함수 가져오기
+    private int ReadPersonalDialog() {
+        databaseReference.child(uid).child("dialog_personal").child(key).child("pGoal").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+               p = snapshot.getValue(Integer.class);
+               Log.d("TAG", String.valueOf(p));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                //Toast.makeText(MainActivity.this, "불러오기 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return p;
+
+    }
 }

@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     //ProgressBar circleProgressBar;
     com.example.java_sticker.CustomProgress customProgress;
     TextView custom_p_goal_tittle;
+
     String uid;
     GridViewWithHeaderAndFooter gridView;
     FirebaseUser user;
@@ -88,10 +89,12 @@ public class MainActivity extends AppCompatActivity {
     TextView nav_name;
     ImageView nav_img;
 
+    //그리드뷰 데이터 저장
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     DatabaseReference ds;
     GridItem gd;
+
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         uid = user.getUid();
+
 
         //Drawer 토글버튼 생성
         barDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
@@ -211,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
         //다이얼로그 값 저장된게 있다면
         if (pDialog != null) {
             ReadPersonalDialog();
+
         }
 
 
@@ -262,15 +267,16 @@ public class MainActivity extends AppCompatActivity {
             //파이어베이스 저장
             //고유키와 함께 저장히기 위한 장치
             String key = databaseReference.push().getKey();
+            DatabaseReference keyRef = databaseReference.child(uid).child("dialog_personal").child(key);
             //list에 추가
-            personalDialog personalDialog = new personalDialog(vi, goal, key);
+            personalDialog personalDialog = new personalDialog(vi, goal, key,0);
             pDialog.add(personalDialog);
 
             pAdapter.notifyDataSetChanged();
 
 
+
             //생성된 레코드 파이어베이스 저장
-            DatabaseReference keyRef = databaseReference.child(uid).child("dialog_personal").child(key);
             keyRef.setValue(personalDialog);
 
 
@@ -295,6 +301,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
     //도장판칸 생성
     private GridItem addGoal(int i) {
@@ -342,39 +350,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    private void goal_read() {
-        databaseReference.child(uid).child("goal").child("도장판").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //pDialog.clear();
-                Log.d("TAG", String.valueOf(snapshot));
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String key = dataSnapshot.getKey();
-                    GridItem gd = dataSnapshot.getValue(GridItem.class);
-                    items.add(gd);
-                    //gd.goal_id = key;
-                    // Log.d("TAG", key);
-                    //Log.d("TAG", String.valueOf(items));
-
-                    //pDialog.add(read_p);
-
-                }
-                adapter = new CustomAdapter(getApplication(), items);
-                adapter.notifyDataSetChanged();
-                // pAdapter.notifyDataSetChanged();
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-                Toast.makeText(MainActivity.this, "불러오기 실패", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 
 
 }

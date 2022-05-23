@@ -48,7 +48,7 @@ public class Custom_p_item_adapter extends RecyclerView.Adapter<Custom_p_item_ad
         final personalDialog item = items.get(position);
         holder.p_goal_tittle.setText(item.getpTittle());
         holder.p_goal_progressBar.setMaxValue(item.pCount);
-        //holder.p_goal_progressBar.setCurValue(item.p);
+        holder.p_goal_progressBar.setCurValue(item.pGoal);
         holder.cardView.setOnClickListener(view -> {
             intent = new Intent(view.getContext(), custom_p_goal_click.class);
             intent.putExtra("tittle",item.getpTittle());
