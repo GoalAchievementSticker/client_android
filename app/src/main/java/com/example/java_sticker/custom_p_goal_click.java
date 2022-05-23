@@ -4,27 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,8 +24,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
@@ -54,6 +40,8 @@ public class custom_p_goal_click extends AppCompatActivity {
     String key;
     String uid;
     int count;
+    int goal_count;
+    int p;
 
     //파이어베이스
     FirebaseUser user;
@@ -66,6 +54,8 @@ public class custom_p_goal_click extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     private ValueEventListener postListener;
+
+
 
     Toolbar toolbar;
 
@@ -96,6 +86,7 @@ public class custom_p_goal_click extends AppCompatActivity {
         p_tittle = intent.getStringExtra("tittle");
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
+        goal_count = intent.getIntExtra("goal_count",0);
 
 
 
@@ -136,23 +127,22 @@ public class custom_p_goal_click extends AppCompatActivity {
 
         //그리드뷰 각 칸 클릭시, 데이터 수정
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
-            Log.d("TAG", String.valueOf(i));
-
-
+            //Log.d("TAG", String.valueOf(i));
             ds.child(String.valueOf(i)).child("goal_id").setValue("GOALID");
             storageRef.child("sprout.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        Log.d("TAG", uri.toString());
+                       // Log.d("TAG", uri.toString());
 
                     }).addOnFailureListener(Throwable::printStackTrace);
-
-
-           // Log.d("TAG",   storageRef.child("heart.png").getDownloadUrl().toString());
+            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+            goal_count();
 
         });
 
 
+        //0으로초기화 방지
+        ReadPersonalDialog();
         gridView.setAdapter(adapter);
 
     }
@@ -182,7 +172,7 @@ public class custom_p_goal_click extends AppCompatActivity {
     }
 
 
-    //다이얼로그 저장된 함수 가져오기
+    //그리드뷰 도장판 저장된 함수 가져오기
     private void ReadPersonalDialog2(int i) {
 
         postListener = new ValueEventListener() {
@@ -216,5 +206,30 @@ public class custom_p_goal_click extends AppCompatActivity {
         ds.addValueEventListener(postListener);
     }
 
+    //프로그래스바 숫자 늘리기
+    private void goal_count(){
+        ReadPersonalDialog();
+        databaseReference.child(uid).child("dialog_personal").child(key).child("pGoal").setValue(++p);
+    }
 
+    //다이얼로그 저장된 함수 가져오기
+    private int ReadPersonalDialog() {
+        databaseReference.child(uid).child("dialog_personal").child(key).child("pGoal").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+               p = snapshot.getValue(Integer.class);
+               Log.d("TAG", String.valueOf(p));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                //Toast.makeText(MainActivity.this, "불러오기 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return p;
+
+    }
 }

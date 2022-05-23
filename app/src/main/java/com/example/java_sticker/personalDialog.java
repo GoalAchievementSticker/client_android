@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class personalDialog {
 
         int pCount;
+        int pGoal;
         String pTittle;
         String key;
 
@@ -12,10 +13,11 @@ public class personalDialog {
 
         }
 
-        public personalDialog(int pCount, String pTittle, String key){
+        public personalDialog(int pCount, String pTittle, String key, int pGoal){
             this.pCount = pCount;
             this.pTittle = pTittle;
             this.key = key;
+            this.pGoal = pGoal;
 
         }
 
@@ -43,8 +45,11 @@ public class personalDialog {
         this.key = key;
     }
 
+    public int getpGoal() {
+        return pGoal;
+    }
 
-
-
-
+    public void setpGoal(int pGoal) {
+        this.pGoal = pGoal;
+    }
 }

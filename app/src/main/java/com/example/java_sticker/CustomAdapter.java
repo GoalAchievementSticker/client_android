@@ -30,8 +30,6 @@ import java.util.List;
 
 public class CustomAdapter extends BaseAdapter {
 
-    private final int TYPE_HEADER = 0;
-    private final int TYPE_ITEM = 1;
 
     Context context;
     ArrayList<GridItem> items = null;

@@ -13,10 +13,10 @@
         android:theme="@style/Theme.Java_Sticker">
         <activity
             android:name=".Group_main"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".mypage"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:theme="@style/MyThemeNoActionBar"
             android:name=".Login"
