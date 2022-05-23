@@ -41,6 +41,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
     TextView nav_name;
     ImageView nav_img;
 
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+    DatabaseReference ds;
+    GridItem gd;
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -268,13 +274,16 @@ public class MainActivity extends AppCompatActivity {
             keyRef.setValue(personalDialog);
 
 
-
+            //도장판 gridview 데이터 저장
+            ds = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
+            for (int i = 0; i < vi; i++) {
+                items.add(addGoal(i));
+            }
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     ReadPersonalDialog();
-                    //goal_read();
                 }
             }, 400);
 
@@ -285,6 +294,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    //도장판칸 생성
+    private GridItem addGoal(int i) {
+        // Handle any errors
+        storageRef.child("not.png").getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+                    // Got the download URL for 'plus.png'
+                    gd = new GridItem(String.valueOf(i), uri.toString());
+                    ds.child(String.valueOf(i)).setValue(gd);
+
+                }).addOnFailureListener(Throwable::printStackTrace);
+
+        return gd;
     }
 
     //다이얼로그 저장된 함수 가져오기

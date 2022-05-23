@@ -62,7 +62,7 @@ public class custom_p_goal_click extends AppCompatActivity {
     private ImageView sticker_img;
     DatabaseReference ds;
 
-    private List<String> goal_key = new ArrayList<>();
+
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     private ValueEventListener postListener;
@@ -106,9 +106,6 @@ public class custom_p_goal_click extends AppCompatActivity {
 
 
         ds = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
-
-
-
         header_goal.setText(p_tittle);
 
 
@@ -145,26 +142,13 @@ public class custom_p_goal_click extends AppCompatActivity {
             ds.child(String.valueOf(i)).child("goal_id").setValue("GOALID");
             storageRef.child("sprout.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-//                        gd = new GridItem(String.valueOf(i), uri.toString());
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         Log.d("TAG", uri.toString());
 
                     }).addOnFailureListener(Throwable::printStackTrace);
 
 
-            Log.d("TAG",   storageRef.child("heart.png").getDownloadUrl().toString());
-            // Glide.with(view).load(storageRef).into(ds.child(String.valueOf(i)).child("test")); // Glide를 사용하여 이미지 로드
-//                try{
-//                    HashMap<String,Object> map=new HashMap<>();
-//                    map.put(String.valueOf(i),String.valueOf(i));
-//
-//                    ds.child(td).child(goal_key.get(i)).updateChildren(map,(databaseError, databaseReference)->{
-//
-//                    } );
-//                }catch(IndexOutOfBoundsException e){
-//                    e.printStackTrace();}
-//
+           // Log.d("TAG",   storageRef.child("heart.png").getDownloadUrl().toString());
 
         });
 
@@ -194,8 +178,6 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                 }).addOnFailureListener(Throwable::printStackTrace);
 
-//        assert td != null;
-        //Log.d("TAG", String.valueOf(storageRef.child("plus.png").getDownloadUrl()));
         return gd;
     }
 
@@ -207,7 +189,6 @@ public class custom_p_goal_click extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
-                goal_key.clear();
                // sticker_img.setImageResource(0);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
@@ -217,10 +198,6 @@ public class custom_p_goal_click extends AppCompatActivity {
                     //test
                     assert gridItem != null;
                     gridItem.goal_id = String.valueOf(i);
-
-//                    Glide.with(custom_p_goal_click.this)
-//                            .load(gridItem.getTest())
-//                            .into(sticker_img);
 
 
                     items.add(gridItem);

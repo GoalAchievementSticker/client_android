@@ -63,9 +63,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.545"
-                    custom:backgroundColor="#E1FFE1"
+                    custom:backgroundColor="#C4DBC0"
                     custom:curValue="1"
-                    custom:lineColor="#429F6B"
+                    custom:lineColor="#68A77C"
                     custom:maxValue="5">
 
                 </com.example.java_sticker.CustomProgress>
