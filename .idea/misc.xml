@@ -39,6 +39,7 @@
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1905" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1905" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/drawable/sticker_bg.xml" value="0.115" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/activity_custom_ggoal_click.xml" value="0.24444444444444444" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/activity_custom_pgoal_click.xml" value="0.2" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/activity_group_main.xml" value="0.2296875" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/activity_login.xml" value="0.20677083333333332" />
@@ -47,13 +48,17 @@
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/activity_signup.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/bottom_sheet.xml" value="0.23385416666666667" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/custom_dialog.xml" value="0.2296875" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/custom_g_dialog.xml" value="0.264" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/custom_g_goal.xml" value="0.2" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/custom_grid.xml" value="0.225" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/custom_p_dialog.xml" value="0.21770833333333334" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/custom_p_goal.xml" value="0.2296875" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/drawer_header.xml" value="0.2296875" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/fraghome.xml" value="0.2296875" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/fragjoin.xml" value="0.2296875" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/fragmypage.xml" value="0.2296875" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/layout/header.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone/app/src/main/res/menu/bottom_menu.xml" value="0.21875" />
       </map>
     </option>
   </component>

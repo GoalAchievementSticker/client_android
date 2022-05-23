@@ -3,7 +3,6 @@ package com.example.java_sticker;
 import static java.lang.Integer.parseInt;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,25 +16,19 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,9 +38,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
@@ -56,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private TextView header_goal;
-    private CustomAdapter adapter;
+    private Custom_pAdapter adapter;
     ArrayList<GridItem> items;
     //GridItem gitems;
     ArrayList<personalDialog> pDialog;
@@ -134,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.getValue(String.class);
                 nav_name = findViewById(R.id.nav_name);
-                //여기서 null 오류 뜹니다
                 nav_name.setText(name);
 
             }
@@ -205,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         p_goal_recycler.setAdapter(pAdapter);
         //리사이클러뷰 클릭했을때 나오는 도장판 연결
         items = new ArrayList<>();
-        adapter = new CustomAdapter(this, items);
+        adapter = new Custom_pAdapter(this, items);
 
 
         //다이얼로그 값 저장된게 있다면
@@ -220,19 +209,16 @@ public class MainActivity extends AppCompatActivity {
     //메인 FAB 클릭 시
     @SuppressLint("Recycle")
     private void toggleFab() {
-
-        // 플로팅 액션 버튼 열기 - 닫혀있는 플로팅 버튼 꺼내는 애니메이션
+        // 플로팅 액션 버튼 열기
         showDialog();
         ObjectAnimator.ofFloat(fab_main, View.ROTATION, 0f, 45f).start();
-
-
     }
 
 
     public void showDialog() {
         custom_dialog = new Dialog(MainActivity.this);
         custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        custom_dialog.setContentView(R.layout.custom_dialog);
+        custom_dialog.setContentView(R.layout.custom_p_dialog);
         //다이얼로그를 보여준다
         custom_dialog.show();
 

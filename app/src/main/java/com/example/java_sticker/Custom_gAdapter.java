@@ -2,38 +2,23 @@ package com.example.java_sticker;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
-public class CustomAdapter extends BaseAdapter {
-
-
+public class Custom_gAdapter extends BaseAdapter {
     Context context;
     ArrayList<GridItem> items = null;
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -44,7 +29,7 @@ public class CustomAdapter extends BaseAdapter {
     View select_v;
     GridViewWithHeaderAndFooter gridView;
 
-    public CustomAdapter(Context context, ArrayList<GridItem> items) {
+    public Custom_gAdapter(Context context, ArrayList<GridItem> items) {
         this.context = context;
         this.items = items;
     }
@@ -86,6 +71,7 @@ public class CustomAdapter extends BaseAdapter {
 
         if(gridItem!=null) {
             // Got the download URL for 'plus.png'
+            Toast.makeText(context,"해당 셀이 null 이 아닙니다",Toast.LENGTH_LONG).show();
             Glide.with(context)
                     .load(gridItem.getTest())
                     .into(sticker_img);
