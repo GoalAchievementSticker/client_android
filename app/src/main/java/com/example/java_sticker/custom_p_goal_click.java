@@ -157,11 +157,11 @@ public class custom_p_goal_click extends AppCompatActivity {
             Log.d("TAG", String.valueOf(i));
             stickerClick(i);
 
-            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-            goal_count();
         });
 
 
+        //0으로초기화 방지
+        ReadPersonalDialog();
         gridView.setAdapter(adapter);
 
     }
@@ -181,6 +181,8 @@ public class custom_p_goal_click extends AppCompatActivity {
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
 
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
         s2.setOnClickListener(view -> {
@@ -190,6 +192,8 @@ public class custom_p_goal_click extends AppCompatActivity {
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
 
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
                     }).addOnFailureListener(Throwable::printStackTrace);
             //도장을 클릭했다면 프로그래스바 숫자를 늘린다
 
@@ -204,6 +208,8 @@ public class custom_p_goal_click extends AppCompatActivity {
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
 
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
         s4.setOnClickListener(view -> {
@@ -214,6 +220,8 @@ public class custom_p_goal_click extends AppCompatActivity {
 //                        gd = new GridItem(String.valueOf(i), uri.toString());
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
         s5.setOnClickListener(view -> {
@@ -224,13 +232,15 @@ public class custom_p_goal_click extends AppCompatActivity {
 //                        gd = new GridItem(String.valueOf(i), uri.toString());
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
 
         //0으로초기화 방지
-        ReadPersonalDialog();
-        gridView.setAdapter(adapter);
+        //ReadPersonalDialog();
+       // gridView.setAdapter(adapter);
 
     }
 
