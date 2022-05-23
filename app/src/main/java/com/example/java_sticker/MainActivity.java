@@ -125,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(barDrawerToggle);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
+
+        //  view=getLayoutInflater().inflate(R.layout.drawer_header,null,false);
 //        view=getLayoutInflater().inflate(R.layout.drawer_header, null, false);
         //네비게이션 프로필 이름, 이미지 가져오기 -> for문 스냅샵으로 가져오니까 .. 오류남
         profile_databaseReference.child("user").child(uid).child("userName").addValueEventListener(new ValueEventListener() {
@@ -132,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.getValue(String.class);
                 nav_name = findViewById(R.id.nav_name);
+                //여기서 null 오류 뜹니다
                 nav_name.setText(name);
 
             }
@@ -145,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String uri = snapshot.getValue(String.class);
-                nav_img = (ImageView) findViewById(R.id.iv_header);
+                nav_img = findViewById(R.id.iv_header);
                 Glide.with(navigationView).load(uri).into(nav_img);
             }
 

@@ -56,13 +56,10 @@ public class Login extends AppCompatActivity {
                 String email = login_user_id.getText().toString().trim();
                 String pwd = login_user_password.getText().toString().trim();
 
-                firebaseAuth.signInWithEmailAndPassword(email,pwd).addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Intent intent = new Intent(Login.this, MainActivity.class);
-                            startActivity(intent);
-                        }
+                firebaseAuth.signInWithEmailAndPassword(email,pwd).addOnCompleteListener(Login.this, task -> {
+                    if(task.isSuccessful()){
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        startActivity(intent);
                     }
                 });
 
@@ -70,12 +67,9 @@ public class Login extends AppCompatActivity {
         });
 
 
-        register_change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Login.this, Signup.class);
-                startActivity(intent);
-            }
+        register_change.setOnClickListener(view -> {
+            Intent intent = new Intent(Login.this, Signup.class);
+            startActivity(intent);
         });
     }
 }
