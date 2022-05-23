@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.getValue(String.class);
                 nav_name = findViewById(R.id.nav_name);
-                nav_name.setText(name);
+                nav_name.setText(name+"님");
 
             }
 

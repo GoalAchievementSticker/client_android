@@ -129,7 +129,7 @@ public class FragJoin extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.getValue(String.class);
                 g_user_name = view.findViewById(R.id.userN);
-                g_user_name.setText(name);
+                g_user_name.setText(name+"님");
 
             }
 
