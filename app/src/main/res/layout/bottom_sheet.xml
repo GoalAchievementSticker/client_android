@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_draggable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:src="@drawable/remove"
+        app:tint="#B2B0B3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/empty_divider"
+        android:orientation="horizontal"
+        android:padding="30dp"
+        android:showDividers="middle">
+
+        <ImageView
+            android:id="@+id/s1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:src="@drawable/check"
+            tools:ignore="UsingOnClickInXml" />
+
+        <ImageView
+            android:id="@+id/s2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:src="@drawable/sprout" />
+
+        <ImageView
+            android:id="@+id/s3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:src="@drawable/star" />
+
+        <ImageView
+            android:id="@+id/s4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:src="@drawable/triangular" />
+
+        <ImageView
+            android:id="@+id/s5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:src="@drawable/circle" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
+

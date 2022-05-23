@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,8 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.views.GridViewWithHeaderAndFooter;
+
 public class CustomAdapter extends BaseAdapter {
 
     private final int TYPE_HEADER = 0;
@@ -39,6 +42,9 @@ public class CustomAdapter extends BaseAdapter {
     StorageReference storageRef = storage.getReference();
     GridItem gi;
     ImageView sticker_img;
+    LinearLayout ll;
+    View select_v;
+    GridViewWithHeaderAndFooter gridView;
 
     public CustomAdapter(Context context, ArrayList<GridItem> items) {
         this.context = context;
@@ -74,6 +80,10 @@ public class CustomAdapter extends BaseAdapter {
         sticker_img = convertView.findViewById(R.id.sticker_img);
         sticker_img.setImageResource(R.drawable.plus);
 
+//        select_v=inflater.inflate(R.layout.activity_custom_pgoal_click,viewGroup,false);
+//        ll = select_v.findViewById(R.id.select_sticker);
+//        gridView = select_v.findViewById(R.id.gridView);
+
         // Got the download URL for 'plus.png'
 
         if(gridItem!=null) {
@@ -87,22 +97,82 @@ public class CustomAdapter extends BaseAdapter {
         }
 
 
+
         int pos = position;
-        sticker_img.setOnClickListener(view -> {
+        sticker_img.setOnClickListener(view->{});
+//            ll.setVisibility(View.VISIBLE); //스티커 보이기
+//            //그리드뷰 각 칸 클릭시, 데이터 수정
 //
-//                Intent intent3 = new Intent(view.getContext(),custom_p_goal_click.class);
-//                intent3.putExtra("pos",pos);
-//                Log.d("TAG", String.valueOf(pos));
-//                Log.d("TAG", String.valueOf(gridItem));
+//            switch (.getId()) {
+//                //check
+//                case R.id.s1:
+//
+//                    Toast.makeText(context, "s1클릭", Toast.LENGTH_SHORT).show();
+////                storageRef.child("check.png").getDownloadUrl()
+////                        .addOnSuccessListener(uri -> {
+////                            // Got the download URL for 'plus.png'
+//////                        gd = new GridItem(String.valueOf(i), uri.toString());
+////                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+////                            Log.d("TAG", uri.toString());
+////
+////                        }).addOnFailureListener(Throwable::printStackTrace);
+//
+//                    ll.setVisibility(View.GONE); //없애기
+//                    break;
+//                //sprout
+//                case R.id.s2:
+//                    Toast.makeText(context, "s2클릭", Toast.LENGTH_SHORT).show();
+////                storageRef.child("sprout.png").getDownloadUrl()
+////                        .addOnSuccessListener(uri -> {
+////                            // Got the download URL for 'plus.png'
+//////                        gd = new GridItem(String.valueOf(i), uri.toString());
+////                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+////                            Log.d("TAG", uri.toString());
+////
+////                        }).addOnFailureListener(Throwable::printStackTrace);
+//                    ll.setVisibility(View.GONE); //없애기
+//                    break;
+//                //star
+//                case R.id.s3:
+//                    Toast.makeText(context, "s3클릭", Toast.LENGTH_SHORT).show();
+////                storageRef.child("y_star.png").getDownloadUrl()
+////                        .addOnSuccessListener(uri -> {
+////                            // Got the download URL for 'plus.png'
+//////                        gd = new GridItem(String.valueOf(i), uri.toString());
+////                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+////                            Log.d("TAG", uri.toString());
+////
+////                        }).addOnFailureListener(Throwable::printStackTrace);
+//                    ll.setVisibility(View.GONE); //없애기
+//                    break;
+//                //triangular
+//                case R.id.s4:
+//                    Toast.makeText(context, "s4클릭", Toast.LENGTH_SHORT).show();
+////                storageRef.child("triangular.png").getDownloadUrl()
+////                        .addOnSuccessListener(uri -> {
+////                            // Got the download URL for 'plus.png'
+//////                        gd = new GridItem(String.valueOf(i), uri.toString());
+////                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+////                            Log.d("TAG", uri.toString());
+////
+////                        }).addOnFailureListener(Throwable::printStackTrace);
+//                    ll.setVisibility(View.GONE); //없애기
+//                    break;
+//                //new-moon
+//                case R.id.s5:
+//                    Toast.makeText(context, "s5클릭", Toast.LENGTH_SHORT).show();
+////                storageRef.child("new-moon.png").getDownloadUrl()
+////                        .addOnSuccessListener(uri -> {
+////                            // Got the download URL for 'plus.png'
+//////                        gd = new GridItem(String.valueOf(i), uri.toString());
+////                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+////                            Log.d("TAG", uri.toString());
+////
+////                        }).addOnFailureListener(Throwable::printStackTrace);
+//                    ll.setVisibility(View.GONE); //없애기
+//                    break;
+//            }
 
-
-//                SharedPreferences prefs = context.getSharedPreferences("Item Index",Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = prefs.edit();
-//                editor.putString("pos", String.valueOf(pos)); //InputString: from the EditText
-//                editor.commit(); // data 저장!
-            //gridItem.setTest("무지개");
-            //sticker_img.setText("무지개");
-        });
 
         View view = new View(context);
         view = (View) convertView;
