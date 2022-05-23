@@ -3,15 +3,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/gridview_line"
-    android:layout_margin="10dp"
-    android:padding="10dp">
+    android:background="@drawable/gridview_line">
 
     <ImageView
         android:id="@+id/sticker_img"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:src="@drawable/not"
+        android:padding="10dp"
+        android:adjustViewBounds="true"
         android:textColor="@color/black" />
     </LinearLayout>
 
