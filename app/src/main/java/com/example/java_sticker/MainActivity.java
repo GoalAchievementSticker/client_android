@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     ActionBarDrawerToggle barDrawerToggle;
     FloatingActionButton fab_main;
-    FloatingActionButton fab_person;
 
     //FAB
     boolean isFabOpen;
@@ -94,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
     StorageReference storageRef = storage.getReference();
     DatabaseReference ds;
     GridItem gd;
+
+    View view;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -124,13 +125,14 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(barDrawerToggle);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
+//        view=getLayoutInflater().inflate(R.layout.drawer_header, null, false);
         //네비게이션 프로필 이름, 이미지 가져오기 -> for문 스냅샵으로 가져오니까 .. 오류남
         profile_databaseReference.child("user").child(uid).child("userName").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String name = snapshot.getValue(String.class);
-                    nav_name =  (TextView) findViewById(R.id.nav_name);
-                    nav_name.setText(name);
+                String name = snapshot.getValue(String.class);
+                nav_name = findViewById(R.id.nav_name);
+                nav_name.setText(name);
 
             }
 
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String uri = snapshot.getValue(String.class);
-                nav_img =(ImageView) findViewById(R.id.iv_header);
+                nav_img = (ImageView) findViewById(R.id.iv_header);
                 Glide.with(navigationView).load(uri).into(nav_img);
             }
 
@@ -154,18 +156,11 @@ public class MainActivity extends AppCompatActivity {
         });
         //FAT
         fab_main = findViewById(R.id.fab);
-        fab_person = findViewById(R.id.fab_person);
         isFabOpen = false; // Fab 버튼 default는 닫혀있음
 
         //FAB 클릭 시
         fab_main.setOnClickListener(view -> toggleFab());
-        fab_person.setOnClickListener(view -> {
-                    custom_dialog = new Dialog(MainActivity.this);
-                    custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    custom_dialog.setContentView(R.layout.custom_dialog);
-                    showDialog();
-                }
-        );
+
 
         //네비게이션뷰의 아이템 클릭시
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -210,15 +205,11 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CustomAdapter(this, items);
 
 
-
-
         //다이얼로그 값 저장된게 있다면
         if (pDialog != null) {
             ReadPersonalDialog();
 
         }
-
-
 
 
     }
@@ -227,22 +218,18 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("Recycle")
     private void toggleFab() {
 
-        Toast.makeText(this, "메인 버튼 클릭!", Toast.LENGTH_SHORT).show();
-        // 플로팅 액션 버튼 닫기 - 열려있는 플로팅 버튼 집어넣는 애니메이션
-        if (isFabOpen) {
-            ObjectAnimator.ofFloat(fab_person, "translationY", 0f).start();
-            ObjectAnimator.ofFloat(fab_main, View.ROTATION, 45f, 0f).start();
-        } else { // 플로팅 액션 버튼 열기 - 닫혀있는 플로팅 버튼 꺼내는 애니메이션
-            ObjectAnimator.ofFloat(fab_person, "translationY", -180f).start();
-            ObjectAnimator.ofFloat(fab_main, View.ROTATION, 0f, 45f).start();
-        }
+        // 플로팅 액션 버튼 열기 - 닫혀있는 플로팅 버튼 꺼내는 애니메이션
+        showDialog();
+        ObjectAnimator.ofFloat(fab_main, View.ROTATION, 0f, 45f).start();
 
-        isFabOpen = !isFabOpen;
 
     }
 
 
     public void showDialog() {
+        custom_dialog = new Dialog(MainActivity.this);
+        custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        custom_dialog.setContentView(R.layout.custom_dialog);
         //다이얼로그를 보여준다
         custom_dialog.show();
 
@@ -255,10 +242,16 @@ public class MainActivity extends AppCompatActivity {
         Button noBtn = custom_dialog.findViewById(R.id.noBtn);
         Button yesBtn = custom_dialog.findViewById(R.id.yesBtn);
 
+        custom_dialog.setOnDismissListener(view -> {
+                    ObjectAnimator.ofFloat(fab_main, View.ROTATION, 45f, 0f).start();
+                }
+        );
         //노버튼 클릭시 다이얼로그 닫기
-        noBtn.setOnClickListener(view -> custom_dialog.dismiss());
+        noBtn.setOnClickListener(view -> {
+            custom_dialog.dismiss();
+        });
 
-        //예습 버튼 클릭시 다이얼로그 동작
+        //예스 버튼 클릭시 다이얼로그 동작
         yesBtn.setOnClickListener(view -> {
 
             //다이얼로그에 입력한값 형 변환
@@ -269,11 +262,10 @@ public class MainActivity extends AppCompatActivity {
             String key = databaseReference.push().getKey();
             DatabaseReference keyRef = databaseReference.child(uid).child("dialog_personal").child(key);
             //list에 추가
-            personalDialog personalDialog = new personalDialog(vi, goal, key,0);
+            personalDialog personalDialog = new personalDialog(vi, goal, key, 0);
             pDialog.add(personalDialog);
 
             pAdapter.notifyDataSetChanged();
-
 
 
             //생성된 레코드 파이어베이스 저장
@@ -286,12 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 items.add(addGoal(i));
             }
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ReadPersonalDialog();
-                }
-            }, 400);
+            new Handler().postDelayed(() -> ReadPersonalDialog(), 400);
 
 
             custom_dialog.dismiss();
@@ -301,7 +288,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
 
 
     //도장판칸 생성
@@ -349,7 +335,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 
 
 }

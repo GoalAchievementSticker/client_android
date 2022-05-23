@@ -143,8 +143,6 @@ public class custom_p_goal_click extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
 
-
-//        ll = findViewById(R.id.select_sticker);
         s1 = v.findViewById(R.id.s1);
         s2 = v.findViewById(R.id.s2);
         s3 = v.findViewById(R.id.s3);
