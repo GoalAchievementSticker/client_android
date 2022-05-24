@@ -261,6 +261,9 @@ public class FragJoin extends Fragment {
                     GroupDialog read_g = dataSnapshot.getValue(GroupDialog.class);
                     assert read_g != null;
                     read_g.key = key;
+                    Log.d("TAG", read_g.getgTittle());
+                    Log.d("TAG", String.valueOf(read_g.getgCount()));
+                    //Log.d("TAG", String.valueOf(read_g.getgGoal()));
                     //Log.d("TAG", key);
 
                     gDialog.add(read_g);

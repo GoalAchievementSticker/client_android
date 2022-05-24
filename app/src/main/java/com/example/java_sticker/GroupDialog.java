@@ -28,7 +28,7 @@ public class GroupDialog {
         return gCount;
     }
 
-    public void setgCount(int pCount) {
+    public void setgCount(int gCount) {
         this.gCount = gCount;
     }
 
