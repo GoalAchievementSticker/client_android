@@ -91,6 +91,7 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
         //holder.g_img.setImageResource(R.drawable.ic_baseline_supervised_user_circle_24);
         holder.g_goal_tittle.setText(item.getgTittle());
         holder.g_goal_progressBar.setMaxValue(item.gCount);
+       // Log.d("TAG", String.valueOf(item.gCount));
         holder.g_goal_progressBar.setCurValue(item.gGoal);
         holder.cardView.setOnClickListener(view -> {
             intent = new Intent(view.getContext(), custom_g_goal_click.class);
