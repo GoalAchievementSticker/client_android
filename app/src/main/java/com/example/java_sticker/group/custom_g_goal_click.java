@@ -1,14 +1,11 @@
-package com.example.java_sticker;
+package com.example.java_sticker.group;
 
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.java_sticker.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,26 +35,26 @@ import java.util.Objects;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
-public class custom_p_goal_click extends AppCompatActivity {
-
+/*그룹도장판*/
+public class custom_g_goal_click extends AppCompatActivity {
     private TextView header_goal;
     private Intent intent;
-    Custom_pAdapter adapter;
-    GridItem gd;
-    private ArrayList<GridItem> items = null;
+    Custom_gAdapter adapter;
+    g_GridItem gd;
+    private ArrayList<g_GridItem> items = null;
     GridViewWithHeaderAndFooter gridView;
     //RecyclerView gridView;
-    String p_tittle;
+    String g_tittle;
     String key;
     String uid;
     int count;
     int goal_count;
-    int p;
+    int p; //
 
     //파이어베이스
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference = firebaseDatabase.getReference("personalDialog");
+    DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
     private ImageView sticker_img;
     DatabaseReference ds;
 
@@ -60,7 +62,6 @@ public class custom_p_goal_click extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     private ValueEventListener postListener;
-
 
 
     Toolbar toolbar;
@@ -72,7 +73,7 @@ public class custom_p_goal_click extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_pgoal_click);
+        setContentView(R.layout.activity_custom_ggoal_click);
 
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.goal_toolbar);
@@ -81,23 +82,21 @@ public class custom_p_goal_click extends AppCompatActivity {
         getSupportActionBar().setTitle("");
 
 
-
         // Create a storage reference from our app
         sticker_img = findViewById(R.id.sticker_img);
         items = new ArrayList<>();
-        adapter = new Custom_pAdapter(this, items);
-        gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);
+        adapter = new Custom_gAdapter(this, items);
+        gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.g_gridView);
 
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         uid = user.getUid();
         intent = getIntent();
-        p_tittle = intent.getStringExtra("tittle");
+        g_tittle = intent.getStringExtra("tittle");
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
-        goal_count = intent.getIntExtra("goal_count",0);
-
+        goal_count = intent.getIntExtra("goal_count", 0);
 
 
         View header = getLayoutInflater().inflate(R.layout.header, null, false);
@@ -105,9 +104,8 @@ public class custom_p_goal_click extends AppCompatActivity {
         gridView.addHeaderView(header);
 
 
-
-        ds = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
-        header_goal.setText(p_tittle);
+        ds = databaseReference.child(uid).child("goal_group").child(key).child("도장판");
+        header_goal.setText(g_tittle);
 
         //bottom sheet
         v = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
@@ -120,6 +118,7 @@ public class custom_p_goal_click extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (int i = 0; i < count; i++)
+
                         ReadPersonalDialog2(i);
                 } else {
                     for (int i = 0; i < count; i++) {
@@ -156,6 +155,7 @@ public class custom_p_goal_click extends AppCompatActivity {
         //0으로초기화 방지
         ReadPersonalDialog();
         gridView.setAdapter(adapter);
+
 
     }
 
@@ -230,17 +230,17 @@ public class custom_p_goal_click extends AppCompatActivity {
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
-
-        //0으로초기화 방지
-        //ReadPersonalDialog();
-       // gridView.setAdapter(adapter);
+//
+//        //0으로초기화 방지
+//        ReadPersonalDialog();
+//        gridView.setAdapter(adapter);
 
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case android.R.id.home:{
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
                 finish();
                 return true;
             }
@@ -248,14 +248,13 @@ public class custom_p_goal_click extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private GridItem addGoal(int i) {
+    private g_GridItem addGoal(int i) {
         // Handle any errors
         storageRef.child("not.png").getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     // Got the download URL for 'plus.png'
-                    gd = new GridItem(String.valueOf(i), uri.toString());
+                    gd = new g_GridItem(String.valueOf(i), uri.toString());
                     ds.child(String.valueOf(i)).setValue(gd);
-
                 }).addOnFailureListener(Throwable::printStackTrace);
 
         return gd;
@@ -269,17 +268,13 @@ public class custom_p_goal_click extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
-               // sticker_img.setImageResource(0);
+                // sticker_img.setImageResource(0);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
-                    GridItem gridItem = dataSnapshot.getValue(GridItem.class);
-
-
+                    g_GridItem gridItem = dataSnapshot.getValue(g_GridItem.class);
                     //test
                     assert gridItem != null;
                     gridItem.goal_id = String.valueOf(i);
-
-
                     items.add(gridItem);
 
                 }
@@ -290,25 +285,26 @@ public class custom_p_goal_click extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-                Toast.makeText(custom_p_goal_click.this, "불러오기 실패", Toast.LENGTH_SHORT).show();
+                Toast.makeText(custom_g_goal_click.this, "불러오기 실패", Toast.LENGTH_SHORT).show();
             }
+
         };
         ds.addValueEventListener(postListener);
     }
 
     //프로그래스바 숫자 늘리기
-    private void goal_count(){
-        databaseReference.child(uid).child("dialog_personal").child(key).child("pGoal").setValue(++p);
+    private void goal_count() {
+        databaseReference.child(uid).child("dialog_group").child(key).child("gGoal").setValue(++p);
         ReadPersonalDialog();
     }
 
     //다이얼로그 저장된 함수 가져오기
     private int ReadPersonalDialog() {
-        databaseReference.child(uid).child("dialog_personal").child(key).child("pGoal").addValueEventListener(new ValueEventListener() {
+        databaseReference.child(uid).child("dialog_group").child(key).child("gGoal").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-               p = snapshot.getValue(Integer.class);
-               Log.d("TAG", String.valueOf(p));
+                p = snapshot.getValue(Integer.class);
+                Log.d("TAG", String.valueOf(p));
 
             }
 

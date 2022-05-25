@@ -1,4 +1,4 @@
-package com.example.java_sticker;
+package com.example.java_sticker.personal;
 
 import java.util.ArrayList;
 

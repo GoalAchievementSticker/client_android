@@ -11,9 +11,9 @@
         android:title="참여중"
         android:enabled="true"/>
     <item
-        android:icon="@drawable/ic_baseline_grade_24"
+        android:icon="@drawable/ic_baseline_person_24"
         android:id="@+id/mypage"
-        android:title="my"
+        android:title="마이페이지"
         android:enabled="true"/>
 
 </menu>

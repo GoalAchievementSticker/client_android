@@ -1,4 +1,4 @@
-package com.example.java_sticker;
+package com.example.java_sticker.group;
 
 public class GroupDialog {
     public String key;

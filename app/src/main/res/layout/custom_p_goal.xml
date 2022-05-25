@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context="com.example.java_sticker.MainActivity">
+    tools:context="com.example.java_sticker.personal.MainActivity">
 
 
     <androidx.cardview.widget.CardView

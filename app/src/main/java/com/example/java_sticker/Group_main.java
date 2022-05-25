@@ -1,22 +1,23 @@
 package com.example.java_sticker;
 
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
+import android.widget.Toast;
 
 
+import com.example.java_sticker.Fragment.Exercise;
 import com.example.java_sticker.Fragment.FragHome;
 import com.example.java_sticker.Fragment.FragJoin;
 import com.example.java_sticker.Fragment.FragMypage;
+import com.example.java_sticker.Fragment.Hobby;
+import com.example.java_sticker.Fragment.Routin;
+import com.example.java_sticker.Fragment.Study;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.Objects;
 
 
 public class Group_main extends AppCompatActivity {
@@ -25,6 +26,10 @@ public class Group_main extends AppCompatActivity {
     Fragment fragment_home;
     Fragment fragment_group_join;
     Fragment fragment_mypage;
+    Fragment fragment_study;
+    Fragment fragment_hobby;
+    Fragment fragment_routin;
+    Fragment fragment_exercise;
 
     Toolbar toolbar;
 
@@ -39,12 +44,21 @@ public class Group_main extends AppCompatActivity {
 
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        //네비게이션연결 프래그먼트
         fragment_home = new FragHome();
         fragment_group_join = new FragJoin();
         fragment_mypage = new FragMypage();
 
+        //카테고리 프래그먼트
+        fragment_study = new Study();
+        fragment_exercise = new Exercise();
+        fragment_hobby = new Hobby();
+        fragment_routin = new Routin();
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_home).commitAllowingStateLoss();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home:
@@ -60,5 +74,26 @@ public class Group_main extends AppCompatActivity {
             }
             return true;
         });
+
     }
+
+
+    //카테고리 프래그먼트 전환
+    //0:공부, 1:운동, 2:취미, 3:루틴
+    public  void onFragmentChange(int index){
+        if(index == 0 ){
+            getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_study).addToBackStack(null).commit();
+        } else if(index == 1){
+            getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_exercise).addToBackStack(null).commit();
+        }
+        else if(index == 2){
+            getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_hobby).addToBackStack(null).commit();
+        }else if(index == 3){
+            getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_routin).addToBackStack(null).commit();
+        }
+
+    }
+
+
+
 }

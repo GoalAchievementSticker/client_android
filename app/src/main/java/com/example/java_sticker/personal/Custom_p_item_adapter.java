@@ -1,21 +1,18 @@
-package com.example.java_sticker;
+package com.example.java_sticker.personal;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.ValueEventListener;
+import com.example.java_sticker.CustomProgress;
+import com.example.java_sticker.R;
 
 import java.util.ArrayList;
 
