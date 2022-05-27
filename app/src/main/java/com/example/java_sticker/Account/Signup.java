@@ -1,4 +1,4 @@
-package com.example.java_sticker;
+package com.example.java_sticker.Account;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.java_sticker.R;
+import com.example.java_sticker.UserRegister;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -76,15 +78,15 @@ public class Signup extends AppCompatActivity {
                             storageReference.child("profile_img.png").getDownloadUrl()
                                     .addOnSuccessListener(uri -> {
                                         // Got the download URL for 'plus.png'
-                                       String path = uri.toString();
+                                        String path = uri.toString();
 
-                                       UserRegister userRegister = new UserRegister();
-                                       userRegister.userName = name;
-                                       userRegister.uid = uid;
-                                       userRegister.profileImageUrl = path;
+                                        UserRegister userRegister = new UserRegister();
+                                        userRegister.userName = name;
+                                        userRegister.uid = uid;
+                                        userRegister.profileImageUrl = path;
 
 
-                                       mDatabase.getReference().child("user").child(uid).setValue(userRegister);
+                                        mDatabase.getReference().child("user").child(uid).setValue(userRegister);
                                     }).addOnFailureListener(Throwable::printStackTrace);
 
                             Toast.makeText(Signup.this, "성공", Toast.LENGTH_SHORT).show();

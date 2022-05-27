@@ -1,4 +1,4 @@
-package com.example.java_sticker;
+package com.example.java_sticker.group;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.java_sticker.R;
+import com.example.java_sticker.personal.GridItem;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -20,16 +22,15 @@ import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 public class Custom_gAdapter extends BaseAdapter {
     Context context;
-    ArrayList<GridItem> items = null;
+    ArrayList<g_GridItem> items = null;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
-    GridItem gi;
     ImageView sticker_img;
     LinearLayout ll;
     View select_v;
     GridViewWithHeaderAndFooter gridView;
 
-    public Custom_gAdapter(Context context, ArrayList<GridItem> items) {
+    public Custom_gAdapter(Context context, ArrayList<g_GridItem> items) {
         this.context = context;
         this.items = items;
     }
@@ -54,7 +55,7 @@ public class Custom_gAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         Context context = viewGroup.getContext();
-        GridItem gridItem = items.get(position);
+        g_GridItem gridItem = items.get(position);
 
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

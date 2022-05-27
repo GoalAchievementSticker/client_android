@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -27,13 +26,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.java_sticker.CustomProgress;
-import com.example.java_sticker.Custom_g_item_adapter;
-import com.example.java_sticker.Custom_pAdapter;
-import com.example.java_sticker.Custom_p_item_adapter;
-import com.example.java_sticker.GridItem;
-import com.example.java_sticker.GroupDialog;
+import com.example.java_sticker.group.Custom_g_item_adapter;
+import com.example.java_sticker.group.g_GridItem;
+import com.example.java_sticker.group.GroupDialog;
 import com.example.java_sticker.R;
 import com.example.java_sticker.gGoalInput.First;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -48,7 +43,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class FragJoin extends Fragment {
     private View view;
@@ -73,7 +67,7 @@ public class FragJoin extends Fragment {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     DatabaseReference ds;
-    GridItem gd;
+    g_GridItem gd;
 
 
     //ProgressBar circleProgressBar;
@@ -82,7 +76,7 @@ public class FragJoin extends Fragment {
 
     TextView custom_g_goal_tittle;
 
-    ArrayList<GridItem> items;
+    ArrayList<g_GridItem> items;
 
     //dialog
     ArrayList<GroupDialog> gDialog;
@@ -128,7 +122,7 @@ public class FragJoin extends Fragment {
         gAdapter = new Custom_g_item_adapter(getContext(), gDialog);
         g_goal_recycler.setAdapter(gAdapter);
         //리사이클러뷰 클릭했을때 나오는 도장판 연결
-        items = new ArrayList<>();
+        items = new ArrayList<g_GridItem>();
 //        adapter = new Custom_pAdapter(this, items);
 
         //툴바 유저 네임 설정
@@ -256,7 +250,7 @@ public class FragJoin extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 gDialog.clear();
-                // Log.d("TAG", String.valueOf(snapshot));
+                //Log.d("TAG", String.valueOf(snapshot));
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
                     GroupDialog read_g = dataSnapshot.getValue(GroupDialog.class);
@@ -284,12 +278,12 @@ public class FragJoin extends Fragment {
     }
 
     //도장판칸 생성
-    private GridItem addGoal(int i) {
+    private g_GridItem addGoal(int i) {
         // Handle any errors
         storageRef.child("not.png").getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     // Got the download URL for 'plus.png'
-                    gd = new GridItem(String.valueOf(i), uri.toString());
+                    gd = new g_GridItem(String.valueOf(i), uri.toString());
                     ds.child(String.valueOf(i)).setValue(gd);
 
                 }).addOnFailureListener(Throwable::printStackTrace);

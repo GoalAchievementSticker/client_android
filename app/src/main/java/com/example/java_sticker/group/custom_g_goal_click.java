@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.java_sticker.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,8 +40,8 @@ public class custom_g_goal_click extends AppCompatActivity {
     private TextView header_goal;
     private Intent intent;
     Custom_gAdapter adapter;
-    GridItem gd;
-    private ArrayList<GridItem> items = null;
+    g_GridItem gd;
+    private ArrayList<g_GridItem> items = null;
     GridViewWithHeaderAndFooter gridView;
     //RecyclerView gridView;
     String g_tittle;
@@ -153,7 +154,6 @@ public class custom_g_goal_click extends AppCompatActivity {
 
 
         //0으로초기화 방지
-
         ReadPersonalDialog();
         gridView.setAdapter(adapter);
 
@@ -249,12 +249,12 @@ public class custom_g_goal_click extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private GridItem addGoal(int i) {
+    private g_GridItem addGoal(int i) {
         // Handle any errors
         storageRef.child("not.png").getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     // Got the download URL for 'plus.png'
-                    gd = new GridItem(String.valueOf(i), uri.toString());
+                    gd = new g_GridItem(String.valueOf(i), uri.toString());
                     ds.child(String.valueOf(i)).setValue(gd);
                 }).addOnFailureListener(Throwable::printStackTrace);
 
@@ -264,6 +264,7 @@ public class custom_g_goal_click extends AppCompatActivity {
 
     //다이얼로그 저장된 함수 가져오기
     private void ReadPersonalDialog2(int i) {
+
         postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -271,19 +272,15 @@ public class custom_g_goal_click extends AppCompatActivity {
                 // sticker_img.setImageResource(0);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
-                    GridItem gridItem = dataSnapshot.getValue(GridItem.class);
-
-
+                    g_GridItem gridItem = dataSnapshot.getValue(g_GridItem.class);
                     //test
                     assert gridItem != null;
                     gridItem.goal_id = String.valueOf(i);
-
                     items.add(gridItem);
 
                 }
-                gridView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-
+                gridView.setAdapter(adapter);
             }
 
             @Override
@@ -302,7 +299,7 @@ public class custom_g_goal_click extends AppCompatActivity {
         ReadPersonalDialog();
     }
 
-    // 다이얼로그 저장된 함수 가져오기
+    //다이얼로그 저장된 함수 가져오기
     private int ReadPersonalDialog() {
         databaseReference.child(uid).child("dialog_group").child(key).child("gGoal").addValueEventListener(new ValueEventListener() {
             @Override

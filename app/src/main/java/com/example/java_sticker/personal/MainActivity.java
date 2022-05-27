@@ -1,4 +1,4 @@
-package com.example.java_sticker;
+package com.example.java_sticker.personal;
 
 import static java.lang.Integer.parseInt;
 
@@ -25,6 +25,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.java_sticker.CustomProgress;
+import com.example.java_sticker.Group_main;
+import com.example.java_sticker.R;
+import com.example.java_sticker.mypage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;

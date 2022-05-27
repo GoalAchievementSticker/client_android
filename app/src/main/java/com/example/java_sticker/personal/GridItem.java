@@ -1,4 +1,4 @@
-package com.example.java_sticker;
+package com.example.java_sticker.personal;
 
 import android.net.Uri;
 import android.widget.ImageView;
