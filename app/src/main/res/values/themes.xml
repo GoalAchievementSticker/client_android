@@ -35,4 +35,9 @@
         parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_background</item>
     </style>
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/teal_200</item>
+        <item name="android:background">@drawable/categoty_bg</item>
+        <item name="colorAccent">#9FE8A2</item>
+    </style>
 </resources>

@@ -1,25 +1,27 @@
 package com.example.java_sticker;
 
 public class GroupDialog {
-    public String key;
-    int gCount;
-    int gGoal;
-    String gTittle;
-    String limit;
-    String auth;
+    public String key; //고유키
+    int gCount; //토탈스티커개수
+    int gGoal;//찍은스티커개수
+    String gTittle;//목표
+    int limit;//제한인원
+    String auth;//인증방식
+    String cate;// 카테고리
 
 
     public GroupDialog(){
 
     }
 
-    public GroupDialog(int gCount, String gTittle,String limit,String auth, String key, int gGoal){
+    public GroupDialog(int gCount, String gTittle,int limit,String auth, String key, int gGoal,String cate){
         this.gCount = gCount;
         this.gTittle = gTittle;
         this.limit=limit;
         this.auth=auth;
         this.key = key;
         this.gGoal = gGoal;
+        this.cate=cate;
 
     }
 
@@ -48,11 +50,11 @@ public class GroupDialog {
         this.auth = auth;
     }
 
-    public String getLimit() {
+    public int getLimit() {
         return limit;
     }
 
-    public void setLimit(String limit) {
+    public void setLimit(int limit) {
         this.limit = limit;
     }
 
@@ -72,4 +74,9 @@ public class GroupDialog {
     public void setgoal(int pGoal) {
         this.gGoal = pGoal;
     }
+
+    public void setCate(String cate) {
+        this.cate = cate;
+    }
+    public String getCate(){return cate;}
 }

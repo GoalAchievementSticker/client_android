@@ -41,6 +41,15 @@
             android:name=".custom_g_goal_click"
             android:theme="@style/MyThemeNoActionBar"
             android:exported="true" />
+        <activity android:name=".gGoalInput.First"
+            android:theme="@style/MyThemeNoActionBar"
+            android:exported="true" />
+        <activity android:name=".gGoalInput.Second"
+            android:theme="@style/MyThemeNoActionBar"
+            android:exported="true" />
+        <activity android:name=".gGoalInput.Third"
+            android:theme="@style/MyThemeNoActionBar"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/MyThemeNoActionBar"

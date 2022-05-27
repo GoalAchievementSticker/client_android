@@ -116,14 +116,12 @@ public class custom_g_goal_click extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    for (int i = 0; i < count; i++){
-                        Log.d("여기도 없다 할래???", String.valueOf(adapter.getCount()));
+                    for (int i = 0; i < count; i++) {
                         ReadPersonalDialog2(i);
                     }
 
                 } else {
                     for (int i = 0; i < count; i++) {
-                        Log.d("여기도 없다 할래2???", String.valueOf(adapter.getCount()));
                         items.add(addGoal(i));
                     }
                 }
@@ -155,7 +153,8 @@ public class custom_g_goal_click extends AppCompatActivity {
 
 
         //0으로초기화 방지
-        //    ReadPersonalDialog();
+
+        ReadPersonalDialog();
         gridView.setAdapter(adapter);
 
 
@@ -265,7 +264,6 @@ public class custom_g_goal_click extends AppCompatActivity {
 
     //다이얼로그 저장된 함수 가져오기
     private void ReadPersonalDialog2(int i) {
-        Log.d("adapter.getCount() _0", String.valueOf(adapter.getCount()));
         postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -278,17 +276,12 @@ public class custom_g_goal_click extends AppCompatActivity {
 
                     //test
                     assert gridItem != null;
-                    Log.d("adapter.getCount() _1", String.valueOf(adapter.getCount()));
                     gridItem.goal_id = String.valueOf(i);
 
-                    Log.d("adapter.getCount() _2", String.valueOf(adapter.getCount()));
                     items.add(gridItem);
-                    Log.d("adapter.getCount() _3", String.valueOf(adapter.getCount()));
 
                 }
-                Log.d("adapter.getCount()_4", String.valueOf(adapter.getCount()));
                 gridView.setAdapter(adapter);
-                Log.d("adapter.getCount() _5", String.valueOf(adapter.getCount()));
                 adapter.notifyDataSetChanged();
 
             }
@@ -306,27 +299,27 @@ public class custom_g_goal_click extends AppCompatActivity {
     //프로그래스바 숫자 늘리기
     private void goal_count() {
         databaseReference.child(uid).child("dialog_group").child(key).child("gGoal").setValue(++p);
-        // ReadPersonalDialog();
+        ReadPersonalDialog();
     }
 
-    //다이얼로그 저장된 함수 가져오기
-//    private int ReadPersonalDialog() {
-//        databaseReference.child(uid).child("dialog_group").child(key).child("gGoal").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                p = snapshot.getValue(Integer.class);
-//                Log.d("TAG", String.valueOf(p));
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//                //Toast.makeText(MainActivity.this, "불러오기 실패", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        return p;
-//
-//    }
+    // 다이얼로그 저장된 함수 가져오기
+    private int ReadPersonalDialog() {
+        databaseReference.child(uid).child("dialog_group").child(key).child("gGoal").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                p = snapshot.getValue(Integer.class);
+                Log.d("TAG", String.valueOf(p));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                //Toast.makeText(MainActivity.this, "불러오기 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return p;
+
+    }
 }
