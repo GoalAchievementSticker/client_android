@@ -7,7 +7,7 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondaryVariant">@color/representative</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
@@ -23,7 +23,7 @@
     <style name="MyThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorAccent">@color/teal_200</item>
+        <item name="colorAccent">@color/representative</item>
     </style>
 
     <style name="Toolbar">
@@ -36,7 +36,7 @@
         <item name="android:background">@drawable/bottom_sheet_background</item>
     </style>
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@color/teal_200</item>
+        <item name="colorButtonNormal">#74D19D</item>
         <item name="android:background">@drawable/categoty_bg</item>
         <item name="colorAccent">#9FE8A2</item>
     </style>

@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="dialog1"
+                android:text="그룹도장판1"
                 android:textColor="@color/black"
                 android:textSize="20sp">
 
@@ -135,6 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                style="?android:attr/buttonBarButtonStyle"
                 android:text="취소" />
 
 
@@ -143,6 +144,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                style="?android:attr/buttonBarButtonStyle"
                 android:text="다음" />
         </LinearLayout>
 

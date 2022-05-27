@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="dialog3"
+                android:text="그룹도장판3"
                 android:textColor="@color/black"
                 android:textSize="20sp">
 
@@ -70,43 +70,51 @@
                         android:layout_marginBottom="10dp"
                         >
 
-                        <Button
+                        <ToggleButton
                             android:id="@+id/exercise"
                             android:layout_width="0dp"
                             android:layout_height="150dp"
                             android:layout_marginEnd="10dp"
                             android:layout_weight="1"
-                            android:text="운동"
-                            android:background="@drawable/categoty_bg" />
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:textOn="운동"
+                            android:textOff="운동"
+                            android:background="@drawable/toggle_selector" />
 
-                        <Button
+                        <ToggleButton
                             android:id="@+id/study"
                             android:layout_width="0dp"
                             android:layout_height="150dp"
                             android:layout_weight="1"
-                            android:text="공부"
-                            android:background="@drawable/categoty_bg"/>
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:textOn="공부"
+                            android:textOff="공부"
+                            android:background="@drawable/toggle_selector"/>
 
 
                     </TableRow>
 
                     <TableRow>
 
-                        <Button
+                        <ToggleButton
                             android:id="@+id/hobby"
                             android:layout_width="0dp"
                             android:layout_height="150dp"
                             android:layout_marginEnd="10dp"
-                            android:text="취미"
-                            android:background="@drawable/categoty_bg"
+                            android:textOn="취미"
+                            android:textOff="취미"
+                            android:background="@drawable/toggle_selector"
+                            style="?android:attr/buttonBarButtonStyle"
                             android:layout_weight="1" />
 
-                        <Button
+                        <ToggleButton
                             android:id="@+id/routine"
                             android:layout_width="0dp"
                             android:layout_height="150dp"
-                            android:text="루틴"
-                            android:background="@drawable/categoty_bg"
+                            android:textOn="루틴"
+                            android:textOff="루틴"
+                            android:background="@drawable/toggle_selector"
+                            style="?android:attr/buttonBarButtonStyle"
                             android:layout_weight="1" />
 
 
@@ -130,6 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                style="?android:attr/buttonBarButtonStyle"
                 android:text="이전" />
 
 
@@ -138,6 +147,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                style="?android:attr/buttonBarButtonStyle"
                 android:text="확인" />
         </LinearLayout>
 

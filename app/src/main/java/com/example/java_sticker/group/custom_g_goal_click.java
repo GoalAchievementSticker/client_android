@@ -1,4 +1,4 @@
-package com.example.java_sticker;
+package com.example.java_sticker.group;
 
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 
@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.java_sticker.R;
+import com.example.java_sticker.group.Custom_gAdapter;
+import com.example.java_sticker.group.g_GridItem;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -275,7 +277,7 @@ public class custom_g_goal_click extends AppCompatActivity {
                     g_GridItem gridItem = dataSnapshot.getValue(g_GridItem.class);
                     //test
                     assert gridItem != null;
-                    gridItem.goal_id = String.valueOf(i);
+                    gridItem.setGoal_id(String.valueOf(i));
                     items.add(gridItem);
 
                 }

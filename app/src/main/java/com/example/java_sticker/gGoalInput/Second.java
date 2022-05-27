@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,41 +48,31 @@ public class Second extends Fragment {
             //입력한값 형 변환
             String auth = authentication.getText().toString();
 
-            //First에서 받은 정보  get
-            int count = bundle_g.getInt("count");
-            String goal = bundle_g.getString("goal");
-            int limit = bundle_g.getInt("limit");
+            if (auth.matches(""))
+                Toast.makeText(getContext(), "인증방식을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            else {
+                //First에서 받은 정보  get
+                int count = bundle_g.getInt("count");
+                String goal = bundle_g.getString("goal");
+                int limit = bundle_g.getInt("limit");
 
 
-            //Third로 데이터 넘기기
-            bundle.putInt("count", count);
-            bundle.putString("goal", goal);
-            bundle.putInt("limit", limit);
+                //Third로 데이터 넘기기
+                bundle.putInt("count", count);
+                bundle.putString("goal", goal);
+                bundle.putInt("limit", limit);
 
-            bundle.putString("auth", auth);
-            Third.setArguments(bundle);
-            assert getFragmentManager() != null;
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.group_layout, Third);
-            //프래그먼트 트랜잭션을 백스택에 push
-            transaction.addToBackStack(null);
-            //프래그먼트 상태전환 최적화
-            transaction.setReorderingAllowed(true);
-            transaction.commit();
-            //  Intent intent = new Intent(this, Third.class);
-
-
-            //First에서 받은 데이터
-//            intent.putExtra("count",cnt);
-//            intent.putExtra("goal",goal);
-//            intent.putExtra("limit",limit);
-
-            //Second 정보
-//            intent.putExtra("auth", auth);
-
-
-            //       startActivity(intent);
-
+                bundle.putString("auth", auth);
+                Third.setArguments(bundle);
+                assert getFragmentManager() != null;
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.group_layout, Third);
+                //프래그먼트 트랜잭션을 백스택에 push
+                transaction.addToBackStack(null);
+                //프래그먼트 상태전환 최적화
+                transaction.setReorderingAllowed(true);
+                transaction.commit();
+            }
 
         });
         return view;

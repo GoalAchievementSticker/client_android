@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.java_sticker.GridItem;
 import com.example.java_sticker.R;
+import com.example.java_sticker.group.g_GridItem;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,14 +37,14 @@ public class First extends Fragment {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     DatabaseReference ds;
-    GridItem gd;
+    g_GridItem gd;
     private View view;
     Bundle bundle = new Bundle();
-    Fragment Second=new Second();
+    Fragment Second = new Second();
 
     @Nullable
     @Override
-    public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)  {
+    public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         assert inflater != null;
         view = inflater.inflate(R.layout.custom_g_input1, container, false);
 
@@ -60,30 +61,32 @@ public class First extends Fragment {
         });
         nxtBtn.setOnClickListener(view -> {
 
-            //입력한값 형 변환
-            int vi = Integer.parseInt(count.getText().toString());
-            String g = goal.getText().toString();
-            int l = Integer.parseInt(limit.getText().toString());
+            String _goal = goal.getText().toString();
+            String _count = count.getText().toString();
+            String _limit = limit.getText().toString();
 
-            bundle.putInt("count",vi);
-            bundle.putInt("limit",l);
-            bundle.putString("goal",g);
-            Second.setArguments(bundle);
+            if (_goal.matches("") || _count.matches("") || _limit.matches(""))
+                Toast.makeText(getContext(), "빈 입력칸이 있습니다.", Toast.LENGTH_SHORT).show();
 
-            assert getFragmentManager() != null;
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.group_layout, Second);
-            //프래그먼트 트랜잭션을 백스택에 push
-            transaction.addToBackStack(null);
-            //프래그먼트 상태전환 최적화
-            transaction.setReorderingAllowed(true);
-            transaction.commit();
-//            Intent intent = new Intent(this, Second.class);
-//            intent.putExtra("goal", g);
-//            intent.putExtra("count", vi);
-//            intent.putExtra("limit", l);
-//
-//            startActivity(intent);
+            else {
+                //입력한값 형 변환
+                int vi = Integer.parseInt(_count);
+                int l = Integer.parseInt(_limit);
+
+                bundle.putInt("count", vi);
+                bundle.putInt("limit", l);
+                bundle.putString("goal", _goal);
+                Second.setArguments(bundle);
+
+                assert getFragmentManager() != null;
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.group_layout, Second);
+                //프래그먼트 트랜잭션을 백스택에 push
+                transaction.addToBackStack(null);
+                //프래그먼트 상태전환 최적화
+                transaction.setReorderingAllowed(true);
+                transaction.commit();
+            }
 
 
         });

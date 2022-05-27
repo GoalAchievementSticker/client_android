@@ -185,7 +185,7 @@ public class FragJoin extends Fragment {
 
         Bundle bundle=this.getArguments();
 
-        int count = Objects.requireNonNull(bundle).getInt("count");
+        int count = bundle.getInt("count");
         int limit = bundle.getInt("limit");
         String goal = bundle.getString("goal");
         String auth = bundle.getString("auth");
