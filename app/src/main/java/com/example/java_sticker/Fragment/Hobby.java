@@ -23,22 +23,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Hobby#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class Hobby extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private ArrayList<GroupDialog> groupDialogs = new ArrayList<>();
-    private RecyclerView recyclerView;
+    private final ArrayList<GroupDialog> groupDialogs = new ArrayList<>();
     private CategoryAdapter mAdapter;
-    private Toolbar toolbar;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference categoryReference = firebaseDatabase.getReference("Category");
@@ -51,15 +46,6 @@ public class Hobby extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Hobby.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Hobby newInstance(String param1, String param2) {
         Hobby fragment = new Hobby();
         Bundle args = new Bundle();
@@ -87,17 +73,12 @@ public class Hobby extends Fragment {
 //        getActivity().getSupportFragmentManager().popBackStack();
 
         View view = inflater.inflate(R.layout.fragment_hobby, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.fraghome_hobby_ry);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar_hobby);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fraghome_hobby_ry);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar_hobby);
         recyclerView.setHasFixedSize(true);
         mAdapter = new CategoryAdapter(groupDialogs);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view1 -> requireActivity().onBackPressed());
 
         RecyclerView.LayoutManager manager = new GridLayoutManager(getActivity(),2);
         recyclerView.setLayoutManager(manager);

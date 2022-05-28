@@ -1,5 +1,6 @@
 package com.example.java_sticker.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private ArrayList<GroupDialog> mDataset;
     Intent studydata;
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView tittle, person_count, goal_count;
         CardView cardView;
 
@@ -53,15 +54,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
         holder.tittle.setText(mDataset.get(position).getgTittle());
         holder.person_count.setText(String.valueOf(mDataset.get(position).getLimit()));
-        holder.goal_count.setText(String.valueOf(mDataset.get(position).getgCount())+"개");
+        holder.goal_count.setText(mDataset.get(position).getgCount() +"개");
+
         holder.cardView.setOnClickListener(view -> {
             //클릭시 프래그먼트로 데이터 보내기
             Bundle bundle = new Bundle();
-            bundle.putString("tittle",mDataset.get(position).getgTittle());
+
+            bundle.putString("goal",mDataset.get(position).getgTittle()); //목표제목
+            bundle.putInt("limit",mDataset.get(position).getLimit());//제한인원
+            bundle.putString("count",mDataset.get(position).getgCount() +"개");//총 도장수
+            bundle.putString("auth",mDataset.get(position).getAuth());//인증방식
+            bundle.putString("cate",mDataset.get(position).getCate()); //카테고리
+
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
             Fragment DetailFragment = new DetailFragment();
             DetailFragment.setArguments(bundle);

@@ -83,20 +83,18 @@ public class Group_main extends AppCompatActivity {
 
     //카테고리 프래그먼트 전환
     //0:공부, 1:운동, 2:취미, 3:루틴
-    public  void onFragmentChange(int index){
-        if(index == 0 ){
+    public void onFragmentChange(int index) {
+        if (index == 0) {
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_study).addToBackStack(null).commit();
-        } else if(index == 1){
+        } else if (index == 1) {
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_exercise).addToBackStack(null).commit();
-        }
-        else if(index == 2){
+        } else if (index == 2) {
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_hobby).addToBackStack(null).commit();
-        }else if(index == 3){
+        } else if (index == 3) {
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_routin).addToBackStack(null).commit();
         }
 
     }
-
 
 
 }

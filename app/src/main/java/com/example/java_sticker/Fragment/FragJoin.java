@@ -3,6 +3,7 @@ package com.example.java_sticker.Fragment;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.java_sticker.Group_main;
 import com.example.java_sticker.group.Custom_g_item_adapter;
 import com.example.java_sticker.group.g_GridItem;
 import com.example.java_sticker.group.GroupDialog;
@@ -88,6 +90,21 @@ public class FragJoin extends Fragment {
     RecyclerView g_goal_recycler;
     Custom_g_item_adapter gAdapter;
     View cv;
+
+    Group_main group_main;
+
+    @Override
+    public void onAttach(@NonNull Context context){
+        super.onAttach(context);
+
+        group_main = (Group_main) getActivity();
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        group_main = null;
+    }
 
 
     @Nullable

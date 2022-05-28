@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Java_Sticker" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Theme.Java_Sticker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -39,5 +39,16 @@
         <item name="colorButtonNormal">#74D19D</item>
         <item name="android:background">@drawable/categoty_bg</item>
         <item name="colorAccent">#9FE8A2</item>
+    </style>
+    <style name="MyMaterialTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Add attributes here -->
+        <item name="android:background">@drawable/gfab_bg</item>
+        <item name="colorAccent">@color/representative</item>
+        <item name="textAppearanceButton">@style/AppTextAppearance.Button</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    <!--To fix rendering in preview -->
+    <style name="AppTextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
+
     </style>
 </resources>
