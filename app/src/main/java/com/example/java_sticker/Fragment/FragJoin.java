@@ -46,6 +46,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FragJoin extends Fragment {
     private View view;
@@ -225,7 +226,7 @@ public class FragJoin extends Fragment {
         DatabaseReference keyRef = databaseReference.child(uid).child("dialog_group").child(key);
         DatabaseReference categroyRef = categoryReference.child(cate).child(key);
         //list에 추가
-        GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate);  //수,목표,제한,인증,카테고리
+        GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate, 1);  //수,목표,제한,인증,카테고리
         gDialog.add(groupDialog);
 
         gAdapter.notifyDataSetChanged();
@@ -233,15 +234,17 @@ public class FragJoin extends Fragment {
 
         //생성된 레코드 파이어베이스 저장
         keyRef.setValue(groupDialog);
+        //uid 정보값 push()키로 저장하기
+        keyRef.child("uid").push().setValue(uid);
 
         //카테고리 레코드 파이어베이스에도 저장
         categroyRef.setValue(groupDialog);
 
         //도장판 gridview 데이터 저장
-        ds = databaseReference.child(uid).child("goal_group").child(key).child("도장판");
-        for (int i = 0; i < count; i++) {
-            items.add(addGoal(i));
-        }
+//        ds = databaseReference.child(uid).child("goal_group").child(key).child("도장판");
+//        for (int i = 0; i < count; i++) {
+//            items.add(addGoal(i));
+//        }
 
         new Handler().postDelayed(this::ReadGroupDialog, 400);
 
@@ -272,12 +275,22 @@ public class FragJoin extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 gDialog.clear();
+                List<String> uid = new ArrayList<>();
                 //Log.d("TAG", String.valueOf(snapshot));
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
                     GroupDialog read_g = dataSnapshot.getValue(GroupDialog.class);
                     assert read_g != null;
                     read_g.key = key;
+
+                    //uid값 가져오기
+                    for(DataSnapshot dataSnapshot1 : dataSnapshot.child("uid").getChildren()){
+                        uid.add(dataSnapshot1.getValue(String.class));
+                        Log.d("TAG", String.valueOf(uid));
+                        Log.d("TAG", String.valueOf(uid.size()));
+                    }
+
+
                     //Log.d("TAG", read_g.getgTittle());
                     //Log.d("TAG", String.valueOf(read_g.getgCount()));
 
@@ -296,6 +309,7 @@ public class FragJoin extends Fragment {
             }
         });
     }
+
 
 
     //도장판칸 생성

@@ -58,7 +58,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
         holder.tittle.setText(mDataset.get(position).getgTittle());
-        holder.person_count.setText(String.valueOf(mDataset.get(position).getLimit()));
+        holder.person_count.setText(String.valueOf(mDataset.get(position).getLimit_count())+"/"+String.valueOf(mDataset.get(position).getLimit()));
         holder.goal_count.setText(mDataset.get(position).getgCount() +"개");
 
         holder.cardView.setOnClickListener(view -> {
