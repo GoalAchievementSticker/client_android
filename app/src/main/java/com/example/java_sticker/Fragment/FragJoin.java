@@ -239,6 +239,7 @@ public class FragJoin extends Fragment {
 
         //카테고리 레코드 파이어베이스에도 저장
         categroyRef.setValue(groupDialog);
+        categroyRef.child("uid").push().setValue(uid);
 
         //도장판 gridview 데이터 저장
 //        ds = databaseReference.child(uid).child("goal_group").child(key).child("도장판");
