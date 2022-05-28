@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,7 @@ public class FragJoin extends Fragment {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference profile_databaseReference = firebaseDatabase.getReference();
     DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
+    DatabaseReference categoryReference = firebaseDatabase.getReference("Category");
 
     //그리드뷰 데이터 저장
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -204,6 +206,7 @@ public class FragJoin extends Fragment {
         String key = databaseReference.push().getKey();
         assert key != null;
         DatabaseReference keyRef = databaseReference.child(uid).child("dialog_group").child(key);
+        DatabaseReference categroyRef = categoryReference.child(cate).child(key);
         //list에 추가
         GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate);  //수,목표,제한,인증,카테고리
         gDialog.add(groupDialog);
@@ -214,6 +217,8 @@ public class FragJoin extends Fragment {
         //생성된 레코드 파이어베이스 저장
         keyRef.setValue(groupDialog);
 
+        //카테고리 레코드 파이어베이스에도 저장
+        categroyRef.setValue(groupDialog);
 
         //도장판 gridview 데이터 저장
         ds = databaseReference.child(uid).child("goal_group").child(key).child("도장판");
@@ -256,10 +261,8 @@ public class FragJoin extends Fragment {
                     GroupDialog read_g = dataSnapshot.getValue(GroupDialog.class);
                     assert read_g != null;
                     read_g.key = key;
-                    Log.d("TAG", read_g.getgTittle());
-                    Log.d("TAG", String.valueOf(read_g.getgCount()));
-                    //Log.d("TAG", String.valueOf(read_g.getgGoal()));
-                    //Log.d("TAG", key);
+                    //Log.d("TAG", read_g.getgTittle());
+                    //Log.d("TAG", String.valueOf(read_g.getgCount()));
 
                     gDialog.add(read_g);
 
@@ -276,6 +279,7 @@ public class FragJoin extends Fragment {
             }
         });
     }
+
 
     //도장판칸 생성
     private g_GridItem addGoal(int i) {

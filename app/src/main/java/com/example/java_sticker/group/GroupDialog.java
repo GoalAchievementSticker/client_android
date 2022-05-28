@@ -8,6 +8,7 @@ public class GroupDialog {
     int limit;//제한인원
     String auth;//인증방식
     String cate;// 카테고리
+   // String[] uid;
 
 
     public GroupDialog(){
@@ -22,6 +23,7 @@ public class GroupDialog {
         this.key = key;
         this.gGoal = gGoal;
         this.cate=cate;
+       // this.uid = uid;
 
     }
 
@@ -78,5 +80,15 @@ public class GroupDialog {
     public void setCate(String cate) {
         this.cate = cate;
     }
-    public String getCate(){return cate;}
+    public String getCate(){
+        return cate;
+    }
+
+//    public String[] getUid() {
+//        return uid;
+//    }
+//
+//    public void setUid(String[] uid) {
+//        this.uid = uid;
+//    }
 }
