@@ -1,15 +1,23 @@
 package com.example.java_sticker.Fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
 import com.example.java_sticker.group.GroupDialog;
 
@@ -52,8 +60,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.goal_count.setText(String.valueOf(mDataset.get(position).getgCount())+"개");
         holder.cardView.setOnClickListener(view -> {
             //클릭시 프래그먼트로 데이터 보내기
-            //AppCompatActivity activity = (AppCompatActivity) view.getContext();
-           // activity.getFragmentManager().beginTransaction().replace(R.id.fragment_place, new Fragment1()).addToBackStack(null).commit();
+            Bundle bundle = new Bundle();
+            bundle.putString("tittle",mDataset.get(position).getgTittle());
+            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+            Fragment DetailFragment = new DetailFragment();
+            DetailFragment.setArguments(bundle);
+            FragmentManager fragmentManager = ((Group_main)view.getContext()).getSupportFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.group_layout,DetailFragment).addToBackStack(null).commit();
+            //activity.getFragmentManager().beginTransaction().replace(R.id.group_layout, DetailFragment).addToBackStack(null).commit();
+
+           // ((Group_main) view.getContext()).getFragmentManager().beginTransaction().replace(R.id.group_layout, DetailFragment).commit();
 
         });
 

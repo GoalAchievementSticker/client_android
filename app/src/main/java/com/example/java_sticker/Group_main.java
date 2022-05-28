@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 
+import com.example.java_sticker.Fragment.DetailFragment;
 import com.example.java_sticker.Fragment.Exercise;
 import com.example.java_sticker.Fragment.FragHome;
 import com.example.java_sticker.Fragment.FragJoin;
@@ -30,6 +31,7 @@ public class Group_main extends AppCompatActivity {
     Fragment fragment_hobby;
     Fragment fragment_routin;
     Fragment fragment_exercise;
+    //Fragment DetailFragment;
 
     Toolbar toolbar;
 
@@ -55,6 +57,7 @@ public class Group_main extends AppCompatActivity {
         fragment_hobby = new Hobby();
         fragment_routin = new Routin();
 
+        //DetailFragment = new DetailFragment();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_home).commitAllowingStateLoss();
 
