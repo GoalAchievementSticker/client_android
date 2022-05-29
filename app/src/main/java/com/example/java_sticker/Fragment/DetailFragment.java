@@ -15,6 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.java_sticker.R;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class DetailFragment extends Fragment {
@@ -35,7 +39,17 @@ public class DetailFragment extends Fragment {
     TextView auth;
     TextView limit;
     TextView cate;
+    ExtendedFloatingActionButton fab;
 
+    //FB
+    String uid;
+    FirebaseUser user;
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference profile_databaseReference = firebaseDatabase.getReference();
+    DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
+    DatabaseReference categoryReference = firebaseDatabase.getReference("Category");
+
+    int p;
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -77,33 +91,59 @@ public class DetailFragment extends Fragment {
         auth = view.findViewById(R.id.auth);
         limit = view.findViewById(R.id.limit);
         cate = view.findViewById(R.id.cate);
+        fab=view.findViewById(R.id.detail_fab);
 
         try {
-            GetBundle();
+            Bundle bundle = this.getArguments();
+
+            String _count = bundle.getString("count");
+            int _limit = bundle.getInt("limit");
+            String _goal = bundle.getString("goal");
+            String _auth = bundle.getString("auth");
+            String _cate = bundle.getString("cate");
+
+            Log.d("getBundle",_count+"/ "+_limit+"/ "+_goal+"/ "+_auth+"/ "+_cate);
+            goal.setText(_goal);
+            count.setText(_count);
+            auth.setText(_auth);
+            limit.setText(String.valueOf(_limit));
+            cate.setText(_cate);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
+
+        String key = databaseReference.push().getKey();
+        assert key != null;
+        DatabaseReference keyRef = databaseReference.child(uid).child("dialog_group").child(key);
+        DatabaseReference categroyRef = categoryReference.child(String.valueOf(cate)).child(key);
+
+
+        //생성된 레코드 파이어베이스 저장
+        keyRef.setValue(groupDialog);
+        //uid 정보값 push()키로 저장하기
+        keyRef.child("uid").push().setValue(uid);
+
+        //카테고리 레코드 파이어베이스에도 저장
+        categroyRef.setValue(groupDialog);
+        categroyRef.child("uid").push().setValue(uid);
+
+
+        databaseReference.child(uid).child("dialog_personal").child(key).child("pGoal").setValue(++p);
+        ReadPersonalDialog();
+
+
+        //limit_count 증가
+        //참여중 리사이클러뷰에 옮기기
+        //limit_count랑 limit이랑 같으면 category에서 지우기
+        fab.setOnClickListener(view->{
+            keyRef.child("limit_count").setValue(++p);
+            categroyRef.child("limit_count").setValue(++p);
+        });
 
 
         // Inflate the layout for this fragment
         return view;
     }
 
-    private void GetBundle() {
-        Bundle bundle = this.getArguments();
-
-        String _count = bundle.getString("count");
-        int _limit = bundle.getInt("limit");
-        String _goal = bundle.getString("goal");
-        String _auth = bundle.getString("auth");
-        String _cate = bundle.getString("cate");
-
-        Log.d("getBundle",_count+"/ "+_limit+"/ "+_goal+"/ "+_auth+"/ "+_cate);
-        goal.setText(_goal);
-        count.setText(_count);
-        auth.setText(_auth);
-        limit.setText(String.valueOf(_limit));
-        cate.setText(_cate);
-    }
 }
