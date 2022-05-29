@@ -57,9 +57,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
-        holder.tittle.setText(mDataset.get(position).getgTittle());
-        holder.person_count.setText(String.valueOf(mDataset.get(position).getLimit_count())+"/"+String.valueOf(mDataset.get(position).getLimit()));
-        holder.goal_count.setText(mDataset.get(position).getgCount() +"개");
+        holder.tittle.setText(mDataset.get(position).getgTittle());//목표명
+        holder.person_count.setText(mDataset.get(position).getLimit_count() +"/"+ mDataset.get(position).getLimit()); //참가인원 수
+        holder.goal_count.setText(mDataset.get(position).getgCount() +"개"); //스티커 개수
 
         holder.cardView.setOnClickListener(view -> {
             //클릭시 프래그먼트로 데이터 보내기

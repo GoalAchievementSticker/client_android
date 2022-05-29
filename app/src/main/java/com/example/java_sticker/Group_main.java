@@ -7,13 +7,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 
-import com.example.java_sticker.Fragment.DetailFragment;
 import com.example.java_sticker.Fragment.Exercise;
 import com.example.java_sticker.Fragment.FragHome;
 import com.example.java_sticker.Fragment.FragJoin;
+import com.example.java_sticker.Fragment.w_FragJoin;
 import com.example.java_sticker.Fragment.FragMypage;
 import com.example.java_sticker.Fragment.Hobby;
 import com.example.java_sticker.Fragment.Routin;
@@ -68,7 +67,9 @@ public class Group_main extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_home).commitAllowingStateLoss();
                     return true;
                 case R.id.join_group:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_group_join).commitAllowingStateLoss();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_group_join)
+                            .addToBackStack(String.valueOf(fragment_group_join))
+                            .commitAllowingStateLoss();
                     return true;
 
                 case R.id.mypage:
