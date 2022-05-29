@@ -67,9 +67,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
             bundle.putString("goal",mDataset.get(position).getgTittle()); //목표제목
             bundle.putInt("limit",mDataset.get(position).getLimit());//제한인원
-            bundle.putString("count",mDataset.get(position).getgCount() +"개");//총 도장수
+            bundle.putInt("limit_count", mDataset.get(position).getLimit_count()); //참가한 인원
+            bundle.putInt("count",mDataset.get(position).getgCount());//총 도장수
             bundle.putString("auth",mDataset.get(position).getAuth());//인증방식
             bundle.putString("cate",mDataset.get(position).getCate()); //카테고리
+            bundle.putString("key", mDataset.get(position).getKey()); //리사이클러뷰 고유키
 
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
             Fragment DetailFragment = new DetailFragment();
