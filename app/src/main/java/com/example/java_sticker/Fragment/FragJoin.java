@@ -36,9 +36,9 @@ public class FragJoin extends Fragment {
         assert inflater != null;
         view = inflater.inflate(R.layout.fragjoin, container, false);
         //FAT
-        fab_g = view.findViewById(R.id.fab_g);
-        //FAB 클릭 시
-        fab_g.setOnClickListener(view -> toggleFab());
+//        fab_g = view.findViewById(R.id.fab_g);
+//        //FAB 클릭 시
+//        fab_g.setOnClickListener(view -> toggleFab());
         setTabLayout();
         loadTabName();
         return view;
@@ -49,7 +49,7 @@ public class FragJoin extends Fragment {
         Fragment First = new First();
         assert getFragmentManager() != null;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(R.id.group_layout, First);
+        transaction.add(R.id.viewPager, First);
         //프래그먼트 트랜잭션을 백스택에 push
         transaction.addToBackStack(null);
         //프래그먼트 상태전환 최적화

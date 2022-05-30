@@ -98,6 +98,7 @@ public class w_FragJoin extends Fragment {
     private ArrayList<String> tabNames = new ArrayList<>();
     TabLayout tabLayout;
 
+    ViewPager viewPager;
 
     public w_FragJoin() {
         // Required empty public constructor
@@ -212,11 +213,11 @@ public class w_FragJoin extends Fragment {
         });
 
         //FAT
-      //  fab_g = view.findViewById(R.id.fab_g);
+        fab_g = view.findViewById(R.id.fab_g);
         isFabOpen = false; // Fab 버튼 default는 닫혀있음
 
         //FAB 클릭 시
-     //   fab_g.setOnClickListener(view -> toggleFab());
+        fab_g.setOnClickListener(view -> toggleFab());
 
 
         //항상 카드뷰 읽어오기
@@ -317,16 +318,17 @@ public class w_FragJoin extends Fragment {
     }
 
     private void toggleFab() {
-        ObjectAnimator.ofFloat(fab_g, View.ROTATION, 0f, 45f).start();
+//        ObjectAnimator.ofFloat(fab_g, View.ROTATION, 0f, 45f).start();
         Fragment First = new First();
         assert getFragmentManager() != null;
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.add(R.id.group_layout, First);
+        FragmentTransaction transaction =getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragjoin, First);
         //프래그먼트 트랜잭션을 백스택에 push
         transaction.addToBackStack(null);
         //프래그먼트 상태전환 최적화
         transaction.setReorderingAllowed(true);
         transaction.commit();
+
 
     }
 
