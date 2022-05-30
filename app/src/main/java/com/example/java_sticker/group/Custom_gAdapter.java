@@ -72,13 +72,10 @@ public class Custom_gAdapter extends BaseAdapter {
 
         if(gridItem!=null) {
             // Got the download URL for 'plus.png'
-            Toast.makeText(context,"해당 셀이 null 이 아닙니다",Toast.LENGTH_LONG).show();
             Glide.with(context)
                     .load(gridItem.getTest())
                     .into(sticker_img);
 
-        }else{
-            Toast.makeText(context,"해당 셀이 null 입니다",Toast.LENGTH_LONG).show();
         }
 
         sticker_img.setOnClickListener(view->{});

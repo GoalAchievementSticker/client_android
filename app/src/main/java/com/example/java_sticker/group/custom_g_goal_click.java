@@ -106,7 +106,7 @@ public class custom_g_goal_click extends AppCompatActivity {
         gridView.addHeaderView(header);
 
 
-        ds = databaseReference.child(uid).child("goal_group").child(key).child("도장판");
+        ds = databaseReference.child(uid).child("goal_group").child(key).child(uid).child("도장판");
         header_goal.setText(g_tittle);
 
         //bottom sheet
@@ -123,10 +123,6 @@ public class custom_g_goal_click extends AppCompatActivity {
                         ReadPersonalDialog2(i);
                     }
 
-                } else {
-                    for (int i = 0; i < count; i++) {
-                        items.add(addGoal(i));
-                    }
                 }
             }
 

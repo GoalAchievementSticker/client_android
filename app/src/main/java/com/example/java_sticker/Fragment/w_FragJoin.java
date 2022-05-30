@@ -288,7 +288,7 @@ public class w_FragJoin extends Fragment {
         String auth = prefs.getString("auth",null);
         String cate = prefs.getString("cate",null);
 
-
+        //Log.d("TAG", count);
 
         //파이어베이스 저장
         //고유키와 함께 저장히기 위한 장치
@@ -299,6 +299,7 @@ public class w_FragJoin extends Fragment {
         //list에 추가
         GroupDialog groupDialog = new GroupDialog(Integer.parseInt(count), goal, Integer.parseInt(limit), auth, key, 0, cate, 1);  //수,목표,제한,인증,카테고리
         gDialog.add(groupDialog);
+        Log.d("TAG", String.valueOf(groupDialog));
 
         gAdapter.notifyDataSetChanged();
 
@@ -358,8 +359,8 @@ public class w_FragJoin extends Fragment {
                     //uid값 가져오기
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.child("uid").getChildren()) {
                         uid.add(dataSnapshot1.getValue(String.class));
-                        Log.d("TAG", String.valueOf(uid));
-                        Log.d("TAG", String.valueOf(uid.size()));
+                       // Log.d("TAG", String.valueOf(uid));
+                        //Log.d("TAG", String.valueOf(uid.size()));
                     }
 
 

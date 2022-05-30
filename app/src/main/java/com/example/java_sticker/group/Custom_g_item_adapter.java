@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -87,14 +88,20 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
         holder.g_goal_progressBar.setMaxValue(item.gCount);
        // Log.d("TAG", String.valueOf(item.gCount));
         holder.g_goal_progressBar.setCurValue(item.gGoal);
-        holder.cardView.setOnClickListener(view -> {
-            intent = new Intent(view.getContext(), custom_g_goal_click.class);
-            intent.putExtra("tittle",item.getgTittle());
-            intent.putExtra("key", item.getKey());
-            intent.putExtra("count", item.getgCount());
-            view.getContext().startActivity(intent);
-
-
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(item.getLimit() == item.getLimit_count()){
+                    intent = new Intent(view.getContext(), custom_g_goal_click.class);
+                    intent.putExtra("tittle",item.getgTittle());
+                    intent.putExtra("key", item.getKey());
+                    intent.putExtra("count", item.getgCount());
+                    view.getContext().startActivity(intent);
+                }
+                else{
+                    Toast.makeText(context,"아직 참가인원이 채워지지 않았습니다", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
     }
