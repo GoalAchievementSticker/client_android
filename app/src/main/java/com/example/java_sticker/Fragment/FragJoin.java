@@ -16,6 +16,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.java_sticker.Group_main;
+import com.example.java_sticker.group.Custom_g_item_adapter;
+import com.example.java_sticker.group.g_GridItem;
+import com.example.java_sticker.group.GroupDialog;
 import com.example.java_sticker.R;
 import com.example.java_sticker.gGoalInput.First;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
