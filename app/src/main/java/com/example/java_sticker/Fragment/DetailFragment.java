@@ -192,7 +192,7 @@ public class DetailFragment extends Fragment {
 
                         //위에 for문을 돌고 참가한 유저가 아니라면 uid에 추가해준다.
                         //카테고리 + GroupDialog(최초작성한 유저 uid에 들어감) + 참가한 유저 groupDialog 새로 추가해줌+uid반영..
-                        if(status == false){
+                        if(!status){
                             //카테고리 uid 접근, 카테고리 limit_count 접근
                             DatabaseReference add_category_uid = categoryReference.child(_cate).child(_key).child("uid");
                             DatabaseReference add_category_limit_count = categoryReference.child(_cate).child(_key).child("limit_count");
@@ -221,10 +221,13 @@ public class DetailFragment extends Fragment {
                             add_GroupDialog_button_click_user.child("uid").push().setValue(uid);
 
                         }
+
                         Log.d("TAG", String.valueOf(uid_key)+"첫번째");
+
+
                         if(uid_key.size()+1 == _limit) {
                             uid_key.add(uid);
-                            Log.d("TAG", String.valueOf(uid_key) + "두번째");
+                            Log.d("TAG", uid_key + "두번째");
                             //만든 유저 도장판 uid에 참가 uid 도장판 추가
                             for (int t = 0; t < uid_key.size(); t++) {//??????대체 뭐가 문제
                                 //uid 참가한 유저 배열 위치 순서대로
