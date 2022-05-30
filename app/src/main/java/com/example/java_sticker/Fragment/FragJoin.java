@@ -101,13 +101,11 @@ public class FragJoin extends Fragment {
         // add your fragments
         adapter.addFrag(new w_FragJoin(), "대기 중");
         adapter.addFrag(new j_FragJoin(), "참여 중");
-
-
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
+                mViewPager.setCurrentItem(tab.getPosition(),true);
             }
 
             @Override
@@ -122,7 +120,7 @@ public class FragJoin extends Fragment {
         });
         // set adapter on viewpager
         mViewPager.setAdapter(adapter);
-        mViewPager.setSaveEnabled(false);
+        mViewPager.setSaveEnabled(true);
     }
 
     @TargetApi(Build.VERSION_CODES.N)

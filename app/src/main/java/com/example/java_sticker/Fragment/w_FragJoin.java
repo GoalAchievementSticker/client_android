@@ -1,10 +1,14 @@
 package com.example.java_sticker.Fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.java_sticker.Group_main;
+import com.example.java_sticker.gGoalInput.gGoalInputActivity;
 import com.example.java_sticker.group.Custom_g_item_adapter;
 import com.example.java_sticker.group.g_GridItem;
 import com.example.java_sticker.group.GroupDialog;
@@ -45,6 +50,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class w_FragJoin extends Fragment {
     private View view;
@@ -100,6 +106,11 @@ public class w_FragJoin extends Fragment {
 
     ViewPager viewPager;
 
+
+    public static final String MyPREFERENCES = "MyPrefs";
+
+
+
     public w_FragJoin() {
         // Required empty public constructor
     }
@@ -118,8 +129,6 @@ public class w_FragJoin extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
-        group_main = (Group_main) getActivity();
     }
 
     @Override
@@ -143,8 +152,6 @@ public class w_FragJoin extends Fragment {
 //        loadTabName();
 //        setTabLayout();
 //        setViewPager();
-
-
 
 
 //        toolbar = view.findViewById(R.id.toolbar);
@@ -172,7 +179,6 @@ public class w_FragJoin extends Fragment {
         //리사이클러뷰 클릭했을때 나오는 도장판 연결
         items = new ArrayList<g_GridItem>();
 //        adapter = new Custom_pAdapter(this, items);
-
 
 
         //툴바 유저 네임 설정
@@ -222,11 +228,6 @@ public class w_FragJoin extends Fragment {
 
         //항상 카드뷰 읽어오기
         ReadGroupDialog();
-        try {
-            UploadData();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
         return view;
 
     }
@@ -268,20 +269,25 @@ public class w_FragJoin extends Fragment {
 //    }
 
     private void UploadData() {
-        Bundle bundle = this.getArguments();
+//
+//        Bundle bundle = this.getArguments();
+////        Log.d("여기야2","여긴 나오네");
+//        int count = bundle.getInt("count");
+//        int limit = bundle.getInt("limit");
+//        String goal = bundle.getString("goal");
+//        String auth = bundle.getString("auth");
+//        String cate = bundle.getString("cate");
 
-        int count = bundle.getInt("count");
-        int limit = bundle.getInt("limit");
-        String goal = bundle.getString("goal");
-        String auth = bundle.getString("auth");
-        String cate = bundle.getString("cate");
 
+        // Log.d("여기야2", String.valueOf(count));
 
-        Log.d("count", String.valueOf(count));
-        Log.d("limit", String.valueOf(limit));
-        Log.d("goal", goal);
-        Log.d("auth", auth);
-        Log.d("cate", cate);
+        SharedPreferences prefs = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        String count = prefs.getString("count",null);
+        String limit = prefs.getString("limit",null);
+        String goal = prefs.getString("goal",null);
+        String auth = prefs.getString("auth",null);
+        String cate = prefs.getString("cate",null);
+
 
 
         //파이어베이스 저장
@@ -291,7 +297,7 @@ public class w_FragJoin extends Fragment {
         DatabaseReference keyRef = databaseReference.child(uid).child("dialog_group").child(key);
         DatabaseReference categoryRef = categoryReference.child(cate).child(key);
         //list에 추가
-        GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate, 1);  //수,목표,제한,인증,카테고리
+        GroupDialog groupDialog = new GroupDialog(Integer.parseInt(count), goal, Integer.parseInt(limit), auth, key, 0, cate, 1);  //수,목표,제한,인증,카테고리
         gDialog.add(groupDialog);
 
         gAdapter.notifyDataSetChanged();
@@ -319,16 +325,17 @@ public class w_FragJoin extends Fragment {
 
     private void toggleFab() {
 //        ObjectAnimator.ofFloat(fab_g, View.ROTATION, 0f, 45f).start();
-        Fragment First = new First();
-        assert getFragmentManager() != null;
-        FragmentTransaction transaction =getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragjoin, First);
-        //프래그먼트 트랜잭션을 백스택에 push
-        transaction.addToBackStack(null);
-        //프래그먼트 상태전환 최적화
-        transaction.setReorderingAllowed(true);
-        transaction.commit();
+//        Fragment First = new First();
+//        assert getFragmentManager() != null;
+//        FragmentTransaction transaction =getFragmentManager().beginTransaction();
+//        transaction.replace(R.id.fragjoin, First);
+//        //프래그먼트 트랜잭션을 백스택에 push
+//        transaction.addToBackStack(null);
+//        //프래그먼트 상태전환 최적화
+//        transaction.setReorderingAllowed(true);
+//        transaction.commit();
 
+        startActivity(new Intent(getActivity(), gGoalInputActivity.class));
 
     }
 

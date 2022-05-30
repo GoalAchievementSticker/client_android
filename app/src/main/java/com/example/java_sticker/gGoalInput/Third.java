@@ -1,7 +1,11 @@
 package com.example.java_sticker.gGoalInput;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +16,15 @@ import android.widget.ToggleButton;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.java_sticker.Fragment.FragInputCheck;
+import com.example.java_sticker.Fragment.FragJoin;
 import com.example.java_sticker.Fragment.w_FragJoin;
+import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
+
+import java.util.Objects;
 
 public class Third extends Fragment implements View.OnClickListener {
 
@@ -25,9 +34,14 @@ public class Third extends Fragment implements View.OnClickListener {
     ToggleButton routine;
     Bundle bundle = new Bundle();
     Fragment FragInputCheck = new FragInputCheck();
-    Fragment FragJoin = new w_FragJoin();
+    Fragment w_fragJoin = new w_FragJoin();
 
     private View view;
+    //viewpager
+    //private ViewPager viewPager;
+
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
 
     @Nullable
     @Override
@@ -35,6 +49,12 @@ public class Third extends Fragment implements View.OnClickListener {
 
         assert inflater != null;
         view = inflater.inflate(R.layout.custom_g_input3, container, false);
+
+
+        // w_FragJoin fj = ((w_FragJoin) this.getParentFragment());
+//        if (fj != null) {
+//            viewPager = fj.getView().findViewById(R.id.viewPager);
+//        }
 
 
         exercise = view.findViewById(R.id.exercise);
@@ -52,45 +72,69 @@ public class Third extends Fragment implements View.OnClickListener {
         routine.setOnClickListener(this);
         study.setOnClickListener(this);
 
+        sharedpreferences =  getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
 
         preBtn.setOnClickListener(view -> {
                     assert getFragmentManager() != null;
                     getFragmentManager().popBackStack();
                 }
         );
-        OKBtn.setOnClickListener(view -> ToFragjoin());
+        OKBtn.setOnClickListener(view -> {
+            if (!(exercise.isChecked() || hobby.isChecked() || routine.isChecked() || study.isChecked()))
+                Toast.makeText(getContext(), "카테고리를 선택해주세요", Toast.LENGTH_SHORT).show();
+            else
+                ToFragjoin();
+        });
 
         return view;
     }
 
     private void ToFragjoin() {
         //fragment에서 데이터 받기
-        Bundle bundle_g = this.getArguments();
-        //First
-        int cnt = bundle_g.getInt("count");
-        String goal = bundle_g.getString("goal");
-        int limit = bundle_g.getInt("limit");
+       // Bundle bundle_g = this.getArguments();
 
-        //Second
-        String auth = bundle_g.getString("auth");
+        int cnt = 0;
 
-        //First에서 받은 데이터
-        bundle.putInt("count", cnt);
-        bundle.putString("goal", goal);
-        bundle.putInt("limit", limit);
+//        //First
+//        cnt = bundle_g.getInt("count");
+//        String goal = bundle_g.getString("goal");
+//        int limit = bundle_g.getInt("limit");
+//
+//        //Second
+//        String auth = bundle_g.getString("auth");
+//
+//
+//        //First에서 받은 데이터
+//        bundle.putInt("count", cnt);
+//        bundle.putString("goal", goal);
+//        bundle.putInt("limit", limit);
+//
+//        //Second 정보
+//        bundle.putString("auth", auth);
+//
+//        w_fragJoin.setArguments(bundle);
 
-        //Second 정보
-        bundle.putString("auth", auth);
 
-        FragJoin.setArguments(bundle);
-        assert getFragmentManager() != null;
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.group_layout, FragJoin);
-        //프래그먼트 트랜잭션을 백스택에 push
-        transaction.addToBackStack(null);
-        //프래그먼트 상태전환 최적화
-        transaction.setReorderingAllowed(true);
-        transaction.commit();
+//        FragJoin fragJoin=((FragJoin)this.getParentFragment());
+//        assert fragJoin != null;
+//
+//        try {
+//            viewPager.setCurrentItem(0, true);
+//        }catch(NullPointerException e){
+//            e.printStackTrace();
+//        }
+//
+
+        startActivity(new Intent(getContext(), Group_main.class));
+//        assert getFragmentManager() != null;
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.replace(R.id.viewPager, fragJoin);
+//        //프래그먼트 트랜잭션을 백스택에 push
+//        transaction.addToBackStack(null);
+//        //프래그먼트 상태전환 최적화
+//        transaction.setReorderingAllowed(true);
+//        transaction.commit();
 
     }
 
@@ -104,12 +148,18 @@ public class Third extends Fragment implements View.OnClickListener {
         String hob = hobby.getText().toString();
         String rout = routine.getText().toString();
 
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+
         switch (v.getId()) {
             case R.id.exercise:
                 if (exercise.isChecked()) {
                     exercise.setChecked(true);
                     Toast.makeText(getContext(), "운동 카테고리 클릭", Toast.LENGTH_SHORT).show();
-                    bundle.putString("cate", ex);
+//                    bundle.putString("cate", ex);
+
+                    editor.putString("cate", ex);
+                    editor.apply();
 
                     study.setChecked(false);
                     routine.setChecked(false);
@@ -124,7 +174,9 @@ public class Third extends Fragment implements View.OnClickListener {
                 if (study.isChecked()) {
                     study.setChecked(true);
                     Toast.makeText(getContext(), "공부 카테고리 클릭", Toast.LENGTH_SHORT).show();
-                    bundle.putString("cate", st);
+                   // bundle.putString("cate", st);
+                    editor.putString("cate", st);
+                    editor.apply();
 
                     routine.setChecked(false);
                     hobby.setChecked(false);
@@ -138,7 +190,10 @@ public class Third extends Fragment implements View.OnClickListener {
                 if (routine.isChecked()) {
                     routine.setChecked(true);
                     Toast.makeText(getContext(), "루틴 카테고리 클릭", Toast.LENGTH_SHORT).show();
-                    bundle.putString("cate", rout);
+                  //  bundle.putString("cate", rout);
+
+                    editor.putString("cate", rout);
+                    editor.apply();
 
                     hobby.setChecked(false);
                     exercise.setChecked(false);
@@ -152,7 +207,10 @@ public class Third extends Fragment implements View.OnClickListener {
                 if (hobby.isChecked()) {
                     hobby.setChecked(true);
                     Toast.makeText(getContext(), "취미 카테고리 클릭", Toast.LENGTH_SHORT).show();
-                    bundle.putString("cate", hob);
+                   // bundle.putString("cate", hob);
+
+                    editor.putString("cate", hob);
+                    editor.apply();
 
                     exercise.setChecked(false);
                     study.setChecked(false);
@@ -167,5 +225,6 @@ public class Third extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
 }
 

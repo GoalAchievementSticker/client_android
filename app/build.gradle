@@ -28,7 +28,10 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.android.material:material:1.7.0-alpha01'
+    //implementation 'com.androidx.support:design:32.0.0'
+    //implementation 'com.androidx.support:support-v4:32.3.1'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation("androidx.fragment:fragment-ktx:1.4.1")
     implementation 'com.google.android.material:material:<verson>'
     implementation 'com.github.bumptech.glide:glide:4.13.2'
