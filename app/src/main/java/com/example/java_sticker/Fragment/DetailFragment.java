@@ -18,9 +18,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.java_sticker.R;
 import com.example.java_sticker.group.GroupDialog;
+import com.example.java_sticker.group.g_GridItem;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +31,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +40,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 
 public class DetailFragment extends Fragment {
@@ -66,6 +71,7 @@ public class DetailFragment extends Fragment {
     String _key;
     Button add_button;
 
+
     String uid;
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -75,6 +81,16 @@ public class DetailFragment extends Fragment {
     List<String> uid_key;
 
     ArrayList<GroupDialog> gDialog;
+    ArrayList<g_GridItem> items;
+
+    //그리드뷰 데이터 저장
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+    DatabaseReference uid_fixed = null;
+    DatabaseReference uid_push = null;
+    g_GridItem gd;
+
+    boolean status = false;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -98,6 +114,7 @@ public class DetailFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +135,9 @@ public class DetailFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         uid = user.getUid();
+
+        //리사이클러뷰 클릭했을때 나오는 도장판 연결
+        items = new ArrayList<g_GridItem>();
 
 
         add_button = (Button) view.findViewById(R.id.add_button);
@@ -160,7 +180,6 @@ public class DetailFragment extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        boolean status = false;
                         for(int i =0; i<uid_key.size(); i++){
                             status = uid_key.get(i).equals(uid);
                             //이미 있다면 true
@@ -170,6 +189,7 @@ public class DetailFragment extends Fragment {
                                 break;
                             }
                         }
+
                         //위에 for문을 돌고 참가한 유저가 아니라면 uid에 추가해준다.
                         //카테고리 + GroupDialog(최초작성한 유저 uid에 들어감) + 참가한 유저 groupDialog 새로 추가해줌+uid반영..
                         if(status == false){
@@ -199,18 +219,75 @@ public class DetailFragment extends Fragment {
                             }
                             //내 자신도 추가해야함!!
                             add_GroupDialog_button_click_user.child("uid").push().setValue(uid);
+
                         }
-                        Log.d("TAG", String.valueOf(status));
+                        Log.d("TAG", String.valueOf(uid_key)+"첫번째");
+                        if(uid_key.size()+1 == _limit) {
+                            uid_key.add(uid);
+                            Log.d("TAG", String.valueOf(uid_key) + "두번째");
+                            //만든 유저 도장판 uid에 참가 uid 도장판 추가
+                            for (int t = 0; t < uid_key.size(); t++) {//??????대체 뭐가 문제
+                                //uid 참가한 유저 배열 위치 순서대로
+                                uid_fixed = databaseReference.child(uid_key.get(t)).child("goal_group").child(_key);
+                                Log.d("TAG", String.valueOf(uid_fixed));
 
-                        //만약 참가한 사람이 limit만큼 찼다면 카테고리 값을 삭제해준다.
-//                        if(uid_key.size()+1 == _limit){
-//                            DatabaseReference remove_category = categoryReference.child(_cate).child(_key);
-//                            remove_category.removeValue();
+                                for (int k = 0; k < uid_key.size(); k++) {
+                                    uid_push = uid_fixed.child(uid_key.get(k)).child("도장판");
+                                    Log.d("TAG", String.valueOf(uid_push));
+                                    for (int j = 0; j <_count; j++) {//여기 안됨 왜 이럼?
+                                        addGoal(j);
+                                    }
+
+                                }
+
+                            }
+
+                            //만약 참가할때마다 생성이라면?
+                            //도장판 생성유저는 이미 본인거 만들어졌다는 가정하에
+                            //참가하는 유저 a의 도장판, 생성한 USER 도장판
+                            // USER 도장판 아래에 참가하는 A UID 추가
+                            //는 못함..  이거 하려면 어차피 배열 단위로 참가한사람 참가한 유저아래에 전부 추가해줘야함
+//                            //uid 참가한 유저 배열 위치 순서대로
+//                            uid_fixed = databaseReference.child(uid_key.get(0)).child("goal_group").child(_key).child(uid).child("도장판");
+//                            for(int p=0; p<_count; p++){
+//                                addGoal(p);
+//                            }
+//
+//                            for(int h =0; h<uid_key.size(); h++){
+//                                uid_push = databaseReference.child(uid).child("goal_group").child(_key).child(uid_key.get(h)).child("도장판");
+//                                for (int j = 0; j <_count; j++) {
+//                                    addGoal2(j);
+//                                }
+//                            }
+
+
+
+//                            new Handler().postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    DatabaseReference remove_category = categoryReference.child(_cate).child(_key);
+//                                    remove_category.removeValue();
+//                                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                                    fragmentManager.beginTransaction().remove(DetailFragment.this).commit();
+//                                    fragmentManager.popBackStack();
+//                                }
+//                            },2000);
 //                        }
-
-
+//                        else{
+//                            Toast.makeText(view.getContext(), "참가하셨습니다", Toast.LENGTH_SHORT).show();
+//                        }
+                        }
                     }
-                },200);
+                },1000);
+
+
+                //만약 참가한 사람이 limit만큼 찼다면 카테고리 값을 삭제해준다.
+                //성공
+                //채워지면 도장판도 생성해줘야함!! -> 작업시작
+                //도장판 생성, uid기준 들어있는 사람들 group dialog - 유저 uid기준 -  goal_group - 리사이크럴뷰 아이디 기준 - 등록된 uid기준 - 각 도장판 배열 저장
+
+
+
             }
         });
 
@@ -218,6 +295,9 @@ public class DetailFragment extends Fragment {
         return view;
     }
 
+
+
+    //클릭한 리사이클러뷰 아이템 값 가져오기 반영.
     private void GetBundle() {
         Bundle bundle = this.getArguments();
 
@@ -238,35 +318,44 @@ public class DetailFragment extends Fragment {
 
     }
 
-    //다이얼로그 저장된 함수 가져오기
-    private void ReadGroupDialog(String write_uid, String write_key) {
-        databaseReference.child(write_uid).child("dialog_group").child(write_key).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                gDialog.clear();
-                String key = snapshot.getKey();
-                GroupDialog read_g = snapshot.getValue(GroupDialog.class);
-                assert read_g != null;
-                read_g.key = key;
 
-                gDialog.add(read_g);
-                Log.d("TAG", String.valueOf(gDialog));
 
-            }
+    //도장판칸 생성
+    private void addGoal(int j) {
+            storageRef.child("not.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        // Got the download URL for 'plus.png'
+                        gd = new g_GridItem(String.valueOf(j), uri.toString());
+                        uid_push.child(String.valueOf(j)).setValue(gd);
+                        Log.d("TAG", "여기 돌고있나요? ");
+                    }).addOnFailureListener(Throwable::printStackTrace);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-                Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+
     }
+
+    //도장판칸 생성
+    private void addGoal2(int j) {
+        storageRef.child("not.png").getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+                    // Got the download URL for 'plus.png'
+                    gd = new g_GridItem(String.valueOf(j), uri.toString());
+                    uid_push.child(String.valueOf(j)).setValue(gd);
+                    Log.d("TAG", "여기 돌고있나요?");
+                }).addOnFailureListener(Throwable::printStackTrace);
+
+
+
+
+    }
+
+
 
     //클릭한 카테고리 값 가져오기
     private void ReadCategoryDialog(String cate2, String key2) {
         uid_key.clear();
-        categoryReference.child(cate2).child(key2).addValueEventListener(new ValueEventListener() {
+        categoryReference.child(cate2).child(key2).addListenerForSingleValueEvent(new ValueEventListener() {
             //@SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

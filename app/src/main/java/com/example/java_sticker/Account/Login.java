@@ -65,8 +65,8 @@ public class Login extends AppCompatActivity {
 
 
         register_change.setOnClickListener(view -> {
-            Intent intent = new Intent(Login.this, Signup.class);
-            startActivity(intent);
+            Intent intent2 = new Intent(Login.this, Signup.class);
+            startActivity(intent2);
         });
     }
 }

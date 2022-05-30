@@ -287,8 +287,8 @@ public class FragJoin extends Fragment {
                     //uid값 가져오기
                     for(DataSnapshot dataSnapshot1 : dataSnapshot.child("uid").getChildren()){
                         uid.add(dataSnapshot1.getValue(String.class));
-                        Log.d("TAG", String.valueOf(uid));
-                        Log.d("TAG", String.valueOf(uid.size()));
+                        //Log.d("TAG", String.valueOf(uid));
+                       // Log.d("TAG", String.valueOf(uid.size()));
                     }
 
 
