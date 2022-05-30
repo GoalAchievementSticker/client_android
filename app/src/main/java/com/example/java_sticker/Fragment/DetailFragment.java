@@ -83,6 +83,8 @@ public class DetailFragment extends Fragment {
     ArrayList<GroupDialog> gDialog;
     ArrayList<g_GridItem> items;
 
+    String not_uri;
+
     //그리드뷰 데이터 저장
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
@@ -139,6 +141,8 @@ public class DetailFragment extends Fragment {
         //리사이클러뷰 클릭했을때 나오는 도장판 연결
         items = new ArrayList<g_GridItem>();
 
+        gd = new g_GridItem();
+
 
         add_button = (Button) view.findViewById(R.id.add_button);
         goal = (TextView) view.findViewById(R.id.goal);
@@ -146,6 +150,13 @@ public class DetailFragment extends Fragment {
         auth = (TextView) view.findViewById(R.id.auth);
         limit = (TextView) view.findViewById(R.id.limit);
         cate = (TextView) view.findViewById(R.id.cate);
+
+        storageRef.child("not.png").getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+                    // Got the download URL for 'plus.png'
+                    not_uri = uri.toString();
+
+                }).addOnFailureListener(Throwable::printStackTrace);
 
 
         //ReadGroupDialog(_cate, _key);
@@ -222,16 +233,16 @@ public class DetailFragment extends Fragment {
 
                         }
                         Log.d("TAG", String.valueOf(uid_key)+"첫번째");
-                        if(uid_key.size()+1 == _limit) {
+                        if (uid_key.size()+1 == _limit) {
                             uid_key.add(uid);
+                            int uid_size = uid_key.size();
                             Log.d("TAG", String.valueOf(uid_key) + "두번째");
                             //만든 유저 도장판 uid에 참가 uid 도장판 추가
-                            for (int t = 0; t < uid_key.size(); t++) {//??????대체 뭐가 문제
+                            for (int t = 0; t < uid_size; t++) {//??????대체 뭐가 문제
                                 //uid 참가한 유저 배열 위치 순서대로
                                 uid_fixed = databaseReference.child(uid_key.get(t)).child("goal_group").child(_key);
                                 Log.d("TAG", String.valueOf(uid_fixed));
-
-                                for (int k = 0; k < uid_key.size(); k++) {
+                                for (int k = 0; k < uid_size; k++) {
                                     uid_push = uid_fixed.child(uid_key.get(k)).child("도장판");
                                     Log.d("TAG", String.valueOf(uid_push));
                                     for (int j = 0; j <_count; j++) {//여기 안됨 왜 이럼?
@@ -242,40 +253,13 @@ public class DetailFragment extends Fragment {
 
                             }
 
-                            //만약 참가할때마다 생성이라면?
-                            //도장판 생성유저는 이미 본인거 만들어졌다는 가정하에
-                            //참가하는 유저 a의 도장판, 생성한 USER 도장판
-                            // USER 도장판 아래에 참가하는 A UID 추가
-                            //는 못함..  이거 하려면 어차피 배열 단위로 참가한사람 참가한 유저아래에 전부 추가해줘야함
-//                            //uid 참가한 유저 배열 위치 순서대로
-//                            uid_fixed = databaseReference.child(uid_key.get(0)).child("goal_group").child(_key).child(uid).child("도장판");
-//                            for(int p=0; p<_count; p++){
-//                                addGoal(p);
-//                            }
-//
-//                            for(int h =0; h<uid_key.size(); h++){
-//                                uid_push = databaseReference.child(uid).child("goal_group").child(_key).child(uid_key.get(h)).child("도장판");
-//                                for (int j = 0; j <_count; j++) {
-//                                    addGoal2(j);
-//                                }
-//                            }
+                            DatabaseReference remove_category = categoryReference.child(_cate).child(_key);
+                            remove_category.removeValue();
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            fragmentManager.beginTransaction().remove(DetailFragment.this).commit();
+                            fragmentManager.popBackStack();
 
 
-
-//                            new Handler().postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    DatabaseReference remove_category = categoryReference.child(_cate).child(_key);
-//                                    remove_category.removeValue();
-//                                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                                    fragmentManager.beginTransaction().remove(DetailFragment.this).commit();
-//                                    fragmentManager.popBackStack();
-//                                }
-//                            },2000);
-//                        }
-//                        else{
-//                            Toast.makeText(view.getContext(), "참가하셨습니다", Toast.LENGTH_SHORT).show();
-//                        }
                         }
                     }
                 },1000);
@@ -322,30 +306,9 @@ public class DetailFragment extends Fragment {
 
     //도장판칸 생성
     private void addGoal(int j) {
-            storageRef.child("not.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-                        gd = new g_GridItem(String.valueOf(j), uri.toString());
-                        uid_push.child(String.valueOf(j)).setValue(gd);
-                        Log.d("TAG", "여기 돌고있나요? ");
-                    }).addOnFailureListener(Throwable::printStackTrace);
-
-
-
-
-    }
-
-    //도장판칸 생성
-    private void addGoal2(int j) {
-        storageRef.child("not.png").getDownloadUrl()
-                .addOnSuccessListener(uri -> {
-                    // Got the download URL for 'plus.png'
-                    gd = new g_GridItem(String.valueOf(j), uri.toString());
-                    uid_push.child(String.valueOf(j)).setValue(gd);
-                    Log.d("TAG", "여기 돌고있나요?");
-                }).addOnFailureListener(Throwable::printStackTrace);
-
-
+        gd = new g_GridItem(String.valueOf(j), not_uri);
+        uid_push.child(String.valueOf(j)).setValue(gd);
+        Log.d("TAG", "여기 돌고있나요? ");
 
 
     }
