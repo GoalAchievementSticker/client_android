@@ -107,17 +107,17 @@ public class w_FragJoin extends Fragment {
     ViewPager viewPager;
 
 
-    public static final String MyPREFERENCES = "MyPrefs";
+    //public static final String MyPREFERENCES = "MyPrefs";
 
 
-
-    public w_FragJoin() {
-        // Required empty public constructor
-    }
+//    public w_FragJoin() {
+//        // Required empty public constructor
+//    }
 
     @Override
     public void onResume() {
         super.onResume();
+        ReadGroupDialog();
     }
 
     //class의 객체 생성
@@ -143,6 +143,7 @@ public class w_FragJoin extends Fragment {
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         assert inflater != null;
         view = inflater.inflate(R.layout.w_fragjoin, container, false);
+
         try {
             UploadData();
         } catch (NullPointerException e) {
@@ -269,24 +270,29 @@ public class w_FragJoin extends Fragment {
 //    }
 
     private void UploadData() {
-//
-//        Bundle bundle = this.getArguments();
-////        Log.d("여기야2","여긴 나오네");
-//        int count = bundle.getInt("count");
-//        int limit = bundle.getInt("limit");
-//        String goal = bundle.getString("goal");
-//        String auth = bundle.getString("auth");
-//        String cate = bundle.getString("cate");
 
+        Bundle bundle = this.getArguments();
+//        Log.d("여기야2","여긴 나오네");
+        int count = bundle.getInt("count");
+        int limit = bundle.getInt("limit");
+        String goal = bundle.getString("goal");
+        String auth = bundle.getString("auth");
+        String cate = bundle.getString("cate");
 
-        // Log.d("여기야2", String.valueOf(count));
+        Log.d("여기야2", "==================================");
+         Log.d("여기야2", String.valueOf(count));
+        Log.d("여기야2", String.valueOf(limit));
+        Log.d("여기야2", String.valueOf(goal));
+        Log.d("여기야2", String.valueOf(auth));
+        Log.d("여기야2", String.valueOf(cate));
 
-        SharedPreferences prefs = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        String count = prefs.getString("count",null);
-        String limit = prefs.getString("limit",null);
-        String goal = prefs.getString("goal",null);
-        String auth = prefs.getString("auth",null);
-        String cate = prefs.getString("cate",null);
+//        SharedPreferences prefs = requireActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+//        prefs.edit().clear();
+//        String count = prefs.getString("count",null);
+//        String limit = prefs.getString("limit",null);
+//        String goal = prefs.getString("goal",null);
+//        String auth = prefs.getString("auth",null);
+//        String cate = prefs.getString("cate",null);
 
         //Log.d("TAG", count);
 
@@ -297,7 +303,7 @@ public class w_FragJoin extends Fragment {
         DatabaseReference keyRef = databaseReference.child(uid).child("dialog_group").child(key);
         DatabaseReference categoryRef = categoryReference.child(cate).child(key);
         //list에 추가
-        GroupDialog groupDialog = new GroupDialog(Integer.parseInt(count), goal, Integer.parseInt(limit), auth, key, 0, cate, 1);  //수,목표,제한,인증,카테고리
+        GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate, 1);  //수,목표,제한,인증,카테고리
         gDialog.add(groupDialog);
         Log.d("TAG", String.valueOf(groupDialog));
 
@@ -314,10 +320,10 @@ public class w_FragJoin extends Fragment {
         categoryRef.child("uid").push().setValue(uid);
 
         //도장판 gridview 데이터 저장
-//        ds = databaseReference.child(uid).child("goal_group").child(key).child("도장판");
-//        for (int i = 0; i < count; i++) {
-//            items.add(addGoal(i));
-//        }
+        ds = databaseReference.child(uid).child("goal_group").child(key).child("도장판");
+        for (int i = 0; i < count; i++) {
+            items.add(addGoal(i));
+        }
 
         new Handler().postDelayed(this::ReadGroupDialog, 400);
 
@@ -359,7 +365,7 @@ public class w_FragJoin extends Fragment {
                     //uid값 가져오기
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.child("uid").getChildren()) {
                         uid.add(dataSnapshot1.getValue(String.class));
-                       // Log.d("TAG", String.valueOf(uid));
+                        // Log.d("TAG", String.valueOf(uid));
                         //Log.d("TAG", String.valueOf(uid.size()));
                     }
 

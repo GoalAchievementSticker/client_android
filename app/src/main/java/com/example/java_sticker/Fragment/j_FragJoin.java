@@ -11,15 +11,15 @@ import com.example.java_sticker.R;
 
 public class j_FragJoin extends Fragment {
     View view;
-    public j_FragJoin() {
-        // Required empty public constructor
-    }
-
-
-    public static j_FragJoin newInstance() {
-        j_FragJoin j_fragJoin = new j_FragJoin();
-        return j_fragJoin;
-    }
+//    public j_FragJoin() {
+//        // Required empty public constructor
+//    }
+//
+//
+//    public static j_FragJoin newInstance() {
+//        j_FragJoin j_fragJoin = new j_FragJoin();
+//        return j_fragJoin;
+//    }
 
 
     @Override

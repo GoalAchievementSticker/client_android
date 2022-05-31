@@ -69,7 +69,7 @@ public class Group_main extends AppCompatActivity {
                 case R.id.join_group:
                     getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_group_join)
                             .addToBackStack(String.valueOf(fragment_group_join))
-                            .commit();
+                            .commitAllowingStateLoss();
                     return true;
 
                 case R.id.mypage:

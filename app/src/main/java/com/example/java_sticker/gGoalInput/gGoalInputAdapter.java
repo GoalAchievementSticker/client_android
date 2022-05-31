@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -19,6 +20,7 @@ public class gGoalInputAdapter extends FragmentPagerAdapter {
 //    private final List<Fragment> mFragmentList = new ArrayList<>();
 
     private int tabCount;
+
 
     public gGoalInputAdapter(@NonNull FragmentManager fragmentManager, int tabCount) {
         super(fragmentManager, tabCount);

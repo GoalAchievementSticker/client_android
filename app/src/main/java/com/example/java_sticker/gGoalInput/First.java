@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.java_sticker.R;
@@ -46,13 +47,13 @@ public class First extends Fragment {
     TabLayout.Tab tab;
 
     //viewpager
-    private ViewPager viewPager;
-    private View vp;
+    //private ViewPager viewPager;
+   //private View vp;
 
 
     //viewpager fragment끼리 데이터 패스
-    SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
+   //SharedPreferences sharedpreferences;
+    //public static final String MyPREFERENCES = "MyPrefs" ;
 
     public First() {
         // Required empty public constructor
@@ -76,11 +77,11 @@ public class First extends Fragment {
         assert inflater != null;
         view = inflater.inflate(R.layout.custom_g_input1, container, false);
         // LayoutInflater layoutInflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        vp = getLayoutInflater().inflate(R.layout.activity_custom_g_input, null);
+        //vp = getLayoutInflater().inflate(R.layout.activity_custom_g_input, null);
 
         gGoalInputActivity frag = (gGoalInputActivity) this.getActivity();
         assert frag != null;
-        viewPager = frag.findViewById(R.id.input_viewPager);
+       // viewPager = frag.findViewById(R.id.input_viewPager);
 
 
         EditText goal = view.findViewById(R.id.sticker_goal);
@@ -90,7 +91,7 @@ public class First extends Fragment {
         Button nxtBtn = view.findViewById(R.id.nxtBtn);
 
 
-        sharedpreferences =  getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        //sharedpreferences =  getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         noBtn.setOnClickListener(view -> {
             assert getFragmentManager() != null;
             getFragmentManager().popBackStack();
@@ -110,27 +111,27 @@ public class First extends Fragment {
                 int vi = Integer.parseInt(_count);
                 int l = Integer.parseInt(_limit);
 
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString("count", String.valueOf(vi));
-                editor.putString("limit", String.valueOf(l));
-                editor.putString("goal", _goal);
-                editor.apply();
+//                SharedPreferences.Editor editor = sharedpreferences.edit();
+//                editor.putString("count", String.valueOf(vi));
+//                editor.putString("limit", String.valueOf(l));
+//                editor.putString("goal", _goal);
+//                editor.commit();
 
-//                bundle.putInt("count", vi);
-//                bundle.putInt("limit", l);
-//                bundle.putString("goal", _goal);
-//                Second.setArguments(bundle);
+                bundle.putInt("count", vi);
+                bundle.putInt("limit", l);
+                bundle.putString("goal", _goal);
+                Second.setArguments(bundle);
 
-                viewPager.setCurrentItem(getItem(), true);
+                //viewPager.setCurrentItem(getItem(), true);
 
-//                assert getFragmentManager() != null;
-//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//                transaction.replace(R.id.input_viewPager, Second);
-//                //프래그먼트 트랜잭션을 백스택에 push
-//                transaction.addToBackStack(null);
-//                //프래그먼트 상태전환 최적화
-//                transaction.setReorderingAllowed(true);
-//                transaction.commit();
+                assert getFragmentManager() != null;
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.input_framelayout, Second);
+                //프래그먼트 트랜잭션을 백스택에 push
+                transaction.addToBackStack(null);
+                //프래그먼트 상태전환 최적화
+                transaction.setReorderingAllowed(true);
+                transaction.commit();
             }
 
 
@@ -138,7 +139,7 @@ public class First extends Fragment {
         return view;
     }
 
-    private int getItem() {
-        return viewPager.getCurrentItem() + 1;
-    }
+//    //private int getItem() {
+//        return viewPager.getCurrentItem() + 1;
+//    }
 }

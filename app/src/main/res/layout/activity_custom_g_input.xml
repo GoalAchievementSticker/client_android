@@ -7,11 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" >
+<!--    <com.google.android.material.tabs.TabLayout-->
+<!--        android:id="@+id/tab_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        tools:ignore="MissingConstraints" >-->
 <!--    <com.google.android.material.tabs.TabItem-->
 <!--        android:id="@+id/input1"-->
 <!--        android:text="그룹골1"-->
@@ -30,10 +30,10 @@
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"/>-->
 
-    </com.google.android.material.tabs.TabLayout>
+<!--    </com.google.android.material.tabs.TabLayout>-->
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/input_viewPager"
+    <FrameLayout
+        android:id="@+id/input_framelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tab_layout" />

@@ -1,12 +1,18 @@
 package com.example.java_sticker.gGoalInput;
 
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.java_sticker.Fragment.FragJoin;
+import com.example.java_sticker.Fragment.w_FragJoin;
 import com.example.java_sticker.R;
 
 import java.util.ArrayList;
@@ -15,32 +21,66 @@ import com.google.android.material.tabs.TabLayout;
 import com.example.java_sticker.gGoalInput.gGoalInputAdapter;
 
 public class gGoalInputActivity extends AppCompatActivity {
-    private ViewPager viewPager;
+    private FrameLayout fl;
 
 //    private ArrayList<String> tabNames = new ArrayList<>();
 
-//    private First first;
+    //    private First first;
 //    private Second second;
 //    private Third third;
+
+
+    Fragment fragment = null;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+
     gGoalInputAdapter gGoalInputAdapter;
     private TabLayout tabLayout;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_g_input);
 
-        viewPager = findViewById(R.id.input_viewPager);
-        tabLayout=findViewById(R.id.tab_layout);
+        fl = findViewById(R.id.input_framelayout);
+        tabLayout = findViewById(R.id.tab_layout);
 
         tabLayout.addTab(tabLayout.newTab().setText("그룹골1"));
         tabLayout.addTab(tabLayout.newTab().setText("그룹골2"));
         tabLayout.addTab(tabLayout.newTab().setText("그룹골3"));
 
+        fragment = new First();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.input_framelayout, fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.commit();
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                //viewPager.setCurrentItem(tab.getPosition());
+                switch (tab.getPosition()) {
+                    case 0:
+                        fragment = new First();
+                        break;
+                    case 1:
+                        fragment = new Second();
+                        break;
+                    case 2:
+                        fragment = new Third();
+                        break;
+                }
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.input_framelayout, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft.commit();
             }
 
             @Override
@@ -54,9 +94,9 @@ public class gGoalInputActivity extends AppCompatActivity {
             }
         });
 
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        gGoalInputAdapter adapter = new gGoalInputAdapter(getSupportFragmentManager(),3);
-        viewPager.setAdapter(adapter);
+        //viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        gGoalInputAdapter adapter = new gGoalInputAdapter(getSupportFragmentManager(), 3);
+        //viewPager.setAdapter(adapter);
 
 
 //        setTabLayout();

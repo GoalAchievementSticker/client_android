@@ -2,6 +2,7 @@ package com.example.java_sticker.Fragment;
 
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,6 +35,22 @@ public class FragJoin extends Fragment {
     private View view;
 
     FloatingActionButton fab_g;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,7 +122,7 @@ public class FragJoin extends Fragment {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition(),true);
+                mViewPager.setCurrentItem(tab.getPosition(), true);
             }
 
             @Override

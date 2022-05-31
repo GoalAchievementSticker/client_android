@@ -88,6 +88,7 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
         holder.g_goal_progressBar.setMaxValue(item.gCount);
        // Log.d("TAG", String.valueOf(item.gCount));
         holder.g_goal_progressBar.setCurValue(item.gGoal);
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
