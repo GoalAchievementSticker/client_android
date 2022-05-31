@@ -216,7 +216,7 @@ public class Third extends Fragment implements View.OnClickListener {
                     bundle.putString("cate", st);
 //                    editor.putString("cate", st);
 //                    editor.commit();
-                    cate_=ex;
+                    cate_=st;
                     routine.setChecked(false);
                     hobby.setChecked(false);
                     exercise.setChecked(false);
@@ -233,7 +233,7 @@ public class Third extends Fragment implements View.OnClickListener {
 
 //                    editor.putString("cate", rout);
 //                    editor.commit();
-                    cate_=ex;
+                    cate_=rout;
                     hobby.setChecked(false);
                     exercise.setChecked(false);
                     study.setChecked(false);
@@ -250,7 +250,7 @@ public class Third extends Fragment implements View.OnClickListener {
 
 //                    editor.putString("cate", hob);
 //                    editor.commit();
-                    cate_=ex;
+                    cate_=hob;
                     exercise.setChecked(false);
                     study.setChecked(false);
                     routine.setChecked(false);
