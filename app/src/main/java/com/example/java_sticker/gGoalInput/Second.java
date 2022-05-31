@@ -65,7 +65,7 @@ public class Second extends Fragment {
             getFragmentManager().popBackStack();
         });
         nxtBtn.setOnClickListener(view -> {
-            Bundle bundle_g = this.getArguments();
+            //Bundle bundle_g = this.getArguments();
             //입력한값 형 변환
             String auth = authentication.getText().toString();
 
@@ -75,6 +75,7 @@ public class Second extends Fragment {
                 //First에서 받은 정보  get
                 int count = 0;
 
+                Bundle bundle_g = this.getArguments();
                 assert bundle_g != null;
                 count = bundle_g.getInt("count");
                 String goal = bundle_g.getString("goal");
@@ -93,6 +94,10 @@ public class Second extends Fragment {
                 Log.d("여기 second", String.valueOf(limit));
                 Log.d("여기 second", auth);
                 Third.setArguments(bundle);
+
+//                Bundle Second = new Bundle();
+//                Second.putString("auth",auth);
+//                getParentFragmentManager().setFragmentResult("SecondKey", Second);
 
 
 //                SharedPreferences.Editor editor = sharedpreferences.edit();

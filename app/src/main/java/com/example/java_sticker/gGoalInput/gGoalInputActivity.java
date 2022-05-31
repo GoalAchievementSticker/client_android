@@ -35,7 +35,7 @@ public class gGoalInputActivity extends AppCompatActivity {
     FragmentTransaction fragmentTransaction;
 
     gGoalInputAdapter gGoalInputAdapter;
-    //private TabLayout tabLayout;
+    private TabLayout tabLayout;
 
     @Override
     public void onResume() {
@@ -48,8 +48,8 @@ public class gGoalInputActivity extends AppCompatActivity {
         setContentView(R.layout.activity_custom_g_input);
 
         fl = findViewById(R.id.input_framelayout);
-        //tabLayout = findViewById(R.id.tab_layout);
-//
+        tabLayout = findViewById(R.id.tab_layout);
+
 //        tabLayout.addTab(tabLayout.newTab().setText("그룹골1"));
 //        tabLayout.addTab(tabLayout.newTab().setText("그룹골2"));
 //        tabLayout.addTab(tabLayout.newTab().setText("그룹골3"));
@@ -82,7 +82,7 @@ public class gGoalInputActivity extends AppCompatActivity {
 //                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 //                ft.commit();
 //            }
-//
+
 //            @Override
 //            public void onTabUnselected(TabLayout.Tab tab) {
 //

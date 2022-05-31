@@ -3,6 +3,8 @@ package com.example.java_sticker.gGoalInput;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.java_sticker.R;
+import com.example.java_sticker.group.GroupDialog;
 import com.example.java_sticker.group.g_GridItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,6 +39,7 @@ public class First extends Fragment {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference profile_databaseReference = firebaseDatabase.getReference();
     DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
+    DatabaseReference categoryReference = firebaseDatabase.getReference("Category");
 
     //그리드뷰 데이터 저장
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -91,6 +96,7 @@ public class First extends Fragment {
         Button nxtBtn = view.findViewById(R.id.nxtBtn);
 
 
+
         //sharedpreferences =  getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         noBtn.setOnClickListener(view -> {
             assert getFragmentManager() != null;
@@ -110,6 +116,7 @@ public class First extends Fragment {
                 //입력한값 형 변환
                 int vi = Integer.parseInt(_count);
                 int l = Integer.parseInt(_limit);
+                //int g = Integer.parseInt(_goal);
 
 //                SharedPreferences.Editor editor = sharedpreferences.edit();
 //                editor.putString("count", String.valueOf(vi));
@@ -122,7 +129,16 @@ public class First extends Fragment {
                 bundle.putString("goal", _goal);
                 Second.setArguments(bundle);
 
+
+//                Bundle first = new Bundle();
+//                first.putInt("count", vi);
+//                first.putInt("count", vi);
+//                first.putInt("limit", l);
+//                first.putString("goal", _goal);
+//
+//                getParentFragmentManager().setFragmentResult("firstKey", first);
                 //viewPager.setCurrentItem(getItem(), true);
+
 
                 assert getFragmentManager() != null;
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -132,6 +148,7 @@ public class First extends Fragment {
                 //프래그먼트 상태전환 최적화
                 transaction.setReorderingAllowed(true);
                 transaction.commit();
+
             }
 
 
