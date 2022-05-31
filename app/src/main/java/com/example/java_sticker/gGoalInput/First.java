@@ -79,8 +79,8 @@ public class First extends Fragment {
         // LayoutInflater layoutInflater = (LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //vp = getLayoutInflater().inflate(R.layout.activity_custom_g_input, null);
 
-        gGoalInputActivity frag = (gGoalInputActivity) this.getActivity();
-        assert frag != null;
+       // gGoalInputActivity frag = (gGoalInputActivity) this.getActivity();
+        //assert frag != null;
        // viewPager = frag.findViewById(R.id.input_viewPager);
 
 

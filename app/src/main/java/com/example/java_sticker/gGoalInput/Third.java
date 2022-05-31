@@ -39,7 +39,7 @@ public class Third extends Fragment implements View.OnClickListener {
     ToggleButton routine;
     Bundle bundle = new Bundle();
     Fragment FragInputCheck = new FragInputCheck();
-    Fragment w_fragJoin = new w_FragJoin();
+    Fragment w_fragJoin = w_FragJoin.newInstance();
 
 
     String uid;
@@ -143,7 +143,7 @@ public class Third extends Fragment implements View.OnClickListener {
 
 
         w_fragJoin.setArguments(bundle);
-
+        requireActivity().finish();
 
 //        //고유키와 함께 저장히기 위한 장치
 //        String key = databaseReference.push().getKey();
@@ -191,18 +191,18 @@ public class Third extends Fragment implements View.OnClickListener {
 //            e.printStackTrace();
 //        }
 
-        w_FragJoin w_fragJoin = new w_FragJoin();
-        FragJoin fragJoin = new FragJoin();
-
-
-        assert getFragmentManager() != null;
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.input_framelayout, w_fragJoin);
-        //프래그먼트 트랜잭션을 백스택에 push
-        transaction.addToBackStack(null);
-        //프래그먼트 상태전환 최적화
-        transaction.setReorderingAllowed(true);
-        transaction.commit();
+//        w_FragJoin w_fragJoin = new w_FragJoin();
+//        FragJoin fragJoin = new FragJoin();
+//
+//
+//        assert getFragmentManager() != null;
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.replace(R.id.input_framelayout, w_fragJoin);
+//        //프래그먼트 트랜잭션을 백스택에 push
+//        transaction.addToBackStack(null);
+//        //프래그먼트 상태전환 최적화
+//        transaction.setReorderingAllowed(true);
+//        transaction.commit();
 
     }
 
