@@ -12,10 +12,10 @@ import android.os.Bundle;
 import com.example.java_sticker.Fragment.Exercise;
 import com.example.java_sticker.Fragment.FragHome;
 import com.example.java_sticker.Fragment.FragJoin;
-import com.example.java_sticker.Fragment.w_FragJoin;
 import com.example.java_sticker.Fragment.FragMypage;
 import com.example.java_sticker.Fragment.Hobby;
 import com.example.java_sticker.Fragment.Routin;
+import com.example.java_sticker.Fragment.SearchCategory;
 import com.example.java_sticker.Fragment.Study;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -30,6 +30,7 @@ public class Group_main extends AppCompatActivity {
     Fragment fragment_hobby;
     Fragment fragment_routin;
     Fragment fragment_exercise;
+    Fragment SearchCategory;
     //Fragment DetailFragment;
 
     Toolbar toolbar;
@@ -56,7 +57,8 @@ public class Group_main extends AppCompatActivity {
         fragment_hobby = new Hobby();
         fragment_routin = new Routin();
 
-        //DetailFragment = new DetailFragment();
+        //서치 툴바 작동하기
+        SearchCategory = new SearchCategory();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_home).commitAllowingStateLoss();
 
@@ -93,6 +95,8 @@ public class Group_main extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_hobby).addToBackStack(null).commit();
         } else if (index == 3) {
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_routin).addToBackStack(null).commit();
+        } else if(index == 4){
+            getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, SearchCategory).addToBackStack(null).commit();
         }
 
     }
