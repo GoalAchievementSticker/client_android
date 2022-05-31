@@ -1,7 +1,5 @@
 package com.example.java_sticker.Fragment;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,12 +20,11 @@ import com.example.java_sticker.group.GroupDialog;
 
 import java.util.ArrayList;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
-
+public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAdapter.ViewHolder>{
 
     private ArrayList<GroupDialog> mDataset;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tittle, person_count, goal_count;
         CardView cardView;
 
@@ -42,7 +37,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
     }
 
-    public CategoryAdapter(ArrayList<GroupDialog> mDataset){
+    public CategorySearchAdapter(ArrayList<GroupDialog> mDataset){
         this.mDataset = mDataset;
     }
 
@@ -53,9 +48,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return new ViewHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
+
     @Override
-    public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         holder.tittle.setText(mDataset.get(position).getgTittle());//목표명
         holder.person_count.setText(mDataset.get(position).getLimit_count() +"/"+ mDataset.get(position).getLimit()); //참가인원 수
         holder.goal_count.setText(mDataset.get(position).getgCount() +"개"); //스티커 개수
@@ -80,19 +76,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             ft.replace(R.id.group_layout,DetailFragment).addToBackStack(null).commit();
             //activity.getFragmentManager().beginTransaction().replace(R.id.group_layout, DetailFragment).addToBackStack(null).commit();
 
-           // ((Group_main) view.getContext()).getFragmentManager().beginTransaction().replace(R.id.group_layout, DetailFragment).commit();
+            // ((Group_main) view.getContext()).getFragmentManager().beginTransaction().replace(R.id.group_layout, DetailFragment).commit();
 
         });
-
-
     }
 
     @Override
     public int getItemCount() {
         return mDataset.size();
     }
-
-
 
 
 }
