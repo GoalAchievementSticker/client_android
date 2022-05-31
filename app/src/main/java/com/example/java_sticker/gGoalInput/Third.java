@@ -25,6 +25,7 @@ import com.example.java_sticker.Fragment.w_FragJoin;
 import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
 import com.example.java_sticker.group.GroupDialog;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -38,14 +39,11 @@ public class Third extends Fragment implements View.OnClickListener {
     ToggleButton hobby;
     ToggleButton routine;
     Bundle bundle = new Bundle();
-    Fragment FragInputCheck = new FragInputCheck();
-    Fragment w_fragJoin = new w_FragJoin();
 
 
     String uid;
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference profile_databaseReference = firebaseDatabase.getReference();
     DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
     DatabaseReference categoryReference = firebaseDatabase.getReference("Category");
 
@@ -80,6 +78,10 @@ public class Third extends Fragment implements View.OnClickListener {
         hobby = view.findViewById(R.id.hobby);
         routine = view.findViewById(R.id.routine);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        uid = user.getUid();
+
 
         Button preBtn = view.findViewById(R.id.preBtn);
         Button OKBtn = view.findViewById(R.id.OKBtn);
@@ -99,10 +101,12 @@ public class Third extends Fragment implements View.OnClickListener {
                 }
         );
         OKBtn.setOnClickListener(view -> {
-            if (!(exercise.isChecked() || hobby.isChecked() || routine.isChecked() || study.isChecked()))
+            if (!(exercise.isChecked() || hobby.isChecked() || routine.isChecked() || study.isChecked())){
                 Toast.makeText(getContext(), "카테고리를 선택해주세요", Toast.LENGTH_SHORT).show();
-            else
+            }
+            else{
                 ToFragjoin();
+            }
         });
 
         return view;
@@ -115,8 +119,6 @@ public class Third extends Fragment implements View.OnClickListener {
 
         //fragment에서 데이터 받기
         Bundle bundle_g = this.getArguments();
-
-
         //First
         assert bundle_g != null;
         int cnt = bundle_g.getInt("count");
@@ -125,84 +127,51 @@ public class Third extends Fragment implements View.OnClickListener {
 
         //Second
         String auth = bundle_g.getString("auth");
-
-
         //First에서 받은 데이터
-        bundle.putInt("count", cnt);
-        bundle.putString("goal", goal);
-        bundle.putInt("limit", limit);
-
-        //Second 정보
-        bundle.putString("auth", auth);
-
-
-        Log.d("여기", String.valueOf(cnt));
-        Log.d("여기", String.valueOf(goal));
-        Log.d("여기", String.valueOf(limit));
-        Log.d("여기", String.valueOf(auth));
+//        bundle.putInt("count", cnt);
+//        bundle.putString("goal", goal);
+//        bundle.putInt("limit", limit);
+//
+//        //Second 정보
+//        bundle.putString("auth", auth);
+//        Log.d("여기", String.valueOf(cnt));
+//        Log.d("여기", String.valueOf(goal));
+//        Log.d("여기", String.valueOf(limit));
+//        Log.d("여기", String.valueOf(auth));
 
 
-        w_fragJoin.setArguments(bundle);
+
+       // w_fragJoin.setArguments(bundle);
 
 
 //        //고유키와 함께 저장히기 위한 장치
-//        String key = databaseReference.push().getKey();
-//        assert key != null;
-//        DatabaseReference keyRef = databaseReference.child(uid).child("dialog_group").child(key);
-//        DatabaseReference categoryRef = categoryReference.child(cate_).child(key);
-//        //list에 추가
-//        GroupDialog groupDialog = new GroupDialog(cnt, goal, limit, auth, key, 0, cate_, 1);  //수,목표,제한,인증,카테고리
-//       // gDialog.add(groupDialog);
-//        Log.d("여기2", String.valueOf(cnt));
-//        Log.d("여기2", String.valueOf(goal));
-//        Log.d("여기2", String.valueOf(limit));
-//        Log.d("여기2", String.valueOf(auth));
-//        Log.d("여기2", String.valueOf(cate_));
-//        Log.d("여기2", String.valueOf(groupDialog));
-//
-//       //gAdapter.notifyDataSetChanged();
-//
-//
-//        //생성된 레코드 파이어베이스 저장
-//        keyRef.setValue(groupDialog);
-//        //uid 정보값 push()키로 저장하기
-//        keyRef.child("uid").push().setValue(uid);
-//
-//        //카테고리 레코드 파이어베이스에도 저장
-//        categoryRef.setValue(groupDialog);
-//        categoryRef.child("uid").push().setValue(uid);
+        String key = databaseReference.push().getKey();
+        assert key != null;
+        DatabaseReference keyRef = databaseReference.child(uid).child("dialog_group").child(key);
+        DatabaseReference categoryRef = categoryReference.child(cate_).child(key);
+        //list에 추가
+        GroupDialog groupDialog = new GroupDialog(cnt, goal, limit, auth, key, 0, cate_, 1);  //수,목표,제한,인증,카테고리
 
-        //startActivity(new Intent(getContext(),Group_main.class));
+        Log.d("TAG", String.valueOf(groupDialog));
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                getActivity().finish();
-//            }
-//        },400);
+        //생성된 레코드 파이어베이스 저장
+        keyRef.setValue(groupDialog);
+        //uid 정보값 push()키로 저장하기
+        keyRef.child("uid").push().setValue(uid);
+
+        //카테고리 레코드 파이어베이스에도 저장
+        categoryRef.setValue(groupDialog);
+        categoryRef.child("uid").push().setValue(uid);
 
 
-        // FragJoin fragJoin=((FragJoin)this.getParentFragment());
-//        assert fragJoin != null;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
-//        try {
-//            viewPager.setCurrentItem(0, true);
-//        }catch(NullPointerException e){
-//            e.printStackTrace();
-//        }
+                getActivity().finish();
+            }
+        },3000);
 
-        w_FragJoin w_fragJoin = new w_FragJoin();
-        FragJoin fragJoin = new FragJoin();
-
-
-        assert getFragmentManager() != null;
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.input_framelayout, w_fragJoin);
-        //프래그먼트 트랜잭션을 백스택에 push
-        transaction.addToBackStack(null);
-        //프래그먼트 상태전환 최적화
-        transaction.setReorderingAllowed(true);
-        transaction.commit();
 
     }
 

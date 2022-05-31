@@ -143,12 +143,12 @@ public class w_FragJoin extends Fragment {
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         assert inflater != null;
         view = inflater.inflate(R.layout.w_fragjoin, container, false);
-
-        try {
-            UploadData();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+//
+//        try {
+//            UploadData();
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//        }
 
 //        loadTabName();
 //        setTabLayout();
