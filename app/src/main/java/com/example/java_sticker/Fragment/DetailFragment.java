@@ -231,36 +231,39 @@ public class DetailFragment extends Fragment {
                             //내 자신도 추가해야함!!
                             add_GroupDialog_button_click_user.child("uid").push().setValue(uid);
 
-                        }
-                        Log.d("TAG", String.valueOf(uid_key)+"첫번째");
-                        if (uid_key.size()+1 == _limit) {
-                            uid_key.add(uid);
-                            int uid_size = uid_key.size();
-                            Log.d("TAG", String.valueOf(uid_key) + "두번째");
-                            //만든 유저 도장판 uid에 참가 uid 도장판 추가
-                            for (int t = 0; t < uid_size; t++) {//??????대체 뭐가 문제
-                                //uid 참가한 유저 배열 위치 순서대로
-                                uid_fixed = databaseReference.child(uid_key.get(t)).child("goal_group").child(_key);
-                                Log.d("TAG", String.valueOf(uid_fixed));
-                                for (int k = 0; k < uid_size; k++) {
-                                    uid_push = uid_fixed.child(uid_key.get(k)).child("도장판");
-                                    Log.d("TAG", String.valueOf(uid_push));
-                                    for (int j = 0; j <_count; j++) {//여기 안됨 왜 이럼?
-                                        addGoal(j);
+
+                            Log.d("TAG", String.valueOf(uid_key)+"첫번째");
+                            if (uid_key.size()+1 == _limit) {
+                                uid_key.add(uid);
+                                int uid_size = uid_key.size();
+                                Log.d("TAG", String.valueOf(uid_key) + "두번째");
+                                //만든 유저 도장판 uid에 참가 uid 도장판 추가
+                                for (int t = 0; t < uid_size; t++) {//??????대체 뭐가 문제
+                                    //uid 참가한 유저 배열 위치 순서대로
+                                    uid_fixed = databaseReference.child(uid_key.get(t)).child("goal_group").child(_key);
+                                    Log.d("TAG", String.valueOf(uid_fixed));
+                                    for (int k = 0; k < uid_size; k++) {
+                                        uid_push = uid_fixed.child(uid_key.get(k)).child("도장판");
+                                        Log.d("TAG", String.valueOf(uid_push));
+                                        for (int j = 0; j <_count; j++) {//여기 안됨 왜 이럼?
+                                            addGoal(j);
+                                        }
+
                                     }
 
                                 }
 
+                                DatabaseReference remove_category = categoryReference.child(_cate).child(_key);
+                                remove_category.removeValue();
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                fragmentManager.beginTransaction().remove(DetailFragment.this).commit();
+                                fragmentManager.popBackStack();
+
+
                             }
 
-                            DatabaseReference remove_category = categoryReference.child(_cate).child(_key);
-                            remove_category.removeValue();
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            fragmentManager.beginTransaction().remove(DetailFragment.this).commit();
-                            fragmentManager.popBackStack();
-
-
                         }
+
                     }
                 },1000);
 
