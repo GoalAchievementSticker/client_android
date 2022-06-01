@@ -54,7 +54,6 @@ import java.util.Objects;
 
 public class w_FragJoin extends Fragment {
     private View view;
-    Toolbar toolbar;
     //FAB
     boolean isFabOpen;
     FloatingActionButton fab_g;
@@ -143,20 +142,6 @@ public class w_FragJoin extends Fragment {
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         assert inflater != null;
         view = inflater.inflate(R.layout.w_fragjoin, container, false);
-//
-//        try {
-//            UploadData();
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-//        }
-
-//        loadTabName();
-//        setTabLayout();
-//        setViewPager();
-
-
-//        toolbar = view.findViewById(R.id.toolbar);
-//        ((AppCompatActivity) getContext()).setSupportActionBar(toolbar);
 
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -179,7 +164,7 @@ public class w_FragJoin extends Fragment {
         g_goal_recycler.setAdapter(gAdapter);
         //리사이클러뷰 클릭했을때 나오는 도장판 연결
         items = new ArrayList<g_GridItem>();
-//        adapter = new Custom_pAdapter(this, items);
+
 
 
         //툴바 유저 네임 설정
@@ -278,18 +263,5 @@ public class w_FragJoin extends Fragment {
     }
 
 
-    //도장판칸 생성
-    private g_GridItem addGoal(int i) {
-        // Handle any errors
-        storageRef.child("not.png").getDownloadUrl()
-                .addOnSuccessListener(uri -> {
-                    // Got the download URL for 'plus.png'
-                    gd = new g_GridItem(String.valueOf(i), uri.toString());
-                    ds.child(String.valueOf(i)).setValue(gd);
-
-                }).addOnFailureListener(Throwable::printStackTrace);
-
-        return gd;
-    }
 
 }

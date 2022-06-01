@@ -14,7 +14,8 @@
         android:theme="@style/Theme.Java_Sticker">
         <activity
             android:name=".group.close_add_goal"
-            android:exported="false" />
+            android:exported="true"
+            android:theme="@style/MyThemeNoActionBar"/>
         <activity
             android:name=".Account.Signup"
             android:exported="true"

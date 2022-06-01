@@ -2,10 +2,8 @@ package com.example.java_sticker.group;
 
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,11 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.example.java_sticker.R;
-import com.example.java_sticker.group.Custom_gAdapter;
-import com.example.java_sticker.group.g_GridItem;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -56,7 +51,7 @@ public class custom_g_goal_click extends Fragment {
     String uid;
     int count;
     int goal_count;
-    int p; //
+    int p;
 
     //파이어베이스
     FirebaseUser user;
@@ -78,7 +73,13 @@ public class custom_g_goal_click extends Fragment {
     View v;
     BottomSheetDialog bsd;
     private View view;
+
+    //해당 도장판의 참가한 유저의 배열을 저장하는 곳!
     List<String> uid_key;
+
+    //프래그먼트 리스트 저장하는 곳
+    List<Fragment> mFragmentList = new ArrayList<>();
+
 
     @Nullable
     @Override
@@ -106,7 +107,7 @@ public class custom_g_goal_click extends Fragment {
         uid = user.getUid();
 
         intent = getActivity().getIntent();
-
+        uid_key_ds=databaseReference.child(uid).child("dialog_group").child(key);
         g_tittle = intent.getStringExtra("tittle");
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
@@ -116,35 +117,16 @@ public class custom_g_goal_click extends Fragment {
         View header = getLayoutInflater().inflate(R.layout.header, null, false);
         header_goal = (TextView) header.findViewById(R.id.header_goal);
         gridView.addHeaderView(header);
-
-
-        ds = databaseReference.child(uid).child("goal_group").child(key).child(uid).child("도장판");
-        uid_key_ds=databaseReference.child(uid).child("dialog_group").child(key);
         header_goal.setText(g_tittle);
 
         //bottom sheet
         v = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
         bsd = new BottomSheetDialog(getActivity());
         bsd.setContentView(v);
-
-        // 도장판이 존재한다면 읽어오기, 없다면 for문 만큼 생성
-        ds.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (int i = 0; i < count; i++) {
-                        ReadPersonalDialog2(i);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        ReadUidKeyDialog();
 
 
-            }
-        });
+
 
 
         adapter.notifyDataSetChanged();
@@ -163,10 +145,33 @@ public class custom_g_goal_click extends Fragment {
 
         });
 
-        ReadCategoryDialog();
         //0으로초기화 방지
         ReadPersonalDialog();
         gridView.setAdapter(adapter);
+
+        for(int k = 0; k<uid_key.size(); k++){
+            //uid_key(uid배열)에 각 uid키에 접근해서 databaseReference의 도장판을 접근한다.
+            ds = databaseReference.child(uid).child("goal_group").child(key).child(uid_key.get(k)).child("도장판");
+            //도장판 읽어오기!
+            ds.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (int i = 0; i < count; i++) {
+                            //이거 . .프래그먼트를 넣어야함,, , 이럴수가
+                            //mFragmentList.add(ReadGoal(i));
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+
+                }
+            });
+        }
         return view;
 
     }
@@ -243,10 +248,7 @@ public class custom_g_goal_click extends Fragment {
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
-//
-//        //0으로초기화 방지
-//        ReadPersonalDialog();
-//        gridView.setAdapter(adapter);
+
 
     }
 
@@ -259,35 +261,21 @@ public class custom_g_goal_click extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private g_GridItem addGoal(int i) {
-        // Handle any errors
-        storageRef.child("not.png").getDownloadUrl()
-                .addOnSuccessListener(uri -> {
-                    // Got the download URL for 'plus.png'
-                    gd = new g_GridItem(String.valueOf(i), uri.toString());
-                    ds.child(String.valueOf(i)).setValue(gd);
-                }).addOnFailureListener(Throwable::printStackTrace);
-
-        return gd;
-    }
 
 
-    //다이얼로그 저장된 함수 가져오기
-    private void ReadPersonalDialog2(int i) {
+    //도장판 함수 가져오기!
+    private ArrayList<g_GridItem> ReadGoal(int i) {
 
-        postListener = new ValueEventListener() {
+       ds.addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
-                // sticker_img.setImageResource(0);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String key = dataSnapshot.getKey();
                     g_GridItem gridItem = dataSnapshot.getValue(g_GridItem.class);
                     //test
                     assert gridItem != null;
                     gridItem.setGoal_id(String.valueOf(i));
                     items.add(gridItem);
-                    Log.d("test", String.valueOf(gridItem));
 
                 }
                 adapter.notifyDataSetChanged();
@@ -300,8 +288,10 @@ public class custom_g_goal_click extends Fragment {
                 Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
             }
 
-        };
-        ds.addValueEventListener(postListener);
+        });
+
+       //items를 리턴해서 프래그먼트 리스트에 넣어준다!
+       return items;
     }
 
     //프로그래스바 숫자 늘리기
@@ -333,8 +323,8 @@ public class custom_g_goal_click extends Fragment {
 
 
 
-    //클릭한 카테고리 값 가져오기
-    private void ReadCategoryDialog() {
+    //클릭한 리사이클러뷰 아이템의 참가한 유저의 uid를 가져오는 함수
+    private void ReadUidKeyDialog() {
         uid_key.clear();
         uid_key_ds.addListenerForSingleValueEvent(new ValueEventListener() {
             //@SuppressLint("NotifyDataSetChanged")

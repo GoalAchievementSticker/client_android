@@ -69,6 +69,7 @@ public class DetailFragment extends Fragment {
     String _auth;
     String _cate;
     String _key;
+    String w_uid;
     Button add_button;
 
 
@@ -222,7 +223,7 @@ public class DetailFragment extends Fragment {
                             add_GroupDialog_limit_count.setValue(_limit_count+1);
                             //참가한 유저 GroupDialog 추가 db단위로 추가안하면 배열값으로 들어감.
                             //여기 limit_count 값 그냥 기존값 불러와서 +1하면됨(해결)
-                            GroupDialog groupDialog = new GroupDialog(_count, _goal, _limit, _auth, _key, 0, _cate, _limit_count+1);
+                            GroupDialog groupDialog = new GroupDialog(_count, _goal, _limit, _auth, _key, 0, _cate, _limit_count+1, w_uid);
                             add_GroupDialog_button_click_user.setValue(groupDialog);
                             //for문 돌려서 이미 있는 uid_key안의 uid추가
                             for(int i = 0; i<uid_key.size(); i++){
@@ -262,6 +263,8 @@ public class DetailFragment extends Fragment {
 
                             }
 
+                            Toast.makeText(view.getContext(), "참가됐습니다!", Toast.LENGTH_SHORT).show();
+
                         }
 
                     }
@@ -295,6 +298,7 @@ public class DetailFragment extends Fragment {
         _auth = bundle.getString("auth");
         _cate = bundle.getString("cate");
         _key  = bundle.getString("key");
+        w_uid = bundle.getString("w_uid");
 
         Log.d("getBundle",_count+"/ "+_limit+"/ "+_goal+"/ "+_auth+"/ "+_cate);
         goal.setText(_goal);
