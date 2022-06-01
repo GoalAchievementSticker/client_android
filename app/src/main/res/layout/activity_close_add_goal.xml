@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".Fragment.DetailFragment">
+    tools:context=".group.close_add_goal">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -152,24 +152,23 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+
     <Button
         android:id="@+id/add_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:contentDescription="TODO"
-        android:text="참가하기"
-        android:textColor="@color/white"
+        android:text="마감하기"
         android:textSize="18sp"
+        android:textColor="@color/white"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-        android:background="@drawable/detail_button"
+       android:background="@drawable/detail_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="1.0" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

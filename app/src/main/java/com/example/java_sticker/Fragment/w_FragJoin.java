@@ -233,114 +233,10 @@ public class w_FragJoin extends Fragment {
 
     }
 
-//    private void setViewPager() {
-//        assert getFragmentManager() != null;
-//        FragJoinAdapter adapter = new FragJoinAdapter(getFragmentManager());
-//        ViewPager viewPager = view.findViewById(R.id.viewPager);
-//        viewPager.setAdapter(adapter);
-//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-//        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                viewPager.setCurrentItem(tab.getPosition());
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-//    }
-//
-//
-//    @TargetApi(Build.VERSION_CODES.N)
-//    private void setTabLayout() {
-//        tabLayout = view.findViewById(R.id.tab_layout);
-//        tabNames.forEach(name -> tabLayout.addTab(tabLayout.newTab().setText(name)));
-//    }
-//
-//    private void loadTabName() {
-//        tabNames.add("대기 중");
-//        tabNames.add("참여 중");
-//    }
 
-    private void UploadData() {
-
-        Bundle bundle = this.getArguments();
-//        Log.d("여기야2","여긴 나오네");
-        int count = bundle.getInt("count");
-        int limit = bundle.getInt("limit");
-        String goal = bundle.getString("goal");
-        String auth = bundle.getString("auth");
-        String cate = bundle.getString("cate");
-
-        Log.d("여기야2", "==================================");
-         Log.d("여기야2", String.valueOf(count));
-        Log.d("여기야2", String.valueOf(limit));
-        Log.d("여기야2", String.valueOf(goal));
-        Log.d("여기야2", String.valueOf(auth));
-        Log.d("여기야2", String.valueOf(cate));
-
-//        SharedPreferences prefs = requireActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-//        prefs.edit().clear();
-//        String count = prefs.getString("count",null);
-//        String limit = prefs.getString("limit",null);
-//        String goal = prefs.getString("goal",null);
-//        String auth = prefs.getString("auth",null);
-//        String cate = prefs.getString("cate",null);
-
-        //Log.d("TAG", count);
-
-        //파이어베이스 저장
-        //고유키와 함께 저장히기 위한 장치
-        String key = databaseReference.push().getKey();
-        assert key != null;
-        DatabaseReference keyRef = databaseReference.child(uid).child("dialog_group").child(key);
-        DatabaseReference categoryRef = categoryReference.child(cate).child(key);
-        //list에 추가
-        GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate, 1);  //수,목표,제한,인증,카테고리
-        gDialog.add(groupDialog);
-        Log.d("TAG", String.valueOf(groupDialog));
-
-        gAdapter.notifyDataSetChanged();
-
-
-        //생성된 레코드 파이어베이스 저장
-        keyRef.setValue(groupDialog);
-        //uid 정보값 push()키로 저장하기
-        keyRef.child("uid").push().setValue(uid);
-
-        //카테고리 레코드 파이어베이스에도 저장
-        categoryRef.setValue(groupDialog);
-        categoryRef.child("uid").push().setValue(uid);
-
-        //도장판 gridview 데이터 저장
-        ds = databaseReference.child(uid).child("goal_group").child(key).child("도장판");
-        for (int i = 0; i < count; i++) {
-            items.add(addGoal(i));
-        }
-
-        new Handler().postDelayed(this::ReadGroupDialog, 400);
-
-
-    }
 
     private void toggleFab() {
-//        ObjectAnimator.ofFloat(fab_g, View.ROTATION, 0f, 45f).start();
-//        Fragment First = new First();
-//        assert getFragmentManager() != null;
-//        FragmentTransaction transaction =getFragmentManager().beginTransaction();
-//        transaction.replace(R.id.fragjoin, First);
-//        //프래그먼트 트랜잭션을 백스택에 push
-//        transaction.addToBackStack(null);
-//        //프래그먼트 상태전환 최적화
-//        transaction.setReorderingAllowed(true);
-//        transaction.commit();
+
 
         startActivity(new Intent(getActivity(), gGoalInputActivity.class));
 
@@ -362,18 +258,10 @@ public class w_FragJoin extends Fragment {
                     assert read_g != null;
                     read_g.key = key;
 
-                    //uid값 가져오기
-                    for (DataSnapshot dataSnapshot1 : dataSnapshot.child("uid").getChildren()) {
-                        uid.add(dataSnapshot1.getValue(String.class));
-                        // Log.d("TAG", String.valueOf(uid));
-                        //Log.d("TAG", String.valueOf(uid.size()));
+                    if(read_g.getLimit() != read_g.getLimit_count()){
+                        gDialog.add(read_g);
                     }
 
-
-                    //Log.d("TAG", read_g.getgTittle());
-                    //Log.d("TAG", String.valueOf(read_g.getgCount()));
-
-                    gDialog.add(read_g);
 
                 }
                 gAdapter.notifyDataSetChanged();
