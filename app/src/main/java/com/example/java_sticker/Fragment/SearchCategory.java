@@ -119,13 +119,13 @@ public class SearchCategory extends Fragment {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    ReadCategory(query);
+                    ReadCategorySearch(query);
                     return true;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    ReadCategory(newText);
+                    ReadCategorySearch(newText);
                     return true;
                 }
             });
@@ -137,40 +137,61 @@ public class SearchCategory extends Fragment {
         return view;
     }
 
-    private void ReadCategory(String keyword){
-        categoryReference.child("공부").addValueEventListener(new ValueEventListener() {
+    private void ReadCategorySearch(String keyword){
+        categoryReference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 groupDialogs.clear();
-                //Log.d("TAG", String.valueOf(snapshot));
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot : snapshot.child("공부").getChildren()) {
                     String key = dataSnapshot.getKey();
                     GroupDialog read_g = dataSnapshot.getValue(GroupDialog.class);
                     assert read_g != null;
                     read_g.key = key;
-                    //Log.d("TAG", read_g.getgTittle());
-                    //Log.d("TAG", String.valueOf(read_g.getgCount()));
-
                     if(read_g.getgTittle().contains(keyword)){
                         groupDialogs.add(read_g);
                     }
-
-
+                }
+                for (DataSnapshot dataSnapshot2 : snapshot.child("운동").getChildren()) {
+                    String key = dataSnapshot2.getKey();
+                    GroupDialog read_g2 = dataSnapshot2.getValue(GroupDialog.class);
+                    assert read_g2 != null;
+                    read_g2.key = key;
+                    if(read_g2.getgTittle().contains(keyword)){
+                        groupDialogs.add(read_g2);
+                    }
+                }
+                for (DataSnapshot dataSnapshot3 : snapshot.child("루틴").getChildren()) {
+                    String key = dataSnapshot3.getKey();
+                    GroupDialog read_g3 = dataSnapshot3.getValue(GroupDialog.class);
+                    assert read_g3 != null;
+                    read_g3.key = key;
+                    if(read_g3.getgTittle().contains(keyword)){
+                        groupDialogs.add(read_g3);
+                    }
+                }
+                for (DataSnapshot dataSnapshot4 : snapshot.child("취미").getChildren()) {
+                    String key = dataSnapshot4.getKey();
+                    GroupDialog read_g4 = dataSnapshot4.getValue(GroupDialog.class);
+                    assert read_g4 != null;
+                    read_g4.key = key;
+                    if(read_g4.getgTittle().contains(keyword)){
+                        groupDialogs.add(read_g4);
+                    }
                 }
                 Log.d("TAG", String.valueOf(groupDialogs));
                 mAdapter.notifyDataSetChanged();
 
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
                 Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
+
 
 
 }

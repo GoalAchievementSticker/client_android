@@ -36,9 +36,10 @@
         <item name="android:background">@drawable/bottom_sheet_background</item>
     </style>
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <!-- #74D19D -->
         <item name="colorButtonNormal">#74D19D</item>
         <item name="android:background">@drawable/categoty_bg</item>
-        <item name="colorAccent">#9FE8A2</item>
+        <item name="colorAccent">#B7D0B2</item>
     </style>
     <style name="MyMaterialTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Add attributes here -->

@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Java_Sticker">
         <activity
+            android:name=".group.close_add_goal"
+            android:exported="false" />
+        <activity
             android:name=".Account.Signup"
             android:exported="true"
             android:theme="@style/MyThemeNoActionBar" />
@@ -41,13 +44,10 @@
         <activity android:name=".gGoalInput.gGoalInputActivity"
             android:theme="@style/MyThemeNoActionBar"
             android:exported="true" />
-        <activity android:name=".group.custom_gGoal_viewpager"
-            android:theme="@style/MyThemeNoActionBar"
-            android:exported="true" />
         <activity
             android:name=".personal.MainActivity"
-            android:theme="@style/MyThemeNoActionBar"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/MyThemeNoActionBar" />
     </application>
 
 </manifest>
