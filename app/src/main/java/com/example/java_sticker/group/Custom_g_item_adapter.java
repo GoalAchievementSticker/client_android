@@ -25,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 
 public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_adapter.ViewHolder> {
@@ -39,7 +39,7 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference profile_databaseReference = firebaseDatabase.getReference();
-
+    List<String> uid_key;
 
     public Custom_g_item_adapter(Context context,ArrayList<GroupDialog> items){
         this.context = context;
@@ -93,7 +93,7 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
             @Override
             public void onClick(View view) {
                 if(item.getLimit() == item.getLimit_count()){
-                    intent = new Intent(view.getContext(), custom_g_goal_click.class);
+                    intent = new Intent(view.getContext(), custom_gGoal_viewpager.class);
                     intent.putExtra("tittle",item.getgTittle());
                     intent.putExtra("key", item.getKey());
                     intent.putExtra("count", item.getgCount());

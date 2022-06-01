@@ -7,15 +7,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.java_sticker.R;
 import com.example.java_sticker.group.Custom_gAdapter;
@@ -38,7 +43,7 @@ import java.util.Objects;
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 /*그룹도장판*/
-public class custom_g_goal_click extends AppCompatActivity {
+public class custom_g_goal_click extends Fragment {
     private TextView header_goal;
     private Intent intent;
     Custom_gAdapter adapter;
@@ -59,6 +64,8 @@ public class custom_g_goal_click extends AppCompatActivity {
     DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
     private ImageView sticker_img;
     DatabaseReference ds;
+    DatabaseReference uid_key_ds;
+
 
     private List<String> goal_key = new ArrayList<>();
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -70,48 +77,54 @@ public class custom_g_goal_click extends AppCompatActivity {
     ImageView s1, s2, s3, s4, s5;
     View v;
     BottomSheetDialog bsd;
+    private View view;
+    List<String> uid_key;
 
-    @SuppressLint({"NonConstantResourceId", "ResourceType"})
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_ggoal_click);
-
+    public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        assert inflater != null;
+        view = inflater.inflate(R.layout.activity_custom_ggoal_click, container, false);
         //toolbar
-        toolbar = (Toolbar) findViewById(R.id.goal_toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
+        Log.d("test","여기");
+        toolbar = view.findViewById(R.id.goal_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
+        uid_key=new ArrayList<>();
 
         // Create a storage reference from our app
-        sticker_img = findViewById(R.id.sticker_img);
+        sticker_img = view.findViewById(R.id.sticker_img);
         items = new ArrayList<>();
-        adapter = new Custom_gAdapter(this, items);
-        gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.g_gridView);
+        adapter = new Custom_gAdapter(getContext(), items);
+        gridView = (GridViewWithHeaderAndFooter) view.findViewById(R.id.g_gridView);
 
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         uid = user.getUid();
-        intent = getIntent();
+
+        intent = getActivity().getIntent();
+
         g_tittle = intent.getStringExtra("tittle");
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
         goal_count = intent.getIntExtra("goal_count", 0);
 
-
+        Log.d("test",g_tittle);
         View header = getLayoutInflater().inflate(R.layout.header, null, false);
         header_goal = (TextView) header.findViewById(R.id.header_goal);
         gridView.addHeaderView(header);
 
 
         ds = databaseReference.child(uid).child("goal_group").child(key).child(uid).child("도장판");
+        uid_key_ds=databaseReference.child(uid).child("dialog_group").child(key);
         header_goal.setText(g_tittle);
 
         //bottom sheet
         v = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
-        bsd = new BottomSheetDialog(this);
+        bsd = new BottomSheetDialog(getActivity());
         bsd.setContentView(v);
 
         // 도장판이 존재한다면 읽어오기, 없다면 for문 만큼 생성
@@ -150,13 +163,14 @@ public class custom_g_goal_click extends AppCompatActivity {
 
         });
 
-
+        ReadCategoryDialog();
         //0으로초기화 방지
         ReadPersonalDialog();
         gridView.setAdapter(adapter);
-
+        return view;
 
     }
+
 
     private void stickerClick(int i) {
         //bottom sheet dialog 보이기기
@@ -165,7 +179,7 @@ public class custom_g_goal_click extends AppCompatActivity {
         bsd.getBehavior().setState(STATE_COLLAPSED);
 
         s1.setOnClickListener(view -> {
-            Toast.makeText(this, "s1클릭", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "s1클릭", Toast.LENGTH_SHORT).show();
             storageRef.child("check.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         // Got the download URL for 'plus.png'
@@ -178,7 +192,7 @@ public class custom_g_goal_click extends AppCompatActivity {
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
         s2.setOnClickListener(view -> {
-            Toast.makeText(this, "s2클릭", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "s2클릭", Toast.LENGTH_SHORT).show();
             storageRef.child("sprout.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
@@ -192,7 +206,7 @@ public class custom_g_goal_click extends AppCompatActivity {
 
         });
         s3.setOnClickListener(view -> {
-            Toast.makeText(this, "s3클릭", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "s3클릭", Toast.LENGTH_SHORT).show();
             storageRef.child("y_star.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         // Got the download URL for 'plus.png'
@@ -205,7 +219,7 @@ public class custom_g_goal_click extends AppCompatActivity {
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
         s4.setOnClickListener(view -> {
-            Toast.makeText(this, "s4클릭", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "s4클릭", Toast.LENGTH_SHORT).show();
             storageRef.child("triangular.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         // Got the download URL for 'plus.png'
@@ -217,7 +231,7 @@ public class custom_g_goal_click extends AppCompatActivity {
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
         s5.setOnClickListener(view -> {
-            Toast.makeText(this, "s5클릭", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "s5클릭", Toast.LENGTH_SHORT).show();
             storageRef.child("new-moon.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         // Got the download URL for 'plus.png'
@@ -238,11 +252,9 @@ public class custom_g_goal_click extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                finish();
-                return true;
-            }
+        if (item.getItemId() == android.R.id.home) {
+            getActivity().finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -275,6 +287,7 @@ public class custom_g_goal_click extends AppCompatActivity {
                     assert gridItem != null;
                     gridItem.setGoal_id(String.valueOf(i));
                     items.add(gridItem);
+                    Log.d("test", String.valueOf(gridItem));
 
                 }
                 adapter.notifyDataSetChanged();
@@ -284,7 +297,7 @@ public class custom_g_goal_click extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-                Toast.makeText(custom_g_goal_click.this, "불러오기 실패", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
             }
 
         };
@@ -315,6 +328,28 @@ public class custom_g_goal_click extends AppCompatActivity {
         });
 
         return p;
+
+    }
+
+
+
+    //클릭한 카테고리 값 가져오기
+    private void ReadCategoryDialog() {
+        uid_key.clear();
+        uid_key_ds.addListenerForSingleValueEvent(new ValueEventListener() {
+            //@SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.child("uid").getChildren()) {
+                    uid_key.add(dataSnapshot.getValue(String.class));
+                    //Log.d("TAG", String.valueOf(uid_key));
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }
