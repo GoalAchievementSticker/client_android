@@ -9,6 +9,7 @@ public class GroupDialog {
     String auth;//인증방식
     String cate;// 카테고리
     int limit_count; //제한인원 얼마나 들어왔나 카운트세기
+    String w_uid; //게시글 작성자 uid
    // String[] uid;
 
 
@@ -16,7 +17,7 @@ public class GroupDialog {
 
     }
 
-    public GroupDialog(int gCount, String gTittle,int limit,String auth, String key, int gGoal,String cate, int limit_count){
+    public GroupDialog(int gCount, String gTittle,int limit,String auth, String key, int gGoal,String cate, int limit_count, String w_uid){
         this.gCount = gCount;
         this.gTittle = gTittle;
         this.limit=limit;
@@ -25,6 +26,7 @@ public class GroupDialog {
         this.gGoal = gGoal;
         this.cate=cate;
         this.limit_count = limit_count;
+        this.w_uid = w_uid;
        // this.uid = uid;
 
     }
@@ -93,5 +95,13 @@ public class GroupDialog {
 
     public int getLimit_count() {
         return limit_count;
+    }
+
+    public String getW_uid() {
+        return w_uid;
+    }
+
+    public void setW_uid(String w_uid) {
+        this.w_uid = w_uid;
     }
 }

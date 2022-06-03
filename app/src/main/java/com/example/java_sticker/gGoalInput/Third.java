@@ -115,7 +115,7 @@ public class Third extends Fragment  {
                 DatabaseReference keyRef = databaseReference.child(uid).child("dialog_group").child(key);
                 DatabaseReference categoryRef = categoryReference.child(cate).child(key);
                 //list에 추가
-                GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate, 1);  //수,목표,제한,인증,카테고리
+                GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate, 1,uid);  //수,목표,제한,인증,카테고리,작성자uid
 
                 Log.d("TAG", String.valueOf(groupDialog));
 

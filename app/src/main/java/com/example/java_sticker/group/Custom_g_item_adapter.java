@@ -32,14 +32,15 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
     Context context;
     ArrayList<GroupDialog> items;
     Intent intent;
+    Intent intent_close;
     //int item_layout;
 
     //그룹방 이미지 불러오기 위한 장치
-    String uid;
-    FirebaseUser user;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference profile_databaseReference = firebaseDatabase.getReference();
-    List<String> uid_key;
+
+    String uid = user.getUid();
 
     public Custom_g_item_adapter(Context context,ArrayList<GroupDialog> items){
         this.context = context;
@@ -94,14 +95,33 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
             public void onClick(View view) {
                 if(item.getLimit() == item.getLimit_count()){
                     intent = new Intent(view.getContext(), custom_gGoal_viewpager.class);
-                    intent.putExtra("tittle",item.getgTittle());
-                    intent.putExtra("key", item.getKey());
-                    intent.putExtra("count", item.getgCount());
+                    intent.putExtra("tittle",item.getgTittle()); //도장판 제목
+                    intent.putExtra("key", item.getKey()); //리사이클러뷰 고유키
+                    intent.putExtra("count", item.getgCount()); //도장판 총 도장갯수
+                    intent.putExtra("limit", item.getLimit()); //도장판 인원 제한수
+                    intent.putExtra("limit_count", item.getLimit_count()); //도장판 참가한 수
+                    intent.putExtra("auth",item.getAuth()); //도장판 인증방식
+                    intent.putExtra("cate",item.getCate()); //도장판 카테고리
+
                     view.getContext().startActivity(intent);
+                }else if(item.getW_uid() == uid){
+                    //만약 그룹도장판의 작성자 uid랑 지금 로그인한 uid랑 같다면 마감버튼 페이지로 이동
+                    intent_close = new Intent(view.getContext(), close_add_goal.class);
+                    intent_close.putExtra("tittle",item.getgTittle()); //도장판 제목
+                    intent_close.putExtra("key", item.getKey()); //리사이클러뷰 고유키
+                    intent_close.putExtra("count", item.getgCount()); //도장판 총 도장갯수
+                    intent_close.putExtra("limit", item.getLimit()); //도장판 인원 제한수
+                    intent_close.putExtra("limit_count", item.getLimit_count()); //도장판 참가한 수
+                    intent_close.putExtra("auth",item.getAuth()); //도장판 인증방식
+                    intent_close.putExtra("cate",item.getCate()); //도장판 카테고리
+
+                    view.getContext().startActivity(intent_close);
+
                 }
                 else{
                     Toast.makeText(context,"아직 참가인원이 채워지지 않았습니다", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 

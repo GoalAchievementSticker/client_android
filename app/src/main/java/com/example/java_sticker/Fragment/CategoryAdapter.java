@@ -71,6 +71,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             bundle.putString("auth",mDataset.get(position).getAuth());//인증방식
             bundle.putString("cate",mDataset.get(position).getCate()); //카테고리
             bundle.putString("key", mDataset.get(position).getKey()); //리사이클러뷰 고유키
+            bundle.putString("w_uid", mDataset.get(position).getW_uid()); //작성자 uid
 
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
             Fragment DetailFragment = new DetailFragment();
