@@ -25,9 +25,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="그룹도장판3"
+                android:text="카테고리"
                 android:textColor="@color/black"
-                android:textSize="20sp">
+                android:textSize="20sp"
+                tools:layout_editor_absoluteX="154dp"
+                tools:layout_editor_absoluteY="14dp">
 
             </TextView>
         </androidx.appcompat.widget.Toolbar>
@@ -144,11 +146,11 @@
 
             <Button
                 android:id="@+id/OKBtn"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="?android:attr/buttonBarButtonStyle"
-                android:text="확인" />
+                android:text="다음" />
         </LinearLayout>
 
         <TextView
@@ -156,7 +158,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="bottom"
-            android:text="3/3" />
+            android:text="1/3" />
     </LinearLayout>
 
 </LinearLayout>
