@@ -16,6 +16,9 @@
             android:name=".group.close_add_goal"
             android:exported="true"
             android:theme="@style/MyThemeNoActionBar"/>
+        <activity android:name=".group.custom_g_goal_click_main"
+            android:exported="true"
+            android:theme="@style/MyThemeNoActionBar"/>
         <activity
             android:name=".Account.Signup"
             android:exported="true"
