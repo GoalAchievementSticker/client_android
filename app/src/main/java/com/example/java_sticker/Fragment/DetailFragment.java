@@ -93,6 +93,7 @@ public class DetailFragment extends Fragment {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     DatabaseReference uid_fixed = null;
+    DatabaseReference uid_boolen;
     g_GridItem gd;
 
     boolean status = false;
@@ -220,7 +221,7 @@ public class DetailFragment extends Fragment {
                             add_GroupDialog_limit_count.setValue(_limit_count+1);
                             //참가한 유저 GroupDialog 추가 db단위로 추가안하면 배열값으로 들어감.
                             //여기 limit_count 값 그냥 기존값 불러와서 +1하면됨(해결)
-                            GroupDialog groupDialog = new GroupDialog(_count, _goal, _limit, _auth, _key, 0, _cate, _limit_count+1, w_uid,name,uid);
+                            GroupDialog groupDialog = new GroupDialog(_count, _goal, _limit, _auth, _key, 0, _cate, _limit_count+1, w_uid,name,uid,false);
                             add_GroupDialog_button_click_user.setValue(groupDialog);
                             //for문 돌려서 이미 있는 uid_key안의 uid추가
                             for(int i = 0; i<uid_key.size(); i++){
@@ -238,6 +239,8 @@ public class DetailFragment extends Fragment {
                                 for (int t = 0; t < uid_size; t++) {
                                     //uid 참가한 유저 배열 위치 순서대로 접근해서 저장해주기
                                     uid_fixed = databaseReference.child(uid_key.get(t)).child("goal_group").child(_key).child("도장판");
+                                    uid_boolen = databaseReference.child(uid_key.get(t)).child("dialog_group").child(_key).child("close");
+                                    uid_boolen.setValue(true);
                                     for (int j = 0; j <_count; j++) {
                                         addGoal(j);
                                     }
@@ -253,6 +256,7 @@ public class DetailFragment extends Fragment {
 
 
                             }
+
 
                             Toast.makeText(view.getContext(), "참가됐습니다!", Toast.LENGTH_SHORT).show();
 
@@ -313,7 +317,7 @@ public class DetailFragment extends Fragment {
 
 
 
-    //클릭한 카테고리 값 가져오기
+    //클릭한 uid 가져오기
     private void ReadCategoryDialog(String cate2, String key2) {
         uid_key.clear();
         categoryReference.child(cate2).child(key2).addListenerForSingleValueEvent(new ValueEventListener() {

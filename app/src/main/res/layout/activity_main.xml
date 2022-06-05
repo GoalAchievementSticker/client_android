@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="better me"
-                android:textColor="@color/black"
+                android:textColor="#3F4739"
                 android:textSize="20sp">
 
             </TextView>

@@ -231,7 +231,7 @@ public class w_FragJoin extends Fragment {
                     assert read_g != null;
                     read_g.key = key;
 
-                    if(read_g.getLimit() != read_g.getLimit_count()){
+                    if(read_g.isClose() == false){
                         gDialog.add(read_g);
                     }
 

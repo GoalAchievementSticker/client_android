@@ -45,6 +45,9 @@ public class group_goal_click_detail extends Fragment {
     TextView g_goal_c_total_per;
     RecyclerView g_goal_c_item_ry;
 
+    double per;
+    int per_add;
+
     //툴바그룹 목표
     TextView g_title_name;
 
@@ -79,6 +82,7 @@ public class group_goal_click_detail extends Fragment {
     String title;
     String key;
     int count;
+    int limit_count;
 
     private Intent intent;
 
@@ -139,6 +143,7 @@ public class group_goal_click_detail extends Fragment {
         title = intent.getStringExtra("tittle");
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
+        limit_count = intent.getIntExtra("limit_count", 2);
 
 
         //uid 접근
@@ -171,6 +176,7 @@ public class group_goal_click_detail extends Fragment {
         //uid_key접근가져옴
         ReadUidKeyDialog();
 
+        //도장판 + 퍼센트 가져오기
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -178,10 +184,20 @@ public class group_goal_click_detail extends Fragment {
                 for(int j = 0; j<uid_key.size(); j++){
                     uid_goal_group = databaseReference.child(uid_key.get(j)).child("dialog_group").child(key);
                     ReadDialogGroup();
+                    Log.d("TAG", String.valueOf(per));
                 }
+                //퍼센트가져오기
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        double per_count = (per/(count*limit_count))*100;
+                        g_goal_c_total_per.setText(String.valueOf((int)per_count)+"%");
+                    }
+                },1000);
 
             }
         },400);
+
 
 
 
@@ -213,7 +229,8 @@ public class group_goal_click_detail extends Fragment {
 
 
     //각 uid_key에 해당하는 group_goal가져오기!!!
-    private void ReadDialogGroup(){
+    private double ReadDialogGroup(){
+        per = 0;
         uid_goal_group.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -222,6 +239,8 @@ public class group_goal_click_detail extends Fragment {
                 assert  read_g !=null;
                 read_g.key = key;
                 gDialog.add(read_g);
+
+                per += read_g.getgGoal();
 
                 gAdapter.notifyDataSetChanged();
 
@@ -232,5 +251,7 @@ public class group_goal_click_detail extends Fragment {
 
             }
         });
+
+        return per;
     }
 }

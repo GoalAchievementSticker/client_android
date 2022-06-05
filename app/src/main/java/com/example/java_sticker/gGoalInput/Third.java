@@ -105,7 +105,7 @@ public class Third extends Fragment  {
                     @Override
                     public void run() {
                         //list에 추가
-                        GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate, 1,uid,name, uid);
+                        GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate, 1,uid,name, uid,false);
                         //수,목표,제한,인증,카테고리,작성자uid,user 이름
 
                         Log.d("TAG", String.valueOf(groupDialog));

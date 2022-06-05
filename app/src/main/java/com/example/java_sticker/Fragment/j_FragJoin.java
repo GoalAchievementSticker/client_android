@@ -186,7 +186,7 @@ public class j_FragJoin extends Fragment {
                     read_g.key = key;
 
                     //제한인원이랑 참가인원이 같은것만 가져오기 or +(추가)마감버튼 눌렀다는 true변수이면 가져오기
-                    if(read_g.getLimit() == read_g.getLimit_count()){
+                    if(read_g.isClose() == true){
                         gDialog.add(read_g);
                     }
 

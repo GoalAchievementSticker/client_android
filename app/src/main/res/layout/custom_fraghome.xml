@@ -33,6 +33,7 @@
                 android:layout_gravity="center"
                 android:text="목표이름"
                 android:textSize="20sp"
+                android:textColor="#3F4739"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.213"

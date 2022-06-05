@@ -61,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:padding="10dp"
+                    android:textColor="#3F4739"
                     android:text="목표" />
 
                 <EditText
@@ -68,6 +69,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7"
+                    android:textColor="#3F4739"
                     android:hint="목표를 입력해주세요"
                     android:padding="10dp" />
 
@@ -86,6 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:padding="10dp"
+                    android:textColor="#3F4739"
                     android:text="스티커 수" />
 
                 <EditText
@@ -93,6 +96,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7"
+                    android:textColor="#3F4739"
                     android:hint="1~50까지 입력해주세요"
                     android:inputType="number"
                     android:padding="10dp" />
@@ -112,6 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:padding="10dp"
+                    android:textColor="#3F4739"
                     android:text="제한인원 수" />
 
                 <EditText
@@ -119,6 +124,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7"
+                    android:textColor="#3F4739"
                     android:hint="2~50까지 입력해주세요"
                     android:inputType="number" />
 
@@ -137,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:textColor="#3F4739"
                 style="?android:attr/buttonBarButtonStyle"
                 android:text="취소" />
 
@@ -146,6 +153,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="#3F4739"
                 style="?android:attr/buttonBarButtonStyle"
                 android:text="다음" />
         </LinearLayout>
