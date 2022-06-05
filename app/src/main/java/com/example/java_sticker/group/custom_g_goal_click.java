@@ -62,13 +62,11 @@ public class custom_g_goal_click extends Fragment {
     int count;
     String tittle;
     int goal_count;
-    String key;
     String w_uid;
     String uid_auth;
     int p;
 
     //파이어베이스
-    String uid;
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
@@ -87,7 +85,6 @@ public class custom_g_goal_click extends Fragment {
     View v;
     BottomSheetDialog bsd;
     private View view;
-
 
 
     //카메라 촬영
@@ -125,13 +122,7 @@ public class custom_g_goal_click extends Fragment {
         assert user != null;
         uid = user.getUid();
 
-        try {
-            GetBundle();
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
+        GetBundle();
         View header = getLayoutInflater().inflate(R.layout.header, null, false);
         header_goal = (TextView) header.findViewById(R.id.header_goal);
         gridView.addHeaderView(header);
@@ -142,12 +133,13 @@ public class custom_g_goal_click extends Fragment {
         bsd = new BottomSheetDialog(getActivity());
         bsd.setContentView(v);
 
-        ReadUidKeyDialog();
+        //ReadUidKeyDialog();
 
 
+        View cv = getLayoutInflater().inflate(R.layout.ggoal_sticker_img, null);
         //img
-        img = v.findViewById(R.id.img);
-        ok = v.findViewById(R.id.ok);
+        img = cv.findViewById(R.id.img);
+        ok = cv.findViewById(R.id.ok);
 
         adapter.notifyDataSetChanged();
 
@@ -166,37 +158,33 @@ public class custom_g_goal_click extends Fragment {
         ReadPersonalDialog();
         gridView.setAdapter(adapter);
 
-            //클릭한 사람의 정보 받아서 가져오기
-            ds = databaseReference.child(uid_auth).child("goal_group").child(key).child("도장판");
-            //도장판 읽어오기!
-            ds.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        for (int i = 0; i < count; i++) {
-                            ReadGoal(i);
-                        }
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-
-                }
-            });
-        }
-
         ok.setOnClickListener(view -> {
             uploadToFirebase(mImageUri);
-
 
         });
 
 
-        return view;
+        //클릭한 사람의 정보 받아서 가져오기
+        ds = databaseReference.child(uid_auth).child("goal_group").child(key).child("도장판");
+        //도장판 읽어오기!
+        ds.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (int i = 0; i < count; i++) {
+                        ReadGoal(i);
+                    }
 
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+
+            }
+        });
+        return view;
     }
 
 
@@ -222,7 +210,7 @@ public class custom_g_goal_click extends Fragment {
             //이미지 모델에 담기
             Model model = other -> false;
 
-           // ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+            // ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
             bsd.dismiss();
 
             //도장을 클릭했다면 프로그래스바 숫자를 늘린다
@@ -267,7 +255,7 @@ public class custom_g_goal_click extends Fragment {
         //카메라 찎
         camera.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra("order",i);
+            intent.putExtra("order", i);
 
             if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
@@ -303,9 +291,6 @@ public class custom_g_goal_click extends Fragment {
         });
 
 
-
-
-
     }
 
 
@@ -315,16 +300,17 @@ public class custom_g_goal_click extends Fragment {
         count = bundle.getInt("count");
         tittle = bundle.getString("tittle");
         goal_count = bundle.getInt("goal_count");
-        uid_auth= bundle.getString("uid_auth");
-        key  = bundle.getString("key");
+        uid_auth = bundle.getString("uid_auth");
+        key = bundle.getString("key");
         w_uid = bundle.getString("w_uid");
+        Log.d("getbundle",count+"\n"+tittle+"\n"+goal_count+"\n"+uid_auth+"\n"+key+"\n"+w_uid);
 
     }
 
 
     //도장판 함수 가져오기!
     private ArrayList<g_GridItem> ReadGoal(int i) {
-       ds.addValueEventListener(new ValueEventListener(){
+        ds.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
@@ -348,8 +334,8 @@ public class custom_g_goal_click extends Fragment {
 
         });
 
-       //items를 리턴해서 프래그먼트 리스트에 넣어준다!
-       return items;
+        //items를 리턴해서 프래그먼트 리스트에 넣어준다!
+        return items;
     }
 
     //프로그래스바 숫자 늘리기
@@ -360,19 +346,24 @@ public class custom_g_goal_click extends Fragment {
 
     //다이얼로그 저장된 함수 가져오기
     private int ReadPersonalDialog() {
-        databaseReference.child(uid_auth).child("dialog_group").child(key).child("gGoal").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                p = snapshot.getValue(Integer.class);
-                Log.d("TAG", String.valueOf(p));
+        databaseReference
+                .child(uid_auth)
+                .child("dialog_group")
+                .child(key)
+                .child("gGoal")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        p = snapshot.getValue(Integer.class);
+                        Log.d("TAG", String.valueOf(p));
 
-            }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
 
         return p;
 
@@ -380,23 +371,23 @@ public class custom_g_goal_click extends Fragment {
 
 
     //클릭한 리사이클러뷰 아이템의 참가한 유저의 uid를 가져오는 함수
-    private void ReadUidKeyDialog() {
-        uid_key.clear();
-        uid_key_ds.addListenerForSingleValueEvent(new ValueEventListener() {
-            //@SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.child("uid").getChildren()) {
-                    uid_key.add(dataSnapshot.getValue(String.class));
-                    //Log.d("TAG", String.valueOf(uid_key));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
+//    private void ReadUidKeyDialog() {
+//        uid_key.clear();
+//        uid_key_ds.addListenerForSingleValueEvent(new ValueEventListener() {
+//            //@SuppressLint("NotifyDataSetChanged")
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot dataSnapshot : snapshot.child("uid").getChildren()) {
+//                    uid_key.add(dataSnapshot.getValue(String.class));
+//                    //Log.d("TAG", String.valueOf(uid_key));
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
 }

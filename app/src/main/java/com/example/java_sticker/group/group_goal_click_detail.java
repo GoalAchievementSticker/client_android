@@ -76,6 +76,7 @@ public class group_goal_click_detail extends Fragment {
 
 
     //참여중 리사이클러뷰 아이템 클릭했던 값 받는 변수
+    String auth;
     String title;
     String key;
     int count;
@@ -139,6 +140,7 @@ public class group_goal_click_detail extends Fragment {
         title = intent.getStringExtra("tittle");
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
+        auth=intent.getStringExtra("auth");
 
 
         //uid 접근

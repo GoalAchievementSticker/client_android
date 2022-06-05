@@ -3,6 +3,7 @@ package com.example.java_sticker.group;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,28 +96,28 @@ public class g_goal_c_detail_adapter extends RecyclerView.Adapter<g_goal_c_detai
         // Log.d("TAG", String.valueOf(item.gCount));
         holder.g_goal_progressBar.setCurValue(item.gGoal);
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
+        holder.cardView.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
 
-                bundle.putString("tittle",item.getgTittle()); //목표제목
-                bundle.putInt("count", item.getgCount());//총 도장수
-                bundle.putInt("goal_count", item.getgGoal());//찍은 도장수
-                bundle.putString("auth",item.getAuth());//인증방식
-                bundle.putString("key", item.getKey()); //리사이클러뷰 고유키
-                bundle.putString("w_uid", item.getW_uid()); //작성자 uid
-                bundle.putString("uid_auth",item.getUid_auth()); //카드뷰 클릭한 사람의 uid
+            bundle.putString("tittle",item.getgTittle()); //목표제목
+            bundle.putInt("count", item.getgCount());//총 도장수
+            bundle.putInt("goal_count", item.getgGoal());//찍은 도장수
+            bundle.putString("auth",item.getAuth());//인증방식
+            bundle.putString("key", item.getKey()); //리사이클러뷰 고유키
+            bundle.putString("w_uid", item.getW_uid()); //작성자 uid
+            bundle.putString("uid_auth",item.getUid_auth()); //카드뷰 클릭한 사람의 uid
 
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                Fragment custom_g_goal_click = new custom_g_goal_click();
-                custom_g_goal_click.setArguments(bundle);
-                FragmentManager fragmentManager = ((custom_g_goal_click_main)view.getContext()).getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.group_goal_click_layout,custom_g_goal_click).addToBackStack(null).commit();
+            Log.d("auth","" +item.getUid_auth());
 
 
-            }
+            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+            Fragment custom_g_goal_click = new custom_g_goal_click();
+            custom_g_goal_click.setArguments(bundle);
+            FragmentManager fragmentManager = ((custom_g_goal_click_main)view.getContext()).getSupportFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.group_goal_click_layout,custom_g_goal_click).addToBackStack(null).commit();
+
+
         });
 
     }

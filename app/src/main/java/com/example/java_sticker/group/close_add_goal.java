@@ -71,9 +71,9 @@ public class close_add_goal extends AppCompatActivity {
         w_uid = intent.getStringExtra("w_uid"); //작성자 uid
 
         goal.setText(_goal);
-        count.setText(String.valueOf(_count)+"개");
+        count.setText(_count +"개");
         auth.setText(_auth);
-        limit.setText(String.valueOf(_limit_count)+"/"+ String.valueOf(_limit));
+        limit.setText(_limit_count +"/"+ _limit);
         cate.setText(_cate);
 
     }
