@@ -16,6 +16,7 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/Toolbar"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints">
@@ -25,9 +26,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="그룹도장판2"
+                android:text="인증"
                 android:textColor="@color/black"
-                android:textSize="20sp">
+                android:textSize="20sp"
+                tools:layout_editor_absoluteX="154dp"
+                tools:layout_editor_absoluteY="14dp">
 
             </TextView>
         </androidx.appcompat.widget.Toolbar>
@@ -90,11 +93,11 @@
 
             <Button
                 android:id="@+id/nxtBtn"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="?android:attr/buttonBarButtonStyle"
-                android:text="다음" />
+                android:text="완료" />
         </LinearLayout>
 
         <TextView
@@ -102,7 +105,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="bottom"
-            android:text="2/3" />
+            android:text="3/3" />
     </LinearLayout>
 
 </LinearLayout>

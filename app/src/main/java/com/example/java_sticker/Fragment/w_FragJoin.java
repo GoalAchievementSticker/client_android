@@ -1,18 +1,10 @@
 package com.example.java_sticker.Fragment;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -35,7 +25,6 @@ import com.example.java_sticker.group.Custom_g_item_adapter;
 import com.example.java_sticker.group.g_GridItem;
 import com.example.java_sticker.group.GroupDialog;
 import com.example.java_sticker.R;
-import com.example.java_sticker.gGoalInput.First;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,7 +39,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class w_FragJoin extends Fragment {
     private View view;
@@ -154,7 +142,7 @@ public class w_FragJoin extends Fragment {
 
         //리사이클러뷰 선언
         g_goal_recycler = view.findViewById(R.id.recyclerview_g_goal);
-        customProgress = view.findViewById(R.id.customProgress);
+        customProgress = view.findViewById(R.id.customProgress_g_goal_c);
         custom_g_goal_tittle = view.findViewById(R.id.custom_g_goal_tittle);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         g_goal_recycler.setLayoutManager(linearLayoutManager);

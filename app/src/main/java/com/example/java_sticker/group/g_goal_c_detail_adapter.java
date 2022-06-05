@@ -2,6 +2,7 @@ package com.example.java_sticker.group;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.java_sticker.CustomProgress;
+import com.example.java_sticker.Fragment.DetailFragment;
+import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,8 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
-public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_adapter.ViewHolder> {
+public class g_goal_c_detail_adapter extends RecyclerView.Adapter<g_goal_c_detail_adapter.ViewHolder> {
     Context context;
     ArrayList<GroupDialog> items;
     Intent intent;
@@ -41,9 +47,10 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
 
     String uid = user.getUid();
 
-    public Custom_g_item_adapter(Context context,ArrayList<GroupDialog> items){
+    public g_goal_c_detail_adapter(Context context,ArrayList<GroupDialog> items){
         this.context = context;
         this.items = items;
+
 
     }
 
@@ -52,14 +59,14 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
 
     @NonNull
     @Override
-    public Custom_g_item_adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public g_goal_c_detail_adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_g_goal,parent,false);
-        return new Custom_g_item_adapter.ViewHolder(v);
+        return new g_goal_c_detail_adapter.ViewHolder(v);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull Custom_g_item_adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull g_goal_c_detail_adapter.ViewHolder holder, int position) {
 
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -83,43 +90,31 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
 
             }
         });
-        //holder.g_img.setImageResource(R.drawable.ic_baseline_supervised_user_circle_24);
-        holder.g_goal_tittle.setText(item.getgTittle());
+        holder.g_goal_tittle.setText(item.getName());
         holder.g_goal_progressBar.setMaxValue(item.gCount);
-       // Log.d("TAG", String.valueOf(item.gCount));
+        // Log.d("TAG", String.valueOf(item.gCount));
         holder.g_goal_progressBar.setCurValue(item.gGoal);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(item.getLimit() == item.getLimit_count()){
-                    intent = new Intent(view.getContext(), custom_g_goal_click_main.class);
-                    intent.putExtra("tittle",item.getgTittle()); //도장판 제목
-                    intent.putExtra("key", item.getKey()); //리사이클러뷰 고유키
-                    intent.putExtra("count", item.getgCount()); //도장판 총 도장갯수
-                    intent.putExtra("limit", item.getLimit()); //도장판 인원 제한수
-                    intent.putExtra("limit_count", item.getLimit_count()); //도장판 참가한 수
-                    intent.putExtra("auth",item.getAuth()); //도장판 인증방식
-                    intent.putExtra("cate",item.getCate()); //도장판 카테고리
+                Bundle bundle = new Bundle();
 
-                    view.getContext().startActivity(intent);
-                }else if(item.getW_uid() == uid){
-                    //만약 그룹도장판의 작성자 uid랑 지금 로그인한 uid랑 같다면 마감버튼 페이지로 이동
-                    intent_close = new Intent(view.getContext(), close_add_goal.class);
-                    intent_close.putExtra("tittle",item.getgTittle()); //도장판 제목
-                    intent_close.putExtra("key", item.getKey()); //리사이클러뷰 고유키
-                    intent_close.putExtra("count", item.getgCount()); //도장판 총 도장갯수
-                    intent_close.putExtra("limit", item.getLimit()); //도장판 인원 제한수
-                    intent_close.putExtra("limit_count", item.getLimit_count()); //도장판 참가한 수
-                    intent_close.putExtra("auth",item.getAuth()); //도장판 인증방식
-                    intent_close.putExtra("cate",item.getCate()); //도장판 카테고리
+                bundle.putString("tittle",item.getgTittle()); //목표제목
+                bundle.putInt("count", item.getgCount());//총 도장수
+                bundle.putInt("goal_count", item.getgGoal());//찍은 도장수
+                bundle.putString("auth",item.getAuth());//인증방식
+                bundle.putString("key", item.getKey()); //리사이클러뷰 고유키
+                bundle.putString("w_uid", item.getW_uid()); //작성자 uid
+                bundle.putString("uid_auth",item.getUid_auth()); //카드뷰 클릭한 사람의 uid
 
-                    view.getContext().startActivity(intent_close);
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                Fragment custom_g_goal_click = new custom_g_goal_click();
+                custom_g_goal_click.setArguments(bundle);
+                FragmentManager fragmentManager = ((custom_g_goal_click_main)view.getContext()).getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.group_goal_click_layout,custom_g_goal_click).addToBackStack(null).commit();
 
-                }
-                else{
-                    Toast.makeText(context,"아직 참가인원이 채워지지 않았습니다", Toast.LENGTH_SHORT).show();
-                }
 
             }
         });
@@ -154,5 +149,4 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
         }
 
     }
-    }
-
+}

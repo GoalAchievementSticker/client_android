@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         //리사이클러뷰 선언
         p_goal_recycler = (RecyclerView) findViewById(R.id.recyclerview_p_goal);
         //circleProgressBar = (ProgressBar) findViewById(R.id.custom_p_goal_progressbar);
-        customProgress = (CustomProgress) findViewById(R.id.customProgress);
+        customProgress = (CustomProgress) findViewById(R.id.customProgress_g_goal_c);
         custom_p_goal_tittle = (TextView) findViewById(R.id.custom_p_goal_tittle);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         p_goal_recycler.setLayoutManager(linearLayoutManager);

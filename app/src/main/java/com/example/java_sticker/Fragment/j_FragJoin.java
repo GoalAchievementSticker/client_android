@@ -114,7 +114,7 @@ public class j_FragJoin extends Fragment {
 
         //리사이클러뷰 선언
         g_goal_recycler = view.findViewById(R.id.recyclerview_g_goal);
-        customProgress = view.findViewById(R.id.customProgress);
+        customProgress = view.findViewById(R.id.customProgress_g_goal_c);
         custom_g_goal_tittle = view.findViewById(R.id.custom_g_goal_tittle);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         g_goal_recycler.setLayoutManager(linearLayoutManager);

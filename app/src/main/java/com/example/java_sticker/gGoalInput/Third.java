@@ -1,9 +1,5 @@
 package com.example.java_sticker.gGoalInput;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,25 +9,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
-import com.example.java_sticker.Fragment.FragInputCheck;
-import com.example.java_sticker.Fragment.FragJoin;
-import com.example.java_sticker.Fragment.w_FragJoin;
-import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
 import com.example.java_sticker.group.GroupDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Objects;
+import com.google.firebase.database.ValueEventListener;
 
 public class Third extends Fragment  {
     private View view;
@@ -41,6 +32,11 @@ public class Third extends Fragment  {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
     DatabaseReference categoryReference = firebaseDatabase.getReference("Category");
+    DatabaseReference profile_name = firebaseDatabase.getReference();
+
+    String name;
+    //First에서 받은 정보  get
+    int count = 0;
 
 
 
@@ -85,8 +81,6 @@ public class Third extends Fragment  {
             if (auth.matches(""))
                 Toast.makeText(getContext(), "인증방식을 입력해주세요.", Toast.LENGTH_SHORT).show();
             else {
-                //First에서 받은 정보  get
-                int count = 0;
 
                 Bundle bundle_g = this.getArguments();
                 assert bundle_g != null;
@@ -96,17 +90,6 @@ public class Third extends Fragment  {
                 String goal = bundle_g.getString("goal");
                 int limit = bundle_g.getInt("limit");
 
-//                //Third로 데이터 넘기기
-//                bundle.putString("cate",cate);
-//                bundle.putInt("count", count);
-//                bundle.putString("goal", goal);
-//                bundle.putInt("limit", limit);
-//
-//
-//                bundle.putString("auth", auth);
-//
-//
-//                Third.setArguments(bundle);
 
 
 //        //고유키와 함께 저장히기 위한 장치
@@ -114,33 +97,59 @@ public class Third extends Fragment  {
                 assert key != null;
                 DatabaseReference keyRef = databaseReference.child(uid).child("dialog_group").child(key);
                 DatabaseReference categoryRef = categoryReference.child(cate).child(key);
-                //list에 추가
-                GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate, 1,uid);  //수,목표,제한,인증,카테고리,작성자uid
 
-                Log.d("TAG", String.valueOf(groupDialog));
-
-                //생성된 레코드 파이어베이스 저장
-                keyRef.setValue(groupDialog);
-                //uid 정보값 push()키로 저장하기
-                keyRef.child("uid").push().setValue(uid);
-
-                //카테고리 레코드 파이어베이스에도 저장
-                categoryRef.setValue(groupDialog);
-                categoryRef.child("uid").push().setValue(uid);
-
+                //이름 가져오는 함수
+                Read_name();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        //list에 추가
+                        GroupDialog groupDialog = new GroupDialog(count, goal, limit, auth, key, 0, cate, 1,uid,name, uid);
+                        //수,목표,제한,인증,카테고리,작성자uid,user 이름
 
-                        getActivity().finish();
+                        Log.d("TAG", String.valueOf(groupDialog));
+
+                        //생성된 레코드 파이어베이스 저장
+                        keyRef.setValue(groupDialog);
+                        //uid 정보값 push()키로 저장하기
+                        keyRef.child("uid").push().setValue(uid);
+
+                        //카테고리 레코드 파이어베이스에도 저장
+                        categoryRef.setValue(groupDialog);
+                        categoryRef.child("uid").push().setValue(uid);
+
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                getActivity().finish();
+                            }
+                        },1000);
                     }
-                },3000);
+                },400);
+
 
             }
 
         });
         return view;
+    }
+
+
+    private void Read_name(){
+        profile_name.child("user").child(uid).child("userName").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                name = snapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 //
 //    private int getItem() {

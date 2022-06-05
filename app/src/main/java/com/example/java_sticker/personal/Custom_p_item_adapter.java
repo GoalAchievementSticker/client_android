@@ -76,7 +76,7 @@ public class Custom_p_item_adapter extends RecyclerView.Adapter<Custom_p_item_ad
         CardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            p_goal_progressBar = (CustomProgress) itemView.findViewById(R.id.customProgress);
+            p_goal_progressBar = (CustomProgress) itemView.findViewById(R.id.customProgress_g_goal_c);
             p_goal_tittle = (TextView) itemView.findViewById(R.id.custom_p_goal_tittle);
             cardView = (CardView) itemView.findViewById(R.id.custom_p_goal_cardView);
 

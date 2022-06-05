@@ -78,6 +78,9 @@ public class DetailFragment extends Fragment {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference categoryReference = firebaseDatabase.getReference("Category");
     DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
+    DatabaseReference profile_name = firebaseDatabase.getReference();
+
+    String name;
 
     List<String> uid_key;
 
@@ -90,7 +93,6 @@ public class DetailFragment extends Fragment {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     DatabaseReference uid_fixed = null;
-    DatabaseReference uid_push = null;
     g_GridItem gd;
 
     boolean status = false;
@@ -165,13 +167,7 @@ public class DetailFragment extends Fragment {
         try {
             GetBundle();
             ReadCategoryDialog(_cate, _key);
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Log.d("TAG", uid_key.get(0));
-//                    ReadGroupDialog(uid_key.get(0),_key);
-//                }
-//            },200);
+            Read_name();
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -184,8 +180,9 @@ public class DetailFragment extends Fragment {
         //참가하기 버튼 기능
         //1. 클릭했을때 uid_key랑 비교해서 값이 있다면 이미 참가중이라고 알림주고 끝내기(완료)
         //2.  클릭했을때 uid_key랑 비교해서 값이 없다면 category -> uid에 반영, 작성한 유저 uid추가, 참가한 유저의 db에 각각 반영(아래 코드 참고)(완료)
-        //3. 제한 인원 값과 uid_key사이즈 + 1 이 같다면 해당 리사이클러뷰(카테고리에 있는것만) 삭제!!(나중에 해결)
+        //3. 제한 인원 값과 uid_key사이즈 + 1 이 같다면 해당 리사이클러뷰(카테고리에 있는것만) 삭제!!(해결)
         //4. 클릭했을때 limit_count증가 반영!!! -> category의 limit_count db 반영(완료), 작성한 유저 limit_count 반영(완료), 참가한 유저 db의 limit_count반영 (해결!)
+        //5. 참가한 인원 == 제한 인원이면 도장판 생성
        add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -223,7 +220,7 @@ public class DetailFragment extends Fragment {
                             add_GroupDialog_limit_count.setValue(_limit_count+1);
                             //참가한 유저 GroupDialog 추가 db단위로 추가안하면 배열값으로 들어감.
                             //여기 limit_count 값 그냥 기존값 불러와서 +1하면됨(해결)
-                            GroupDialog groupDialog = new GroupDialog(_count, _goal, _limit, _auth, _key, 0, _cate, _limit_count+1, w_uid);
+                            GroupDialog groupDialog = new GroupDialog(_count, _goal, _limit, _auth, _key, 0, _cate, _limit_count+1, w_uid,name,uid);
                             add_GroupDialog_button_click_user.setValue(groupDialog);
                             //for문 돌려서 이미 있는 uid_key안의 uid추가
                             for(int i = 0; i<uid_key.size(); i++){
@@ -232,25 +229,19 @@ public class DetailFragment extends Fragment {
                             //내 자신도 추가해야함!!
                             add_GroupDialog_button_click_user.child("uid").push().setValue(uid);
 
-
                             Log.d("TAG", String.valueOf(uid_key)+"첫번째");
                             if (uid_key.size()+1 == _limit) {
                                 uid_key.add(uid);
                                 int uid_size = uid_key.size();
                                 Log.d("TAG", String.valueOf(uid_key) + "두번째");
                                 //만든 유저 도장판 uid에 참가 uid 도장판 추가
-                                for (int t = 0; t < uid_size; t++) {//??????대체 뭐가 문제
-                                    //uid 참가한 유저 배열 위치 순서대로
-                                    uid_fixed = databaseReference.child(uid_key.get(t)).child("goal_group").child(_key);
-                                    Log.d("TAG", String.valueOf(uid_fixed));
-                                    for (int k = 0; k < uid_size; k++) {
-                                        uid_push = uid_fixed.child(uid_key.get(k)).child("도장판");
-                                        Log.d("TAG", String.valueOf(uid_push));
-                                        for (int j = 0; j <_count; j++) {//여기 안됨 왜 이럼?
-                                            addGoal(j);
-                                        }
-
+                                for (int t = 0; t < uid_size; t++) {
+                                    //uid 참가한 유저 배열 위치 순서대로 접근해서 저장해주기
+                                    uid_fixed = databaseReference.child(uid_key.get(t)).child("goal_group").child(_key).child("도장판");
+                                    for (int j = 0; j <_count; j++) {
+                                        addGoal(j);
                                     }
+
 
                                 }
 
@@ -314,7 +305,7 @@ public class DetailFragment extends Fragment {
     //도장판칸 생성
     private void addGoal(int j) {
         gd = new g_GridItem(String.valueOf(j), not_uri);
-        uid_push.child(String.valueOf(j)).setValue(gd);
+        uid_fixed.child(String.valueOf(j)).setValue(gd);
         Log.d("TAG", "여기 돌고있나요? ");
 
 
@@ -341,5 +332,20 @@ public class DetailFragment extends Fragment {
             }
         });
 
+    }
+
+    //유저 이름 저장!
+    private void Read_name(){
+        profile_name.child("user").child(uid).child("userName").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                name = snapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

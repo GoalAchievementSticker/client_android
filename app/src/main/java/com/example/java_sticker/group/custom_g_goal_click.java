@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -59,10 +60,15 @@ public class custom_g_goal_click extends Fragment {
     String key;
     String uid;
     int count;
+    String tittle;
     int goal_count;
+    String key;
+    String w_uid;
+    String uid_auth;
     int p;
 
     //파이어베이스
+    String uid;
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
@@ -71,7 +77,6 @@ public class custom_g_goal_click extends Fragment {
     DatabaseReference uid_key_ds;
 
 
-    private List<String> goal_key = new ArrayList<>();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference(); //뽑아오는 스토리지
     private ValueEventListener postListener;
@@ -83,11 +88,6 @@ public class custom_g_goal_click extends Fragment {
     BottomSheetDialog bsd;
     private View view;
 
-    //해당 도장판의 참가한 유저의 배열을 저장하는 곳!
-    List<String> uid_key;
-
-    //프래그먼트 리스트 저장하는 곳
-    List<Fragment> mFragmentList = new ArrayList<>();
 
 
     //카메라 촬영
@@ -104,13 +104,15 @@ public class custom_g_goal_click extends Fragment {
         assert inflater != null;
         view = inflater.inflate(R.layout.activity_custom_ggoal_click, container, false);
         //toolbar
-        Log.d("test", "여기");
         toolbar = view.findViewById(R.id.goal_toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
-        uid_key = new ArrayList<>();
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
 
         // Create a storage reference from our app
         sticker_img = view.findViewById(R.id.sticker_img);
@@ -123,23 +125,23 @@ public class custom_g_goal_click extends Fragment {
         assert user != null;
         uid = user.getUid();
 
-        intent = getActivity().getIntent();
-        uid_key_ds = databaseReference.child(uid).child("dialog_group").child(key);
-        g_tittle = intent.getStringExtra("tittle");
-        key = intent.getStringExtra("key");
-        count = intent.getIntExtra("count", 5);
-        goal_count = intent.getIntExtra("goal_count", 0);
+        try {
+            GetBundle();
 
-        Log.d("test", g_tittle);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
         View header = getLayoutInflater().inflate(R.layout.header, null, false);
         header_goal = (TextView) header.findViewById(R.id.header_goal);
         gridView.addHeaderView(header);
-        header_goal.setText(g_tittle);
+        header_goal.setText(tittle);
 
         //bottom sheet
         v = getLayoutInflater().inflate(R.layout.g_bottom_sheet, null);
         bsd = new BottomSheetDialog(getActivity());
         bsd.setContentView(v);
+
         ReadUidKeyDialog();
 
 
@@ -164,17 +166,15 @@ public class custom_g_goal_click extends Fragment {
         ReadPersonalDialog();
         gridView.setAdapter(adapter);
 
-        for (int k = 0; k < uid_key.size(); k++) {
-            //uid_key(uid배열)에 각 uid키에 접근해서 databaseReference의 도장판을 접근한다.
-            ds = databaseReference.child(uid).child("goal_group").child(key).child(uid_key.get(k)).child("도장판");
+            //클릭한 사람의 정보 받아서 가져오기
+            ds = databaseReference.child(uid_auth).child("goal_group").child(key).child("도장판");
             //도장판 읽어오기!
             ds.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
                         for (int i = 0; i < count; i++) {
-                            //이거 . .프래그먼트를 넣어야함,, , 이럴수가
-                            //mFragmentList.add(ReadGoal(i));
+                            ReadGoal(i);
                         }
 
                     }
@@ -303,22 +303,28 @@ public class custom_g_goal_click extends Fragment {
         });
 
 
+
+
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            getActivity().finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+
+    //클릭한 리사이클러뷰 아이템 값 가져오기 반영.
+    private void GetBundle() {
+        Bundle bundle = this.getArguments();
+        count = bundle.getInt("count");
+        tittle = bundle.getString("tittle");
+        goal_count = bundle.getInt("goal_count");
+        uid_auth= bundle.getString("uid_auth");
+        key  = bundle.getString("key");
+        w_uid = bundle.getString("w_uid");
+
     }
 
 
     //도장판 함수 가져오기!
     private ArrayList<g_GridItem> ReadGoal(int i) {
-
-        ds.addValueEventListener(new ValueEventListener() {
+       ds.addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
@@ -342,19 +348,19 @@ public class custom_g_goal_click extends Fragment {
 
         });
 
-        //items를 리턴해서 프래그먼트 리스트에 넣어준다!
-        return items;
+       //items를 리턴해서 프래그먼트 리스트에 넣어준다!
+       return items;
     }
 
     //프로그래스바 숫자 늘리기
     private void goal_count() {
-        databaseReference.child(uid).child("dialog_group").child(key).child("gGoal").setValue(++p);
+        databaseReference.child(uid_auth).child("dialog_group").child(key).child("gGoal").setValue(++p);
         ReadPersonalDialog();
     }
 
     //다이얼로그 저장된 함수 가져오기
     private int ReadPersonalDialog() {
-        databaseReference.child(uid).child("dialog_group").child(key).child("gGoal").addValueEventListener(new ValueEventListener() {
+        databaseReference.child(uid_auth).child("dialog_group").child(key).child("gGoal").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 p = snapshot.getValue(Integer.class);
@@ -365,7 +371,6 @@ public class custom_g_goal_click extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-                //Toast.makeText(MainActivity.this, "불러오기 실패", Toast.LENGTH_SHORT).show();
             }
         });
 

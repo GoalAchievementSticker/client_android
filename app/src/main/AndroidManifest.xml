@@ -2,28 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.java_sticker">
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="true" />
-
-
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:largeHeap="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_main"
         android:label="@string/app_name"
-        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_main_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Java_Sticker">
         <activity
             android:name=".group.close_add_goal"
             android:exported="true"
-            android:theme="@style/MyThemeNoActionBar" />
+            android:theme="@style/MyThemeNoActionBar"/>
+        <activity android:name=".group.custom_g_goal_click_main"
+            android:exported="true"
+            android:theme="@style/MyThemeNoActionBar"/>
         <activity
             android:name=".Account.Signup"
             android:exported="true"
@@ -48,12 +43,11 @@
         </activity>
         <activity
             android:name=".personal.custom_p_goal_click"
-            android:exported="true"
-            android:theme="@style/MyThemeNoActionBar" />
-        <activity
-            android:name=".gGoalInput.gGoalInputActivity"
-            android:exported="true"
-            android:theme="@style/MyThemeNoActionBar" />
+            android:theme="@style/MyThemeNoActionBar"
+            android:exported="true" />
+        <activity android:name=".gGoalInput.gGoalInputActivity"
+            android:theme="@style/MyThemeNoActionBar"
+            android:exported="true" />
         <activity
             android:name=".personal.MainActivity"
             android:exported="true"
