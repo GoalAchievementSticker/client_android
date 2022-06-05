@@ -1,14 +1,20 @@
 package com.example.java_sticker.group;
 
+import static android.app.Activity.RESULT_OK;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.load.model.Model;
 import com.example.java_sticker.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,6 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +73,12 @@ public class custom_g_goal_click extends Fragment {
 
     private List<String> goal_key = new ArrayList<>();
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReference();
+    StorageReference storageRef = storage.getReference(); //뽑아오는 스토리지
     private ValueEventListener postListener;
 
 
     Toolbar toolbar;
-    ImageView s1, s2, s3, s4, s5;
+    ImageView camera, gallery;
     View v;
     BottomSheetDialog bsd;
     private View view;
@@ -81,19 +90,27 @@ public class custom_g_goal_click extends Fragment {
     List<Fragment> mFragmentList = new ArrayList<>();
 
 
+    //카메라 촬영
+    private Uri mImageUri = null;
+    private static final int GALLERY_REQUEST = 1;
+    private static final int CAMERA_REQUEST_CODE = 1;
+    private StorageReference mStorage;
+    ImageView img;
+    TextView ok;
+
     @Nullable
     @Override
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         assert inflater != null;
         view = inflater.inflate(R.layout.activity_custom_ggoal_click, container, false);
         //toolbar
-        Log.d("test","여기");
+        Log.d("test", "여기");
         toolbar = view.findViewById(R.id.goal_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
-        uid_key=new ArrayList<>();
+        uid_key = new ArrayList<>();
 
         // Create a storage reference from our app
         sticker_img = view.findViewById(R.id.sticker_img);
@@ -107,35 +124,33 @@ public class custom_g_goal_click extends Fragment {
         uid = user.getUid();
 
         intent = getActivity().getIntent();
-        uid_key_ds=databaseReference.child(uid).child("dialog_group").child(key);
+        uid_key_ds = databaseReference.child(uid).child("dialog_group").child(key);
         g_tittle = intent.getStringExtra("tittle");
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
         goal_count = intent.getIntExtra("goal_count", 0);
 
-        Log.d("test",g_tittle);
+        Log.d("test", g_tittle);
         View header = getLayoutInflater().inflate(R.layout.header, null, false);
         header_goal = (TextView) header.findViewById(R.id.header_goal);
         gridView.addHeaderView(header);
         header_goal.setText(g_tittle);
 
         //bottom sheet
-        v = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
+        v = getLayoutInflater().inflate(R.layout.g_bottom_sheet, null);
         bsd = new BottomSheetDialog(getActivity());
         bsd.setContentView(v);
         ReadUidKeyDialog();
 
 
-
-
+        //img
+        img = v.findViewById(R.id.img);
+        ok = v.findViewById(R.id.ok);
 
         adapter.notifyDataSetChanged();
 
-        s1 = v.findViewById(R.id.s1);
-        s2 = v.findViewById(R.id.s2);
-        s3 = v.findViewById(R.id.s3);
-        s4 = v.findViewById(R.id.s4);
-        s5 = v.findViewById(R.id.s5);
+        camera = v.findViewById(R.id.camera);
+        gallery = v.findViewById(R.id.gallery);
 
 
 //        //그리드뷰 각 칸 클릭시, 데이터 수정
@@ -149,7 +164,7 @@ public class custom_g_goal_click extends Fragment {
         ReadPersonalDialog();
         gridView.setAdapter(adapter);
 
-        for(int k = 0; k<uid_key.size(); k++){
+        for (int k = 0; k < uid_key.size(); k++) {
             //uid_key(uid배열)에 각 uid키에 접근해서 databaseReference의 도장판을 접근한다.
             ds = databaseReference.child(uid).child("goal_group").child(key).child(uid_key.get(k)).child("도장판");
             //도장판 읽어오기!
@@ -172,10 +187,73 @@ public class custom_g_goal_click extends Fragment {
                 }
             });
         }
+
+        ok.setOnClickListener(view -> {
+            uploadToFirebase(mImageUri);
+
+
+        });
+
+
         return view;
 
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            assert data != null;
+            mImageUri = data.getData();
+            img.setImageURI(mImageUri);
+        }
+
+        uploadToFirebase(mImageUri);
+
+
+    }
+
+    private void uploadToFirebase(Uri mImageUri) {
+        StorageReference fileRef = storageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+        fileRef.putFile(mImageUri).addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+
+            //이미지 모델에 담기
+            Model model = other -> false;
+
+           // ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+            bsd.dismiss();
+
+            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+            goal_count();
+
+
+            //프로그래스바 숨김
+            //progressBar.setVisibility(View.INVISIBLE);
+
+            Toast.makeText(getContext(), "업로드 성공", Toast.LENGTH_SHORT).show();
+
+            //  imageView.setImageResource(R.drawable.ic_add_photo);
+        })).addOnFailureListener(Throwable::printStackTrace);
+    }
+
+    //파일타입 가져오기
+    private String getFileExtension(Uri uri) {
+
+        ContentResolver cr = getActivity().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+
+        return mime.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+    private void onCaptureImageResult(Intent data) {
+
+
+        mImageUri = data.getData();
+        img.setImageURI(mImageUri);
+
+    }
 
     private void stickerClick(int i) {
         //bottom sheet dialog 보이기기
@@ -183,21 +261,34 @@ public class custom_g_goal_click extends Fragment {
         //height 만큼 보이게 됨
         bsd.getBehavior().setState(STATE_COLLAPSED);
 
-        s1.setOnClickListener(view -> {
-            Toast.makeText(getContext(), "s1클릭", Toast.LENGTH_SHORT).show();
-            storageRef.child("check.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-//                        gd = new GridItem(String.valueOf(i), uri.toString());
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
 
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
+        //카메라 클릭
+        //카메라 접근 허용창
+        //카메라 찎
+        camera.setOnClickListener(view -> {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra("order",i);
+
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+            }
+
+            Toast.makeText(getContext(), "카메라 클릭", Toast.LENGTH_SHORT).show();
+//                storageRef.child("check.png").getDownloadUrl()
+//                        .addOnSuccessListener(uri -> {
+//                            // Got the download URL for 'plus.png'
+////                        gd = new GridItem(String.valueOf(i), uri.toString());
+//                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+//                            bsd.dismiss();
+//
+//                            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+//                            goal_count();
+//                        }).addOnFailureListener(Throwable::printStackTrace);
         });
-        s2.setOnClickListener(view -> {
-            Toast.makeText(getContext(), "s2클릭", Toast.LENGTH_SHORT).show();
+
+        //갤러리 클릭
+        gallery.setOnClickListener(view -> {
+            Toast.makeText(getContext(), "이미지 클릭", Toast.LENGTH_SHORT).show();
             storageRef.child("sprout.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
@@ -210,44 +301,6 @@ public class custom_g_goal_click extends Fragment {
 
 
         });
-        s3.setOnClickListener(view -> {
-            Toast.makeText(getContext(), "s3클릭", Toast.LENGTH_SHORT).show();
-            storageRef.child("y_star.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-//                        gd = new GridItem(String.valueOf(i), uri.toString());
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
-
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
-        });
-        s4.setOnClickListener(view -> {
-            Toast.makeText(getContext(), "s4클릭", Toast.LENGTH_SHORT).show();
-            storageRef.child("triangular.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-//                        gd = new GridItem(String.valueOf(i), uri.toString());
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
-        });
-        s5.setOnClickListener(view -> {
-            Toast.makeText(getContext(), "s5클릭", Toast.LENGTH_SHORT).show();
-            storageRef.child("new-moon.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-//                        gd = new GridItem(String.valueOf(i), uri.toString());
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
-        });
-
 
 
     }
@@ -262,11 +315,10 @@ public class custom_g_goal_click extends Fragment {
     }
 
 
-
     //도장판 함수 가져오기!
     private ArrayList<g_GridItem> ReadGoal(int i) {
 
-       ds.addValueEventListener(new ValueEventListener(){
+        ds.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 items.clear();
@@ -290,8 +342,8 @@ public class custom_g_goal_click extends Fragment {
 
         });
 
-       //items를 리턴해서 프래그먼트 리스트에 넣어준다!
-       return items;
+        //items를 리턴해서 프래그먼트 리스트에 넣어준다!
+        return items;
     }
 
     //프로그래스바 숫자 늘리기
@@ -322,7 +374,6 @@ public class custom_g_goal_click extends Fragment {
     }
 
 
-
     //클릭한 리사이클러뷰 아이템의 참가한 유저의 uid를 가져오는 함수
     private void ReadUidKeyDialog() {
         uid_key.clear();
@@ -335,6 +386,7 @@ public class custom_g_goal_click extends Fragment {
                     //Log.d("TAG", String.valueOf(uid_key));
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
