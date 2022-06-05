@@ -18,6 +18,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 public class Custom_gAdapter extends BaseAdapter {
@@ -25,7 +26,7 @@ public class Custom_gAdapter extends BaseAdapter {
     ArrayList<g_GridItem> items = null;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
-    ImageView sticker_img;
+   ImageView sticker_img;
     LinearLayout ll;
     View select_v;
     GridViewWithHeaderAndFooter gridView;

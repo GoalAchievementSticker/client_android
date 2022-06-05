@@ -9,25 +9,14 @@
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/table_divider.xml" value="0.109" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/toggle_selector.xml" value="0.109" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_close_add_goal.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_custom_g_goal_click_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_custom_g_input.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_custom_ggoal_click.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_custom_ggoal_viewpager.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_custom_pgoal_click.xml" value="0.1" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_group_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_login.xml" value="0.2390625" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_mypage.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_signup.xml" value="0.37962962962962965" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/bottom_sheet.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/close_dialog.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_dialog.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_fraghome.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_g_goal.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_g_input1.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_g_input2.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_g_input3.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_g_input_complete.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_grid.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_p_dialog.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_p_goal.xml" value="0.6" />
@@ -35,15 +24,9 @@
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fraghome.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragjoin.xml" value="0.1" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_detail.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_exercise.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_group_goal_click_detail.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_hobby.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_routin.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_search_category.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_study.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragmypage.xml" value="0.264" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragmypage.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/header.xml" value="0.21666666666666667" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/j_fragjoin.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/w_fragjoin.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/menu/search.xml" value="0.1" />
         <entry key="..\:/Users/qmfps/AndroidStudioProjects/GoalSticker/app/src/main/res/layout/activity_main.xml" value="0.24947916666666667" />
@@ -97,9 +80,12 @@
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/drawable/categoty_bg.xml" value="0.1725" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/drawable/empty_divider.xml" value="0.1725" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/drawable/gfab_bg.xml" value="0.174" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/drawable/gridview_line.xml" value="0.1395" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/drawable/ic_main_background.xml" value="0.1725" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/drawable/table_divider.xml" value="0.1725" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/drawable/toggle_selector.xml" value="0.169" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/activity_close_add_goal.xml" value="0.23385416666666667" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/activity_custom_g_goal_click_main.xml" value="0.23385416666666667" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/activity_custom_g_input.xml" value="0.23385416666666667" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/activity_custom_ggoal_click.xml" value="0.23540315106580167" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/activity_group_main.xml" value="0.19322916666666667" />
@@ -114,11 +100,18 @@
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/custom_g_input2.xml" value="0.23385416666666667" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/custom_g_input3.xml" value="0.23385416666666667" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/custom_g_input_complete.xml" value="0.22604166666666667" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/custom_grid.xml" value="0.264" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/drawer_header.xml" value="0.23385416666666667" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/file_path.xml" value="0.1" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/fraghome.xml" value="0.23385416666666667" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/fragjoin.xml" value="0.2328125" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/fragment_detail.xml" value="0.2" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/fragment_exercise.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/fragment_group_goal_click_detail.xml" value="0.23385416666666667" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/fragment_hobby.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/fragment_study.xml" value="0.23385416666666667" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/g_bottom_sheet.xml" value="0.23385416666666667" />
+        <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/ggoal_sticker_img.xml" value="0.2328125" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/header.xml" value="0.23385416666666667" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/j_fragjon.xml" value="0.23385416666666667" />
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_clone_clone/app/src/main/res/layout/w_fragjoin.xml" value="0.16" />
