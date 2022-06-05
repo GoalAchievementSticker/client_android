@@ -44,6 +44,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 public class MainActivity extends AppCompatActivity {
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     //nav속 이미지, 이름
     TextView nav_name;
-    ImageView nav_img;
+    CircleImageView nav_img;
 
     //그리드뷰 데이터 저장
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -120,29 +121,17 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
 
-        //  view=getLayoutInflater().inflate(R.layout.drawer_header,null,false);
-//        view=getLayoutInflater().inflate(R.layout.drawer_header, null, false);
-        //네비게이션 프로필 이름, 이미지 가져오기 -> for문 스냅샵으로 가져오니까 .. 오류남
-        profile_databaseReference.child("user").child(uid).child("userName").addValueEventListener(new ValueEventListener() {
+        //네비게이션 프로필 이름, 이미지 가져오기
+        profile_databaseReference.child("user").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String name = snapshot.getValue(String.class);
+                String name = snapshot.child("userName").getValue(String.class);
+                String uri = snapshot.child("profileImageUrl").getValue(String.class);
+                nav_img = findViewById(R.id.iv_header);
+                Glide.with(navigationView).load(uri).into(nav_img);
                 nav_name = findViewById(R.id.nav_name);
                 nav_name.setText(name+"님");
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        profile_databaseReference.child("user").child(uid).child("profileImageUrl").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String uri = snapshot.getValue(String.class);
-                nav_img = findViewById(R.id.iv_header);
-                Glide.with(navigationView).load(uri).into(nav_img);
             }
 
             @Override

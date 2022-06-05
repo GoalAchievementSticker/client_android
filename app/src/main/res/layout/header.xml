@@ -12,6 +12,7 @@
         android:layout_gravity="center"
         android:layout_margin="12dp"
         android:textSize="20sp"
-        android:text="Header" />
+        android:text="Header"
+        android:textColor="#81A29A"/>
 
 </LinearLayout>

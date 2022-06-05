@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:text="공부"
-                android:textColor="@color/black"
+                android:textColor="#3F4739"
                 android:textSize="20sp"/>
         </androidx.appcompat.widget.Toolbar>
 

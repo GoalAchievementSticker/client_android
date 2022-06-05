@@ -2,6 +2,7 @@ package com.example.java_sticker.group;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
     ArrayList<GroupDialog> items;
     Intent intent;
     Intent intent_close;
+    Intent intent2;
     //int item_layout;
 
     //그룹방 이미지 불러오기 위한 장치
@@ -40,6 +42,7 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
     DatabaseReference profile_databaseReference = firebaseDatabase.getReference();
 
     String uid = user.getUid();
+
 
     public Custom_g_item_adapter(Context context,ArrayList<GroupDialog> items){
         this.context = context;
@@ -66,7 +69,7 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
         assert user != null;
         uid = user.getUid();
 
-        final GroupDialog item = items.get(position);
+        GroupDialog item = items.get(position);
 
         //그룹방 이미지(일단 프사로 설정)
         profile_databaseReference.child("user").child(uid).child("profileImageUrl").addValueEventListener(new ValueEventListener() {
@@ -88,21 +91,21 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
         holder.g_goal_progressBar.setMaxValue(item.gCount);
        // Log.d("TAG", String.valueOf(item.gCount));
         holder.g_goal_progressBar.setCurValue(item.gGoal);
-
         holder.cardView.setOnClickListener(view -> {
-            if(item.getLimit() == item.getLimit_count()){
+
+            if(item.isClose() == true) {
+
                 intent = new Intent(view.getContext(), custom_g_goal_click_main.class);
-                intent.putExtra("tittle",item.getgTittle()); //도장판 제목
+                intent.putExtra("tittle", item.getgTittle()); //도장판 제목
                 intent.putExtra("key", item.getKey()); //리사이클러뷰 고유키
                 intent.putExtra("count", item.getgCount()); //도장판 총 도장갯수
                 intent.putExtra("limit", item.getLimit()); //도장판 인원 제한수
                 intent.putExtra("limit_count", item.getLimit_count()); //도장판 참가한 수
-                intent.putExtra("auth",item.getAuth()); //도장판 인증방식
-                intent.putExtra("cate",item.getCate()); //도장판 카테고리
+                intent.putExtra("auth", item.getAuth()); //도장판 인증방식
+                intent.putExtra("cate", item.getCate()); //도장판 카테고리
 
                 view.getContext().startActivity(intent);
-            }else if(item.getW_uid() == uid){
-                //만약 그룹도장판의 작성자 uid랑 지금 로그인한 uid랑 같다면 마감버튼 페이지로 이동
+            }else if(item.getW_uid().equals(uid)){
                 intent_close = new Intent(view.getContext(), close_add_goal.class);
                 intent_close.putExtra("tittle",item.getgTittle()); //도장판 제목
                 intent_close.putExtra("key", item.getKey()); //리사이클러뷰 고유키
@@ -111,12 +114,11 @@ public class Custom_g_item_adapter extends RecyclerView.Adapter<Custom_g_item_ad
                 intent_close.putExtra("limit_count", item.getLimit_count()); //도장판 참가한 수
                 intent_close.putExtra("auth",item.getAuth()); //도장판 인증방식
                 intent_close.putExtra("cate",item.getCate()); //도장판 카테고리
-
+                intent_close.putExtra("w_uid", item.getW_uid()); //도장판 작성자
                 view.getContext().startActivity(intent_close);
 
-            }
-            else{
-                Toast.makeText(context,"아직 참가인원이 채워지지 않았습니다", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(view.getContext(), "아직 인원이 모이지 않았습니다", Toast.LENGTH_SHORT).show();
             }
 
         });
