@@ -5,7 +5,9 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -99,7 +101,7 @@ public class custom_g_goal_click extends Fragment {
 
     //카메라 촬영
     private Bitmap mImageUri = null;
-    private static final int GALLERY_REQUEST = 1;
+    private static final int GALLERY_REQUEST = 0;
     private static final int CAMERA_REQUEST_CODE = 1;
     private StorageReference mStorage;
     ImageView img;
@@ -213,15 +215,15 @@ public class custom_g_goal_click extends Fragment {
     @SuppressLint("ObsoleteSdkInt")
     private void checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(ContextCompat.checkSelfPermission(requireActivity(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(requireActivity(),Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(requireActivity(),Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     Toast.makeText(getContext(), "외부 저장소 사용을 위해 읽기/쓰기 필요", Toast.LENGTH_SHORT).show();
                 }
 
                 requestPermissions(new String[]
-                        {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA}, 0);
+                        {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 0);
             }
         }
 
@@ -276,8 +278,9 @@ public class custom_g_goal_click extends Fragment {
 
     private void uploadToFirebase(String mImageUri) {
         Log.d("camera", "10");
-        Object i=values.get("order");
-        StorageReference fileRef = storageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri.toString()));
+        Object i = values.get("order");
+
+        StorageReference fileRef = storageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
 
 //        // Get the data from an ImageView as bytes
 //        img.setDrawingCacheEnabled(true);
@@ -313,10 +316,10 @@ public class custom_g_goal_click extends Fragment {
         Log.d("camera", mImageUri);
         fileRef.putFile(Uri.parse(mImageUri)).addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri_ -> {
 
-            //이미지 모델에 담기
-            Model model = other -> false;
+//            //이미지 모델에 담기
+//            Model model = other -> false;
 
-             ds.child(String.valueOf(i)).child("test").setValue(uri_.toString());
+            ds.child(String.valueOf(i)).child("test").setValue(uri_.toString());
 
             //도장을 클릭했다면 프로그래스바 숫자를 늘린다
             goal_count();
@@ -367,31 +370,26 @@ public class custom_g_goal_click extends Fragment {
 
 
         //카메라 클릭
-        //카메라 접근 허용창
-        //카메라 찎
         camera.setOnClickListener(view -> {
 
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            imageUri = requireActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            //imageUri = requireActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
             values.put(MediaStore.Images.Media.TITLE, "New Picture");
             values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-            values.put("order",i);
+            values.put("order", i);
 
 
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            //intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 
-            //startActivityForResult(intent, PICTURE_RESULT);
-            //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra("order", i);
 
-            Log.d("camera", "1. "+ i);
-
-            // 임시로 사용할 파일의 경로를 생성
-            String url = "tmp_" + System.currentTimeMillis() + ".png";
-            Uri mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
-            Log.d("camera", "2");
-            Log.d("camera", "3");
+//            Log.d("camera", "1. "+ i);
+//
+//            // 임시로 사용할 파일의 경로를 생성
+//            String url = "tmp_" + System.currentTimeMillis() + ".png";
+//            Uri mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
+//            Log.d("camera", "2");
+//            Log.d("camera", "3");
 
             if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
@@ -413,14 +411,20 @@ public class custom_g_goal_click extends Fragment {
         //갤러리 클릭
         gallery.setOnClickListener(view -> {
             Toast.makeText(getContext(), "이미지 클릭", Toast.LENGTH_SHORT).show();
-            storageRef.child("sprout.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
-
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            String[] mimeTypes = {"image/jpeg", "image/png"};
+            values.put("order", i);
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+            startActivityForResult(intent, GALLERY_REQUEST);
+//            storageRef.child("sprout.png").getDownloadUrl()
+//                    .addOnSuccessListener(uri -> {
+//                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+//                        bsd.dismiss();
+//
+//                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+//                        goal_count();
+//                    }).addOnFailureListener(Throwable::printStackTrace);
             //도장을 클릭했다면 프로그래스바 숫자를 늘린다
 
 
@@ -429,37 +433,63 @@ public class custom_g_goal_click extends Fragment {
 
     }
 
+    /**
+     * Bitmap이미지의 가로, 세로 사이즈를 리사이징 한다.
+     *
+     * @param source        원본 Bitmap 객체
+     * @param maxResolution 제한 해상도
+     * @return 리사이즈된 이미지 Bitmap 객체
+     */
+    public Bitmap resizeBitmapImage(Bitmap source, int maxResolution) {
+        int width = source.getWidth();
+        int height = source.getHeight();
+        int newWidth = width;
+        int newHeight = height;
+        float rate = 0.0f;
 
+        if (width > height) {
+            if (maxResolution < width) {
+                rate = maxResolution / (float) width;
+                newHeight = (int) (height * rate);
+                newWidth = maxResolution;
+            }
+        } else {
+            if (maxResolution < height) {
+                rate = maxResolution / (float) height;
+                newWidth = (int) (width * rate);
+                newHeight = maxResolution;
+            }
+        }
+
+        return Bitmap.createScaledBitmap(source, newWidth, newHeight, true);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap photo;
         Log.d("camera", "4");
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
 
-           // filePath = data.getData();
+            // filePath = data.getData();
             try {
-                compressImage(imageUri);
-                Log.d("camera", "5");
-//                photo= ImageDecoder.decodeBitmap(ImageDecoder
-//                        .createSource(requireActivity().getContentResolver(),imageUri));
-               bitmap = MediaStore.Images.Media.getBitmap(
-                        requireActivity().getContentResolver(), imageUri);
+                //compressImage(imageUri);
 
-               Bitmap b=BitmapFactory.decodeFile(bitmap.toString());
+                assert data != null;
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            //   photo = Bitmap.createScaledBitmap(thumbnail, 80, 80, false);
 
-              // photo= resizeBitmap(imageUri, 80);
-                //  img.setImageBitmap(thumbnail);
+              //  Bitmap resized = resizeBitmapImage(imageBitmap, 80);
+//                getImageUri(requireContext(),imageBitmap);
 
-                Log.d("camera", "6");
-                Log.d("camera", "7");
-                Log.d("camera", "8");
-//                Log.d("클릭 스티커_i", String.valueOf(i));
-                Log.d("클릭 스티커_url", imageurl);
-                uploadToFirebase("file://"+Uri.parse(imageurl));
+//               bitmap = MediaStore.Images.Media.getBitmap(
+//                        requireActivity().getContentResolver(), imageUri);
 
-            } catch (IOException e) {
+
+                uploadToFirebase(String.valueOf(getImageUri(requireContext(), imageBitmap)));
+
+            } catch (Exception e) {
                 Log.d("camera", "9");
                 e.printStackTrace();
             }
@@ -475,10 +505,24 @@ public class custom_g_goal_click extends Fragment {
 //            Log.d("uri", String.valueOf(mImageUri));
 //            img.setImageURI(mImageUri);
         }
+        if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                return;
+            }
+            Uri selectedImage = data.getData();
+            uploadToFirebase(String.valueOf(selectedImage));
+        }
 
 //        uploadToFirebase(photo);
 
 
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     private void compressImage(Uri filePath) {
@@ -489,7 +533,7 @@ public class custom_g_goal_click extends Fragment {
             outStream = new FileOutputStream(String.valueOf(filePath));
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             bmOptions.inSampleSize = 8;
-            bitmap = BitmapFactory.decodeFile(String.valueOf(filePath),bmOptions);
+            bitmap = BitmapFactory.decodeFile(String.valueOf(filePath), bmOptions);
 
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
 
@@ -506,9 +550,10 @@ public class custom_g_goal_click extends Fragment {
         }
     }
 
+
     private Bitmap resizeBitmap(Bitmap thumbnail, int i) {
-        int width =thumbnail.getWidth();
-        int height =thumbnail.getHeight();
+        int width = thumbnail.getWidth();
+        int height = thumbnail.getHeight();
         double x;
 
         if (width >= height && width > i) {
@@ -517,7 +562,7 @@ public class custom_g_goal_click extends Fragment {
             height = (int) (i / x);
         } else if (height >= width && height > i) {
             x = height / width;
-            height =i;
+            height = i;
             width = (int) (i / x);
         }
         return Bitmap.createScaledBitmap(thumbnail, width, height, false);
