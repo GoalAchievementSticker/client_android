@@ -31,7 +31,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,36 +42,40 @@
         app:layout_constraintTop_toBottomOf="@+id/mypage_toolbar"
         app:layout_constraintVertical_bias="0.0">
 
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mypage_image"
-            android:layout_width="wrap_content"
-            android:layout_height="98dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/profile_green_or"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="289dp"
-            android:layout_marginBottom="20dp" />
-
+            android:background="@android:color/transparent"
+            android:src="@drawable/profile_green_or"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.051"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/mypage_name"
-            android:layout_width="233dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="149dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="29dp"
             android:text="oo님"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.141"
+            app:layout_constraintStart_toEndOf="@+id/mypage_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.266" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/view"
@@ -85,7 +89,7 @@
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
         app:layout_constraintVertical_bias="0.354" />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout3"
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -102,13 +106,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="14dp"
             android:gravity="center"
             android:text="참여중"
             android:textColor="#81A29A"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.22"
+            app:layout_constraintStart_toEndOf="@+id/mypage_goal_w_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.227" />
 
         <TextView
             android:id="@+id/mypage_goal_j"
@@ -117,14 +125,17 @@
             android:layout_below="@+id/mypage_goal_j_text"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="41dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginEnd="307dp"
             android:gravity="center"
             android:text="0"
             android:textColor="#F6D5B6"
             android:textSize="50sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.293"
+            app:layout_constraintStart_toEndOf="@+id/mypage_goal_w"
+            app:layout_constraintTop_toBottomOf="@+id/mypage_goal_j_text"
+            app:layout_constraintVertical_bias="0.52" />
 
         <TextView
             android:id="@+id/mypage_goal_w_text"
@@ -133,14 +144,17 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="161dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="151dp"
             android:gravity="center"
             android:text="대기중"
             android:textColor="#81A29A"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.097"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.227" />
 
         <TextView
             android:id="@+id/mypage_goal_w"
@@ -149,14 +163,16 @@
             android:layout_below="@+id/mypage_goal_j_text"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="183dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginEnd="174dp"
             android:gravity="center"
             android:text="0"
             android:textColor="#F6D5B6"
             android:textSize="50sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.119"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mypage_goal_w_text" />
 
         <TextView
             android:id="@+id/mypage_goal_close_text"
@@ -165,14 +181,17 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="299dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="24dp"
             android:gravity="center"
             android:text="완료"
             android:textColor="#81A29A"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.553"
+            app:layout_constraintStart_toEndOf="@+id/mypage_goal_j_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.227" />
 
         <TextView
             android:id="@+id/mypage_goal_close"
@@ -181,16 +200,19 @@
             android:layout_below="@+id/mypage_goal_close_text"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="313dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginEnd="36dp"
             android:gravity="center"
             android:text="0"
             android:textColor="#F6D5B6"
             android:textSize="50sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.62"
+            app:layout_constraintStart_toEndOf="@+id/mypage_goal_j"
+            app:layout_constraintTop_toBottomOf="@+id/mypage_goal_close_text"
+            app:layout_constraintVertical_bias="0.52" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
         android:id="@+id/relativeLayout4"
