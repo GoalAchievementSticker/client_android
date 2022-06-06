@@ -121,7 +121,7 @@ public class FragMypage extends Fragment {
                 mypage_goal_j.setText(String.valueOf(j_goal));
                 mypage_goal_w.setText(String.valueOf(w_goal));
             }
-        },1000);
+        },400);
 
 
         //각 버튼 클릭 -> 프래그먼트 연결 or 기능연결
@@ -160,11 +160,11 @@ public class FragMypage extends Fragment {
                     assert  groupDialog !=null;
                     groupDialog.key = key;
 
-                    if(groupDialog.getLimit_count() == groupDialog.getLimit() || groupDialog.isClose() == true){
+                    if(groupDialog.isClose() == true){
                         //참가중
                         j_goal++;
                     }
-                    if(groupDialog.getLimit_count() != groupDialog.getLimit()){
+                    if(groupDialog.isClose() == false){
                         //대기중
                         w_goal++;
                     }

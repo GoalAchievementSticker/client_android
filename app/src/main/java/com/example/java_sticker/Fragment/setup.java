@@ -3,6 +3,7 @@ package com.example.java_sticker.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 
 import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
@@ -33,6 +35,7 @@ public class setup extends Fragment {
 
     Button setup_img_ch_button;
     Button setup_name_ch_button;
+    Toolbar setup_toolbar;
 
     //FB
     String uid;
@@ -98,8 +101,16 @@ public class setup extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setup, container, false);
 
+        setup_toolbar = (Toolbar) view.findViewById(R.id.setup_toolbar);
         setup_img_ch_button = (Button) view.findViewById(R.id.setup_img_ch_button);
         setup_name_ch_button = (Button) view.findViewById(R.id.setup_name_ch_button);
+
+        setup_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
 
         //파이어베이스 로그인 유저 가져오기기
         user = FirebaseAuth.getInstance().getCurrentUser();
