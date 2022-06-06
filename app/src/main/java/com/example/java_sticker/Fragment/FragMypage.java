@@ -1,5 +1,6 @@
 package com.example.java_sticker.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,8 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
 import com.example.java_sticker.group.GroupDialog;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +52,7 @@ public class FragMypage extends Fragment {
     //완료
     int goal_close;
 
+    Group_main group_main;
 
     //FB
     String uid;
@@ -55,6 +60,20 @@ public class FragMypage extends Fragment {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference profile_databaseReference = firebaseDatabase.getReference();
     DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
+
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+
+        group_main = (Group_main) getActivity();
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        group_main = null;
+    }
 
     @Nullable
     @Override
@@ -102,7 +121,7 @@ public class FragMypage extends Fragment {
                 mypage_goal_j.setText(String.valueOf(j_goal));
                 mypage_goal_w.setText(String.valueOf(w_goal));
             }
-        },1000);
+        },400);
 
 
         //각 버튼 클릭 -> 프래그먼트 연결 or 기능연결
@@ -111,6 +130,8 @@ public class FragMypage extends Fragment {
             @Override
             public void onClick(View view) {
 
+                group_main.onFragmentChange(5);
+
             }
         });
 
@@ -118,8 +139,8 @@ public class FragMypage extends Fragment {
         mypage_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                    FirebaseAuth.getInstance().signOut();
+                    //로그인 프래그먼트로 전환 해줘야함...(만들기..!)
             }
         });
 
@@ -139,11 +160,11 @@ public class FragMypage extends Fragment {
                     assert  groupDialog !=null;
                     groupDialog.key = key;
 
-                    if(groupDialog.getLimit_count() == groupDialog.getLimit() || groupDialog.isClose() == true){
+                    if(groupDialog.isClose() == true){
                         //참가중
                         j_goal++;
                     }
-                    if(groupDialog.getLimit_count() != groupDialog.getLimit()){
+                    if(groupDialog.isClose() == false){
                         //대기중
                         w_goal++;
                     }

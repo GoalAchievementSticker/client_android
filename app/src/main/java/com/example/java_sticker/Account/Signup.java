@@ -75,7 +75,7 @@ public class Signup extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             final String uid = task.getResult().getUser().getUid();
-                            storageReference.child("profile_img.png").getDownloadUrl()
+                            storageReference.child("profile_img").child("profile_green_or.png").getDownloadUrl()
                                     .addOnSuccessListener(uri -> {
                                         // Got the download URL for 'plus.png'
                                         String path = uri.toString();
