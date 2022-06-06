@@ -17,6 +17,8 @@ import com.example.java_sticker.Fragment.Hobby;
 import com.example.java_sticker.Fragment.Routin;
 import com.example.java_sticker.Fragment.SearchCategory;
 import com.example.java_sticker.Fragment.Study;
+import com.example.java_sticker.Fragment.setup;
+import com.example.java_sticker.Fragment.setup_pofile_img;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -31,6 +33,8 @@ public class Group_main extends AppCompatActivity {
     Fragment fragment_routin;
     Fragment fragment_exercise;
     Fragment SearchCategory;
+    Fragment setup;
+    Fragment setup_profile_img;
     //Fragment DetailFragment;
 
     Toolbar toolbar;
@@ -56,6 +60,10 @@ public class Group_main extends AppCompatActivity {
         fragment_exercise = new Exercise();
         fragment_hobby = new Hobby();
         fragment_routin = new Routin();
+
+        //마이페이지 각 버튼
+        setup = new setup();
+        setup_profile_img = new setup_pofile_img();
 
         //서치 툴바 작동하기
         SearchCategory = new SearchCategory();
@@ -86,6 +94,8 @@ public class Group_main extends AppCompatActivity {
 
     //카테고리 프래그먼트 전환
     //0:공부, 1:운동, 2:취미, 3:루틴
+    //마이페이지 설정 버튼
+    //5:설정, 6:프로필편집
     public void onFragmentChange(int index) {
         if (index == 0) {
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_study).addToBackStack(null).commit();
@@ -97,6 +107,10 @@ public class Group_main extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_routin).addToBackStack(null).commit();
         } else if(index == 4){
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, SearchCategory).addToBackStack(null).commit();
+        } else if(index == 5){
+            getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, setup).addToBackStack(null).commit();
+        }else if(index == 6){
+            getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, setup_profile_img).addToBackStack(null).commit();
         }
 
     }

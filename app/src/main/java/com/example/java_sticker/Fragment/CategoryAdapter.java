@@ -70,6 +70,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
 
         holder.cardView.setOnClickListener(view -> {
+
+
+            if(mDataset.get(position).getW_uid().equals(uid)){
+                intent_close = new Intent(view.getContext(), close_add_goal.class);
+                intent_close.putExtra("tittle",item.getgTittle()); //도장판 제목
+                intent_close.putExtra("key", item.getKey()); //리사이클러뷰 고유키
+                intent_close.putExtra("count", item.getgCount()); //도장판 총 도장갯수
+                intent_close.putExtra("limit", item.getLimit()); //도장판 인원 제한수
+                intent_close.putExtra("limit_count", item.getLimit_count()); //도장판 참가한 수
+                intent_close.putExtra("auth",item.getAuth()); //도장판 인증방식
+                intent_close.putExtra("cate",item.getCate()); //도장판 카테고리
+                intent_close.putExtra("w_uid", item.getW_uid()); //도장판 작성자
+                view.getContext().startActivity(intent_close);
+
+            }else{
                 //클릭시 프래그먼트로 데이터 보내기
                 Bundle bundle = new Bundle();
 
@@ -88,6 +103,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 FragmentManager fragmentManager = ((Group_main)view.getContext()).getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.group_layout,DetailFragment).addToBackStack(null).commit();
+            }
+
 
 
 

@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/bottom_icon_color.xml" value="0.2155" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/bottom_sheet_background.xml" value="0.2155" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/category_bg_clicked.xml" value="0.2155" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/categoty_bg.xml" value="0.2155" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/circleprogressbar.xml" value="0.1" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/detail_button.xml" value="0.2425" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/gridview_line.xml" value="0.2575" />
@@ -31,7 +35,7 @@
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_grid.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_p_dialog.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_p_goal.xml" value="0.6" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/drawer_header.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/drawer_header.xml" value="0.4" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fraghome.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragjoin.xml" value="0.1" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_detail.xml" value="0.25364583333333335" />
@@ -40,10 +44,13 @@
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_hobby.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_routin.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_search_category.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_setup.xml" value="0.1" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_setup_pofile_img.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_study.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragmypage.xml" value="0.264" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/header.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/j_fragjoin.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/setup_fragment.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/w_fragjoin.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/menu/search.xml" value="0.1" />
         <entry key="..\:/Users/qmfps/AndroidStudioProjects/GoalSticker/app/src/main/res/layout/activity_main.xml" value="0.24947916666666667" />
