@@ -40,7 +40,7 @@ public class custom_p_goal_click extends AppCompatActivity {
     private Intent intent;
     Custom_pAdapter adapter;
     GridItem gd;
-    private ArrayList<GridItem> items = null;
+    private ArrayList<GridItem> items;
     GridViewWithHeaderAndFooter gridView;
     //RecyclerView gridView;
     String p_tittle;
@@ -104,6 +104,7 @@ public class custom_p_goal_click extends AppCompatActivity {
         View header = getLayoutInflater().inflate(R.layout.header, null, false);
         header_goal = (TextView) header.findViewById(R.id.header_goal);
         gridView.addHeaderView(header);
+        gridView.setAdapter(adapter);
 
 
 
@@ -119,14 +120,11 @@ public class custom_p_goal_click extends AppCompatActivity {
         ds.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
+                if(snapshot.exists()){
                     for (int i = 0; i < count; i++)
                         ReadPersonalDialog2(i);
-                } else {
-                    for (int i = 0; i < count; i++) {
-                        items.add(addGoal(i));
-                    }
                 }
+
             }
 
             @Override
@@ -156,7 +154,7 @@ public class custom_p_goal_click extends AppCompatActivity {
 
         //0으로초기화 방지
         ReadPersonalDialog();
-        gridView.setAdapter(adapter);
+        //gridView.setAdapter(adapter);
 
     }
 
@@ -272,20 +270,18 @@ public class custom_p_goal_click extends AppCompatActivity {
                 items.clear();
                // sticker_img.setImageResource(0);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String key = dataSnapshot.getKey();
                     GridItem gridItem = dataSnapshot.getValue(GridItem.class);
-
 
                     //test
                     assert gridItem != null;
-                    gridItem.goal_id = String.valueOf(i);
-
+                    gridItem.setGoal_id(String.valueOf(i));
 
                     items.add(gridItem);
+                    Log.d("TAG", String.valueOf(items));
 
                 }
                 adapter.notifyDataSetChanged();
-                gridView.setAdapter(adapter);
+                //gridView.setAdapter(adapter);
             }
 
             @Override

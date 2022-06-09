@@ -21,12 +21,13 @@
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_mypage.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/activity_signup.xml" value="0.37962962962962965" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/bottom_sheet.xml" value="0.1" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/bottom_sheet.xml" value="0.264" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_dialog.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_fraghome.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_g_goal.xml" value="0.1" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_g_input1.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_grid.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_grid_p.xml" value="0.4" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_p_dialog.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_p_goal.xml" value="0.6" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/drawer_header.xml" value="0.4" />
@@ -39,6 +40,7 @@
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_setup_pofile_img.xml" value="0.1" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_study.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragmypage.xml" value="0.264" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/g_bottom_sheet.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/header.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/j_fragjoin.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/setup_fragment.xml" value="0.2526041666666667" />

@@ -61,7 +61,7 @@ public class Custom_pAdapter extends BaseAdapter {
 
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.custom_grid, viewGroup, false);
+        convertView = inflater.inflate(R.layout.custom_grid_p, viewGroup, false);
 
         sticker_img = convertView.findViewById(R.id.sticker_img);
         sticker_img.setImageResource(R.drawable.plus);

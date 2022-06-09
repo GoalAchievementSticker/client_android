@@ -77,7 +77,7 @@ public class g_goal_c_detail_adapter extends RecyclerView.Adapter<g_goal_c_detai
         final GroupDialog item = items.get(position);
 
         //그룹방 이미지(일단 프사로 설정)
-        profile_databaseReference.child("user").child(uid).child("profileImageUrl").addValueEventListener(new ValueEventListener() {
+        profile_databaseReference.child("user").child(item.getUid_auth()).child("profileImageUrl").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String uri = snapshot.getValue(String.class);
