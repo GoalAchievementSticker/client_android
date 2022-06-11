@@ -14,6 +14,8 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -212,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
         custom_dialog = new Dialog(MainActivity.this);
         custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         custom_dialog.setContentView(R.layout.custom_p_dialog);
+        custom_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         //다이얼로그를 보여준다
         custom_dialog.show();
 

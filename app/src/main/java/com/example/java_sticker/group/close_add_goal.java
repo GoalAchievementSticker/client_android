@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentManager;
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -156,6 +158,7 @@ public class close_add_goal extends AppCompatActivity {
         custom_close_dialog = new Dialog(close_add_goal.this);
         custom_close_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         custom_close_dialog.setContentView(R.layout.close_dialog);
+        custom_close_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //다이얼로그를 보여준다
         custom_close_dialog.show();
 

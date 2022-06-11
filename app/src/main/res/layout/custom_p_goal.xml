@@ -36,6 +36,8 @@
                 android:layout_marginStart="24dp"
                 android:textColor="@color/black"
                 android:textSize="17dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
                 app:layout_constraintHorizontal_bias="0.028"

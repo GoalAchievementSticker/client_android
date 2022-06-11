@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,10 +27,10 @@ import com.example.java_sticker.R;
 
 public class FragHome extends Fragment {
     private View view;
-    Button study_category;
-    Button exercise_category;
-    Button hobby_category;
-    Button routin_category;
+    ImageButton study_category;
+    ImageButton exercise_category;
+    ImageButton hobby_category;
+    ImageButton routin_category;
 
     Toolbar searchView_home;
 
@@ -53,10 +54,10 @@ public class FragHome extends Fragment {
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         view = inflater.inflate(R.layout.fraghome, container, false);
 
-        study_category = (Button) view.findViewById(R.id.home_study_button);
-        exercise_category =(Button) view.findViewById(R.id.home_exercise_button);
-        hobby_category = (Button) view.findViewById(R.id.home_hobby_button);
-        routin_category = (Button) view.findViewById(R.id.home_routin_button);
+        study_category = (ImageButton) view.findViewById(R.id.home_study_button);
+        exercise_category =(ImageButton) view.findViewById(R.id.home_exercise_button);
+        hobby_category = (ImageButton) view.findViewById(R.id.home_hobby_button);
+        routin_category = (ImageButton) view.findViewById(R.id.home_routin_button);
 
         searchView_home = (Toolbar) view.findViewById(R.id.home_search);
         ((AppCompatActivity)getActivity()).setSupportActionBar(searchView_home);

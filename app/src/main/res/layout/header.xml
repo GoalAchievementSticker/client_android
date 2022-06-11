@@ -13,6 +13,8 @@
         android:layout_margin="12dp"
         android:textSize="20sp"
         android:text="Header"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="#81A29A"/>
 
 </LinearLayout>

@@ -22,12 +22,12 @@
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
-    <Button
+    <ImageButton
         android:id="@+id/home_study_button"
         android:layout_width="130dp"
         android:layout_height="80dp"
-        android:text="#공부"
-        android:textSize="20sp"
+        android:src="@drawable/study_category"
+        android:scaleType="fitCenter"
         android:background="@drawable/frgment_home_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,13 +36,13 @@
         app:layout_constraintTop_toBottomOf="@+id/home_search"
         app:layout_constraintVertical_bias="0.118" />
 
-    <Button
+    <ImageButton
         android:id="@+id/home_routin_button"
         android:layout_width="130dp"
         android:layout_height="80dp"
-        android:text="#루틴"
         android:background="@drawable/frgment_home_button"
-        android:textSize="20sp"
+        android:src="@drawable/routin_category"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.347"
@@ -50,16 +50,16 @@
         app:layout_constraintTop_toBottomOf="@+id/home_search"
         app:layout_constraintVertical_bias="0.118" />
 
-    <Button
+    <ImageButton
         android:id="@+id/home_hobby_button"
         android:layout_width="130dp"
         android:layout_height="80dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="340dp"
+        android:scaleType="fitCenter"
         android:background="@drawable/frgment_home_button"
-        android:text="#취미"
-        android:textSize="20sp"
+        android:src="@drawable/hobby_category"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.523"
@@ -67,14 +67,14 @@
         app:layout_constraintTop_toBottomOf="@+id/home_routin_button"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <ImageButton
         android:id="@+id/home_exercise_button"
         android:layout_width="130dp"
         android:layout_height="80dp"
         android:background="@drawable/frgment_home_button"
-        android:text="#운동"
+        android:src="@drawable/exercise_category"
         android:layout_marginTop="30dp"
-        android:textSize="20sp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.199"

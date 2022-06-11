@@ -49,6 +49,8 @@
                 android:textColor="@color/black"
                 android:text="goal_title"
                 android:textSize="17dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintHorizontal_bias="0.028"
                 app:layout_constraintLeft_toRightOf="@+id/g_pic"
                 app:layout_constraintTop_toTopOf="parent"
