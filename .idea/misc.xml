@@ -9,6 +9,7 @@
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/categoty_bg.xml" value="0.2155" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/circleprogressbar.xml" value="0.1" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/detail_button.xml" value="0.2425" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/frgment_home_button.xml" value="0.1" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/gridview_line.xml" value="0.2575" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/table_divider.xml" value="0.109" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/drawable/toggle_selector.xml" value="0.109" />
@@ -35,7 +36,7 @@
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/custom_p_goal.xml" value="0.6" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/drawer_header.xml" value="0.4" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/file_path.xml" value="0.24947916666666667" />
-        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fraghome.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fraghome.xml" value="0.190234375" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragjoin.xml" value="0.1" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_detail.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/USER/Documents/GitHub/java_sticker/app/src/main/res/layout/fragment_exercise.xml" value="0.25364583333333335" />
