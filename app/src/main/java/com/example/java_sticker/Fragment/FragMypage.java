@@ -160,7 +160,7 @@ public class FragMypage extends Fragment {
                     assert  groupDialog !=null;
                     groupDialog.key = key;
 
-                    if(groupDialog.isClose() == true){
+                    if(groupDialog.isClose() == true && (groupDialog.getgGoal() != groupDialog.getgCount())){
                         //참가중
                         j_goal++;
                     }

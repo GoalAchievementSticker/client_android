@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
     android:layout_margin="5dp"
     android:background="@drawable/gridview_line"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,14 +9,14 @@
     android:padding="5dp">
 
     <!--    android:background="@drawable/gridview_line"-->
+    <!--    android:background="@drawable/gridview_line"-->
     <ImageView
-        app:civ_border_width="1dp"
-        app:civ_border_color="@color/representative"
-        android:id="@+id/sticker_img"
+        android:id="@+id/sticker_img_2"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:src="@drawable/not"
+        android:scaleType="centerCrop"
         android:padding="10dp"
         android:adjustViewBounds="true"
         android:textColor="@color/representative" />

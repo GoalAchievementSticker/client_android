@@ -173,10 +173,17 @@ public class custom_g_goal_click extends Fragment {
 
 //        //그리드뷰 각 칸 클릭시, 데이터 수정
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
-            Log.d("TAG", String.valueOf(i));
-            stickerClick(i);
+            if(uid_auth.equals(uid)){
+                Log.d("TAG", String.valueOf(i));
+                stickerClick(i);
+            }else{
+                Toast.makeText(getContext(), "본인 도장판만 스티커를 찍을 수 있습니다", Toast.LENGTH_SHORT).show();
+            }
+
 
         });
+
+
 
         //0으로초기화 방지
         ReadPersonalDialog();
@@ -256,9 +263,9 @@ public class custom_g_goal_click extends Fragment {
             for (int grantResult : grantResults) {
                 //허용됬다면
                 if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(), "앱권한 설정완료", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "앱권한 설정완료", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "앱권한설정하세요", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "앱권한설정하세요", Toast.LENGTH_SHORT).show();
                     getActivity().finish();
                 }
             }

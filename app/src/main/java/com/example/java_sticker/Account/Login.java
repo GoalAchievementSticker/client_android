@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.java_sticker.Group_main;
 import com.example.java_sticker.personal.MainActivity;
 import com.example.java_sticker.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,8 +56,9 @@ public class Login extends AppCompatActivity {
 
                 firebaseAuth.signInWithEmailAndPassword(email,pwd).addOnCompleteListener(Login.this, task -> {
                     if(task.isSuccessful()){
-                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        Intent intent = new Intent(Login.this, Group_main.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
 

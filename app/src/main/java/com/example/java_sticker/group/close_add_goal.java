@@ -105,7 +105,7 @@ public class close_add_goal extends AppCompatActivity {
 
         gd = new g_GridItem();
 
-        storageRef.child("not.png").getDownloadUrl()
+        storageRef.child("not2.png").getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     // Got the download URL for 'plus.png'
                     not_uri = uri.toString();

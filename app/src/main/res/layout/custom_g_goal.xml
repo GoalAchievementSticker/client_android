@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -32,58 +32,51 @@
                 android:id="@+id/g_pic"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="20dp"
+                android:layout_margin="10dp"
                 android:src="@drawable/googleg_disabled_color_18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/custom_g_goal_tittle"
+                app:layout_constraintHorizontal_bias="0.313"
                 app:layout_constraintLeft_toLeftOf="@+id/custom_g_goal_tittle"
                 app:layout_constraintLeft_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintVertical_bias="0.472" />
 
             <TextView
                 android:id="@+id/custom_g_goal_tittle"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="25dp"
-                android:textColor="@color/black"
-                android:text="goal_title"
-                android:textSize="17dp"
-                android:maxLines="1"
                 android:ellipsize="end"
-                app:layout_constraintHorizontal_bias="0.028"
-                app:layout_constraintLeft_toRightOf="@+id/g_pic"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.28" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.945"
+                android:maxLines="1"
+                android:text="goal_title"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/customProgress_g_goal_c"
+                app:layout_constraintHorizontal_bias="0.834"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.317" />
 
-                <com.example.java_sticker.CustomProgress
-                    android:id="@+id/customProgress_g_goal_c"
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
-                    android:layout_margin="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.555"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.545"
-                    custom:backgroundColor="#C4DBC0"
-                    custom:curValue="1"
-                    custom:lineColor="#68A77C"
-                    custom:maxValue="5">
+            <com.example.java_sticker.CustomProgress
+                android:id="@+id/customProgress_g_goal_c"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_margin="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.979"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                custom:backgroundColor="#C4DBC0"
+                custom:curValue="1"
+                custom:lineColor="#68A77C"
+                custom:maxValue="5">
 
-                </com.example.java_sticker.CustomProgress>
+            </com.example.java_sticker.CustomProgress>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,4 +84,4 @@
     </androidx.cardview.widget.CardView>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

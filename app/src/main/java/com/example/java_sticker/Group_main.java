@@ -1,14 +1,20 @@
 package com.example.java_sticker;
 
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.java_sticker.Fragment.Exercise;
 import com.example.java_sticker.Fragment.FragHome;
 import com.example.java_sticker.Fragment.FragJoin;
@@ -20,6 +26,16 @@ import com.example.java_sticker.Fragment.Study;
 import com.example.java_sticker.Fragment.setup;
 import com.example.java_sticker.Fragment.setup_pofile_img;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class Group_main extends AppCompatActivity {
@@ -39,6 +55,7 @@ public class Group_main extends AppCompatActivity {
 
     Toolbar toolbar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +67,7 @@ public class Group_main extends AppCompatActivity {
 
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+
         //네비게이션연결 프래그먼트
         fragment_home = new FragHome();
         fragment_group_join = new FragJoin();

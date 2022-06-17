@@ -152,14 +152,10 @@ public class MainActivity extends AppCompatActivity {
         //네비게이션뷰의 아이템 클릭시
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.mypage:
-                    Intent mypageIntent = new Intent(MainActivity.this, mypage.class);
-                    startActivity(mypageIntent);
-                    //Toast.makeText(MainActivity.this, "mypage", Toast.LENGTH_SHORT).show();
-                    break;
                 case R.id.group_goal:
                     Intent groupIntent = new Intent(MainActivity.this, Group_main.class);
                     startActivity(groupIntent);
+                    finish();
                     //Toast.makeText(MainActivity.this, "그룹도장판", Toast.LENGTH_SHORT).show();
                     break;
             }
@@ -279,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
     //도장판칸 생성
     private GridItem addGoal(int i) {
         // Handle any errors
-        storageRef.child("not.png").getDownloadUrl()
+        storageRef.child("not2.png").getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     // Got the download URL for 'plus.png'
                     gd = new GridItem(String.valueOf(i), uri.toString());

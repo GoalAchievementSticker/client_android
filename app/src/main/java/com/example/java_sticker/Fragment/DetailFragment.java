@@ -155,7 +155,7 @@ public class DetailFragment extends Fragment {
         limit = (TextView) view.findViewById(R.id.limit);
         cate = (TextView) view.findViewById(R.id.cate);
 
-        storageRef.child("not.png").getDownloadUrl()
+        storageRef.child("not2.png").getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     // Got the download URL for 'plus.png'
                     not_uri = uri.toString();

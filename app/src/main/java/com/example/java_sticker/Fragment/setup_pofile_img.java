@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -156,15 +157,7 @@ public class setup_pofile_img extends Fragment {
             public void onClick(View view) {
                 img_path_url_ch = profile_databaseReference.child("user").child(uid).child("profileImageUrl");
                 img_path_url_ch.setValue(img_path);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        fragmentManager.beginTransaction().remove(setup_pofile_img.this).commit();
-                        fragmentManager.popBackStack();
-                    }
-                },400);
+                Toast.makeText(getContext(), "프로필 변경을 성공했습니다!", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -175,7 +168,7 @@ public class setup_pofile_img extends Fragment {
 
     private void img_setup(){
         //현재 프로필 이미지 가져오기
-        profile_databaseReference.child("user").child(uid).child("profileImageUrl").addValueEventListener(new ValueEventListener() {
+        profile_databaseReference.child("user").child(uid).child("profileImageUrl").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String image = snapshot.getValue(String.class);

@@ -17,6 +17,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 public class Custom_pAdapter extends BaseAdapter {
@@ -63,7 +64,7 @@ public class Custom_pAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.custom_grid_p, viewGroup, false);
 
-        sticker_img = convertView.findViewById(R.id.sticker_img);
+        sticker_img = convertView.findViewById(R.id.sticker_img_2);
         sticker_img.setImageResource(R.drawable.plus);
 
 //        select_v=inflater.inflate(R.layout.activity_custom_pgoal_click,viewGroup,false);

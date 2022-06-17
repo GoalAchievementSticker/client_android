@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 public class custom_p_goal_click extends AppCompatActivity {
@@ -54,7 +56,7 @@ public class custom_p_goal_click extends AppCompatActivity {
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference("personalDialog");
-    private ImageView sticker_img;
+    ImageView sticker_img;
     DatabaseReference ds;
 
     private List<String> goal_key = new ArrayList<>();
@@ -84,7 +86,7 @@ public class custom_p_goal_click extends AppCompatActivity {
 
 
         // Create a storage reference from our app
-        sticker_img = findViewById(R.id.sticker_img);
+        sticker_img = findViewById(R.id.sticker_img_2);
         items = new ArrayList<>();
         adapter = new Custom_pAdapter(this, items);
         gridView = (GridViewWithHeaderAndFooter) findViewById(R.id.gridView);

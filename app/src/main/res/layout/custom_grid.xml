@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="5dp"
-    android:layout_margin="5dp">
+    android:layout_margin="10dp">
 
 <!--    android:background="@drawable/gridview_line"-->
         <de.hdodenhof.circleimageview.CircleImageView
@@ -17,6 +17,7 @@
         android:layout_gravity="top"
         android:gravity="top"
         android:src="@drawable/not"
+            android:scaleType="centerCrop"
         android:textColor="@color/black"
         app:civ_border_color="@color/representative"
         app:civ_border_width="3dp" />
