@@ -29,7 +29,7 @@ public class Custom_gAdapter extends BaseAdapter {
     ArrayList<g_GridItem> items = null;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
-   CircleImageView sticker_img;
+    CircleImageView sticker_img;
     LinearLayout ll;
     View select_v;
     GridViewWithHeaderAndFooter gridView;
@@ -68,26 +68,22 @@ public class Custom_gAdapter extends BaseAdapter {
         sticker_img = convertView.findViewById(R.id.sticker_img);
         sticker_img.setImageResource(R.drawable.plus);
 
-        select_v=inflater.inflate(R.layout.activity_custom_ggoal_click,viewGroup,false);
+        select_v = inflater.inflate(R.layout.activity_custom_ggoal_click, viewGroup, false);
 //        ll = select_v.findViewById(R.id.select_sticker);
         gridView = select_v.findViewById(R.id.g_gridView);
 
         // Got the download URL for 'plus.png'
 
-        if(gridItem!=null) {
+        if (gridItem != null) {
             // Got the download URL for 'plus.png'
             Glide.with(context)
                     .load(gridItem.getTest())
                     .apply(new RequestOptions()
-                         //   .fitCenter()
                             .format(DecodeFormat.PREFER_ARGB_8888)
                             .override(Target.SIZE_ORIGINAL))
-                //    .circleCrop() //circle 로 crop
                     .into(sticker_img);
 
         }
-
-        sticker_img.setOnClickListener(view->{});
 
 
         View view = new View(context);

@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="80dp"
-    android:layout_height="80dp"
-    android:layout_margin="5dp"
-    android:background="@drawable/gridview_line"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:gravity="top"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:layout_margin="10dp">
 
     <!--    android:background="@drawable/gridview_line"-->
-    <!--    android:background="@drawable/gridview_line"-->
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/sticker_img_2"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="top"
+        android:gravity="top"
         android:src="@drawable/not"
         android:scaleType="centerCrop"
-        android:padding="10dp"
-        android:adjustViewBounds="true"
-        android:textColor="@color/representative" />
+        android:textColor="@color/black"
+        app:civ_border_color="@color/representative"
+        app:civ_border_width="3dp" />
 
 </LinearLayout>
+
+

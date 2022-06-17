@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.example.java_sticker.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -28,7 +31,7 @@ public class Custom_pAdapter extends BaseAdapter {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     GridItem gi;
-    ImageView sticker_img;
+    CircleImageView sticker_img;
     LinearLayout ll;
     View select_v;
     GridViewWithHeaderAndFooter gridView;
@@ -67,23 +70,18 @@ public class Custom_pAdapter extends BaseAdapter {
         sticker_img = convertView.findViewById(R.id.sticker_img_2);
         sticker_img.setImageResource(R.drawable.plus);
 
-//        select_v=inflater.inflate(R.layout.activity_custom_pgoal_click,viewGroup,false);
-//        ll = select_v.findViewById(R.id.select_sticker);
-//        gridView = select_v.findViewById(R.id.gridView);
 
-        // Got the download URL for 'plus.png'
-
-        if(gridItem!=null) {
+        if (gridItem != null) {
             // Got the download URL for 'plus.png'
             Glide.with(context)
                     .load(gridItem.getTest())
+                    .apply(new RequestOptions()
+                            .format(DecodeFormat.PREFER_ARGB_8888)
+                            .override(Target.SIZE_ORIGINAL))
                     .into(sticker_img);
-
-        }else{
-            Toast.makeText(context,"해당 셀이 null 입니다",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, "해당 셀이 null 입니다", Toast.LENGTH_LONG).show();
         }
-
-        sticker_img.setOnClickListener(view->{});
 
 
         View view = new View(context);

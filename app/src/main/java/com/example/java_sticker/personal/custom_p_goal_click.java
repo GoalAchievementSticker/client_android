@@ -67,7 +67,7 @@ public class custom_p_goal_click extends AppCompatActivity {
 
 
     Toolbar toolbar;
-    ImageView s1, s2, s3, s4, s5;
+    ImageView s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16;
     View v;
     BottomSheetDialog bsd;
 
@@ -144,6 +144,17 @@ public class custom_p_goal_click extends AppCompatActivity {
         s3 = v.findViewById(R.id.s3);
         s4 = v.findViewById(R.id.s4);
         s5 = v.findViewById(R.id.s5);
+        s6 = v.findViewById(R.id.s6);
+        s7 = v.findViewById(R.id.s7);
+        s8 = v.findViewById(R.id.s8);
+        s9 = v.findViewById(R.id.s9);
+        s10 = v.findViewById(R.id.s10);
+        s11 = v.findViewById(R.id.s11);
+        s12 = v.findViewById(R.id.s12);
+        s13 = v.findViewById(R.id.s13);
+        s14 = v.findViewById(R.id.s14);
+        s15 = v.findViewById(R.id.s15);
+        s16 = v.findViewById(R.id.s16);
 
 
 //        //그리드뷰 각 칸 클릭시, 데이터 수정
@@ -166,12 +177,10 @@ public class custom_p_goal_click extends AppCompatActivity {
         //height 만큼 보이게 됨
         bsd.getBehavior().setState(STATE_COLLAPSED);
 
+        //s1클릭
         s1.setOnClickListener(view -> {
-            Toast.makeText(this, "s1클릭", Toast.LENGTH_SHORT).show();
-            storageRef.child("check.png").getDownloadUrl()
+            storageRef.child("goal_sticker/cat_green.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-//                        gd = new GridItem(String.valueOf(i), uri.toString());
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
 
@@ -179,9 +188,10 @@ public class custom_p_goal_click extends AppCompatActivity {
                         goal_count();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
+
+        //s2클릭
         s2.setOnClickListener(view -> {
-            Toast.makeText(this, "s2클릭", Toast.LENGTH_SHORT).show();
-            storageRef.child("sprout.png").getDownloadUrl()
+            storageRef.child("goal_sticker/cat_black.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
@@ -189,16 +199,12 @@ public class custom_p_goal_click extends AppCompatActivity {
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
                     }).addOnFailureListener(Throwable::printStackTrace);
-            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-
-
         });
+
+        //s3클릭
         s3.setOnClickListener(view -> {
-            Toast.makeText(this, "s3클릭", Toast.LENGTH_SHORT).show();
-            storageRef.child("y_star.png").getDownloadUrl()
+            storageRef.child("goal_sticker/cat_grap.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-//                        gd = new GridItem(String.valueOf(i), uri.toString());
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
 
@@ -206,26 +212,158 @@ public class custom_p_goal_click extends AppCompatActivity {
                         goal_count();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
+
+        //s4클릭
         s4.setOnClickListener(view -> {
-            Toast.makeText(this, "s4클릭", Toast.LENGTH_SHORT).show();
-            storageRef.child("triangular.png").getDownloadUrl()
+            storageRef.child("goal_sticker/cat_pink.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-//                        gd = new GridItem(String.valueOf(i), uri.toString());
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
+
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
+
+        //s5클릭
         s5.setOnClickListener(view -> {
-            Toast.makeText(this, "s5클릭", Toast.LENGTH_SHORT).show();
-            storageRef.child("new-moon.png").getDownloadUrl()
+            storageRef.child("goal_sticker/check_green.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
-                        // Got the download URL for 'plus.png'
-//                        gd = new GridItem(String.valueOf(i), uri.toString());
                         ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
                         bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s6클릭
+        s6.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/check_1.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s7클릭
+        s7.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/flower_red.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s8클릭
+        s8.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/flower_1.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s9클릭
+        s9.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/moon_1.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s1클릭
+        s10.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/moon_3.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s11클릭
+        s11.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/moon_4.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s12클릭
+        s12.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/moon_full.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s13클릭
+        s13.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/sprout_green.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s14클릭
+        s14.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/sprout_green_2.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s15클릭
+        s15.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/sprout_grow_1.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s16클릭
+        s16.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/sprout_grow_2.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
                     }).addOnFailureListener(Throwable::printStackTrace);

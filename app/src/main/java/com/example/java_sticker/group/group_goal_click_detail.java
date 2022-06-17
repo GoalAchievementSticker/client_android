@@ -1,5 +1,6 @@
 package com.example.java_sticker.group;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -234,15 +235,20 @@ public class group_goal_click_detail extends Fragment {
     private double ReadDialogGroup(){
         per = 0;
         uid_goal_group.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String key = snapshot.getKey();
                 GroupDialog read_g = snapshot.getValue(GroupDialog.class);
-                assert  read_g !=null;
-                read_g.key = key;
+               // assert  read_g !=null;
+                if (read_g != null) {
+                    read_g.key = key;
+                }
                 gDialog.add(read_g);
 
-                per += read_g.getgGoal();
+                if (read_g != null) {
+                    per += read_g.getgGoal();
+                }
 
                 gAdapter.notifyDataSetChanged();
 

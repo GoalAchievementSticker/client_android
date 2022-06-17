@@ -115,6 +115,7 @@ public class custom_g_goal_click extends Fragment {
     private Uri filePath;
     private Bitmap bitmap;
 
+    ImageView s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16;
 
     @Nullable
     @Override
@@ -157,8 +158,6 @@ public class custom_g_goal_click extends Fragment {
         bsd = new BottomSheetDialog(getActivity());
         bsd.setContentView(v);
 
-        //ReadUidKeyDialog();
-
 
         View cv = getLayoutInflater().inflate(R.layout.ggoal_sticker_img, null);
         //img
@@ -167,16 +166,35 @@ public class custom_g_goal_click extends Fragment {
 
         adapter.notifyDataSetChanged();
 
+
+        s1 = v.findViewById(R.id.s1);
+        s2 = v.findViewById(R.id.s2);
+        s3 = v.findViewById(R.id.s3);
+        s4 = v.findViewById(R.id.s4);
+        s5 = v.findViewById(R.id.s5);
+        s6 = v.findViewById(R.id.s6);
+        s7 = v.findViewById(R.id.s7);
+        s8 = v.findViewById(R.id.s8);
+        s9 = v.findViewById(R.id.s9);
+        s10 = v.findViewById(R.id.s10);
+        s11 = v.findViewById(R.id.s11);
+        s12 = v.findViewById(R.id.s12);
+        s13 = v.findViewById(R.id.s13);
+        s14 = v.findViewById(R.id.s14);
+        s15 = v.findViewById(R.id.s15);
+        s16 = v.findViewById(R.id.s16);
+
+
         camera = v.findViewById(R.id.camera);
         gallery = v.findViewById(R.id.gallery);
 
 
 //        //그리드뷰 각 칸 클릭시, 데이터 수정
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
-            if(uid_auth.equals(uid)){
+            if (uid_auth.equals(uid)) {
                 Log.d("TAG", String.valueOf(i));
                 stickerClick(i);
-            }else{
+            } else {
                 Toast.makeText(getContext(), "본인 도장판만 스티커를 찍을 수 있습니다", Toast.LENGTH_SHORT).show();
             }
 
@@ -184,15 +202,9 @@ public class custom_g_goal_click extends Fragment {
         });
 
 
-
         //0으로초기화 방지
         ReadPersonalDialog();
         gridView.setAdapter(adapter);
-
-//        ok.setOnClickListener(view -> {
-//            uploadToFirebase(mImageUri);
-//
-//        });
 
 
         //클릭한 사람의 정보 받아서 가져오기
@@ -234,25 +246,7 @@ public class custom_g_goal_click extends Fragment {
             }
         }
 
-//        //현재 안드로이드 버전이 6.0미만이면 메서드를 종료한다.
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-//                && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-//                && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-//            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-//            return;
-//        }
 
-//
-//        for (String permission : permission_list) {
-//            //권한 허용 여부를 확인한다.
-//            int chk = requireActivity().checkCallingOrSelfPermission(permission);
-//
-//            if (chk == PackageManager.PERMISSION_DENIED) {
-//                //권한 허용을여부를 확인하는 창을 띄운다
-//                requestPermissions(permission_list, 0);
-//            }
-//        }
     }
 
     @Override
@@ -284,47 +278,12 @@ public class custom_g_goal_click extends Fragment {
     }
 
     private void uploadToFirebase(String mImageUri) {
-        Log.d("camera", "10");
         Object i = values.get("order");
 
         StorageReference fileRef = storageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
 
-//        // Get the data from an ImageView as bytes
-//        img.setDrawingCacheEnabled(true);
-//        img.buildDrawingCache();
-//
-//        img.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-//                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-//        img.layout(0, 0, img.getMeasuredWidth(), img.getMeasuredHeight());
-//
-//        img.buildDrawingCache(true);
-//        Bitmap b = Bitmap.createBitmap(img.getDrawingCache());
-//        img.setDrawingCacheEnabled(false); // clear drawing cache
-//
-//
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        b.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//        byte[] data = baos.toByteArray();
-//
-//        UploadTask uploadTask = fileRef.putBytes(data);
-//        String s = new String(data, StandardCharsets.UTF_8);
-//        Uri uri = Uri.parse(s);
-//
-
-
-//        uploadTask.addOnFailureListener(exception -> {
-//            // Handle unsuccessful uploads
-//        }).addOnSuccessListener(taskSnapshot -> {
-//            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-//            Uri downloadUrl = taskSnapshot.getDownloadUrl();
-//        });
-
-        Log.d("camera", "11");
-        Log.d("camera", mImageUri);
         fileRef.putFile(Uri.parse(mImageUri)).addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri_ -> {
 
-//            //이미지 모델에 담기
-//            Model model = other -> false;
 
             ds.child(String.valueOf(i)).child("test").setValue(uri_.toString());
 
@@ -355,19 +314,9 @@ public class custom_g_goal_click extends Fragment {
         }
         return type;
 
-//        ContentResolver cr = requireActivity().getContentResolver();
-//        MimeTypeMap mime = MimeTypeMap.getSingleton();
-//
-//        return mime.getExtensionFromMimeType(cr.getType(uri));
     }
 
-//    private void onCaptureImageResult(Intent data) {
-//
-//
-//        mImageUri = data.getData();
-//        img.setImageURI(mImageUri);
-//
-//    }
+
 
     private void stickerClick(int i) {
         //bottom sheet dialog 보이기기
@@ -375,44 +324,214 @@ public class custom_g_goal_click extends Fragment {
         //height 만큼 보이게 됨
         bsd.getBehavior().setState(STATE_COLLAPSED);
 
+        //s1클릭
+        s1.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/cat_green.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s2클릭
+        s2.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/cat_black.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s3클릭
+        s3.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/cat_grap.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s4클릭
+        s4.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/cat_pink.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s5클릭
+        s5.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/check_green.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s6클릭
+        s6.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/check_1.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s7클릭
+        s7.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/flower_red.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s8클릭
+        s8.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/flower_1.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s9클릭
+        s9.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/moon_1.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s1클릭
+        s10.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/moon_3.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s11클릭
+        s11.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/moon_4.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s12클릭
+        s12.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/moon_full.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s13클릭
+        s13.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/sprout_green.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s14클릭
+        s14.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/sprout_green_2.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s15클릭
+        s15.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/sprout_grow_1.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
+
+        //s16클릭
+        s16.setOnClickListener(view -> {
+            storageRef.child("goal_sticker/sprout_grow_2.png").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                        bsd.dismiss();
+
+                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                        goal_count();
+                    }).addOnFailureListener(Throwable::printStackTrace);
+        });
 
         //카메라 클릭
         camera.setOnClickListener(view -> {
 
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            //imageUri = requireActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
             values.put(MediaStore.Images.Media.TITLE, "New Picture");
             values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
             values.put("order", i);
 
 
-            //intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-
-
-//            Log.d("camera", "1. "+ i);
-//
-//            // 임시로 사용할 파일의 경로를 생성
-//            String url = "tmp_" + System.currentTimeMillis() + ".png";
-//            Uri mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
-//            Log.d("camera", "2");
-//            Log.d("camera", "3");
-
             if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
             }
 
             Toast.makeText(getContext(), "카메라 클릭", Toast.LENGTH_SHORT).show();
-//                storageRef.child("check.png").getDownloadUrl()
-//                        .addOnSuccessListener(uri -> {
-//                            // Got the download URL for 'plus.png'
-////                        gd = new GridItem(String.valueOf(i), uri.toString());
-//                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-//                            bsd.dismiss();
-//
-//                            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-//                            goal_count();
-//                        }).addOnFailureListener(Throwable::printStackTrace);
+
         });
 
         //갤러리 클릭
@@ -487,7 +606,7 @@ public class custom_g_goal_click extends Fragment {
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
 
 
-              //  Bitmap resized = resizeBitmapImage(imageBitmap, 80);
+                //  Bitmap resized = resizeBitmapImage(imageBitmap, 80);
 //                getImageUri(requireContext(),imageBitmap);
 
 //               bitmap = MediaStore.Images.Media.getBitmap(
