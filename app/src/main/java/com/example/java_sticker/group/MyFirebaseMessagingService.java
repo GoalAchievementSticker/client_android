@@ -53,6 +53,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Intent intent = new Intent();
+            intent.setAction("com.package.notification");
+            sendBroadcast(intent);
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM

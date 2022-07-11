@@ -158,6 +158,9 @@ public class FragHome extends Fragment {
                 if(id == R.id.search){
                     group_main.onFragmentChange(4);
                 }
+                if(id == R.id.noti){
+                    group_main.onFragmentChange(4);
+                }
                 return true;
             }
         });
