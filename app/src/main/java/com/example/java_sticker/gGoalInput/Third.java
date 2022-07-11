@@ -113,11 +113,11 @@ public class Third extends Fragment  {
                         //생성된 레코드 파이어베이스 저장
                         keyRef.setValue(groupDialog);
                         //uid 정보값 push()키로 저장하기
-                        keyRef.child("uid").push().setValue(uid);
+                        keyRef.child("uid").child(uid).setValue(uid);
 
                         //카테고리 레코드 파이어베이스에도 저장
                         categoryRef.setValue(groupDialog);
-                        categoryRef.child("uid").push().setValue(uid);
+                        categoryRef.child("uid").setValue(uid);
 
 
                         new Handler().postDelayed(new Runnable() {
