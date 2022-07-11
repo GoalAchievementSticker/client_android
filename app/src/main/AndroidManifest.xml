@@ -6,19 +6,22 @@
 
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
 
 
     <application
+        android:appComponentFactory="true"
         android:largeHeap="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_main"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_main_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Java_Sticker">
+        android:theme="@style/Theme.Java_Sticker"
+        tools:replace="android:appComponentFactory">
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"

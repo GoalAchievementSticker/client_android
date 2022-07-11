@@ -123,7 +123,9 @@ public class FragHome extends Fragment {
                 String name = snapshot.child("userName").getValue(String.class);
                 String uri = snapshot.child("profileImageUrl").getValue(String.class);
                 nav_img = view.findViewById(R.id.iv_header);
-                Glide.with(navigationView).load(uri).into(nav_img);
+                Glide.with(navigationView)
+                        .load(uri)
+                        .into(nav_img);
                 nav_name = view.findViewById(R.id.nav_name);
                 nav_name.setText(name+"님");
 
@@ -159,7 +161,7 @@ public class FragHome extends Fragment {
                     group_main.onFragmentChange(4);
                 }
                 if(id == R.id.noti){
-                    group_main.onFragmentChange(4);
+                    group_main.onFragmentChange(5);
                 }
                 return true;
             }
