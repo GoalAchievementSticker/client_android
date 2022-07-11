@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -37,6 +38,8 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.load.model.Model;
 import com.example.java_sticker.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,6 +48,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -57,11 +63,16 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 /*그룹도장판*/
-public class custom_g_goal_click extends Fragment {
+public class custom_g_goal_click extends Fragment  {
+
+    private static final String TAG = "MainActivity";
+    private static final int NOTIFICATION_REQUEST_CODE = 1234;
+
     private TextView header_goal;
     Custom_gAdapter adapter;
     g_GridItem gd;
@@ -122,6 +133,17 @@ public class custom_g_goal_click extends Fragment {
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         assert inflater != null;
         view = inflater.inflate(R.layout.activity_custom_ggoal_click, container, false);
+
+        // [START handle_data_extras]
+        if (requireActivity().getIntent().getExtras() != null) {
+            for (String key : requireActivity().getIntent().getExtras().keySet()) {
+                Object value = requireActivity().getIntent().getExtras().get(key);
+                Log.d(TAG, "Key: " + key + " Value: " + value);
+            }
+        }
+        // [END handle_data_extras]
+
+
 
         //권한허가
         checkPermission();
@@ -189,6 +211,7 @@ public class custom_g_goal_click extends Fragment {
         gallery = v.findViewById(R.id.gallery);
 
 
+
 //        //그리드뷰 각 칸 클릭시, 데이터 수정
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
             if (uid_auth.equals(uid)) {
@@ -230,6 +253,7 @@ public class custom_g_goal_click extends Fragment {
         return view;
     }
 
+
     //사진찍기 권한 확인인
     @SuppressLint("ObsoleteSdkInt")
     private void checkPermission() {
@@ -264,6 +288,7 @@ public class custom_g_goal_click extends Fragment {
                 }
             }
         }
+
     }
 
 
@@ -333,6 +358,11 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //fcm push
+                        Intent fcm = new Intent(getContext(), MyFirebaseMessagingService.class);
+                        requireContext().startService(fcm);
+
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
