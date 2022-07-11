@@ -25,17 +25,15 @@ public class Notifications extends Fragment {
         View view = inflater.inflate(R.layout.fragment_nofications, container, false);
 
         CardViewFactor=new ArrayList<>();
-        //변수 연결
+
         recyclerView = (RecyclerView) view.findViewById(R.id.notifications);
         recyclerView.setHasFixedSize(true);
-        noti_ada=new Notifications_adapter();
+        noti_ada=new Notifications_adapter(CardViewFactor);
+
         RecyclerView.LayoutManager manager = new GridLayoutManager(getActivity(),1);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(noti_ada);
 
-
-        // ReadCategory();
-        // Inflate the layout for this fragment
         return view;
     }
 }

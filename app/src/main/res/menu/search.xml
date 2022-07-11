@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:icon="@drawable/yes_notification"
+        android:icon="@drawable/no_notification"
         android:title="notification"
         android:id="@+id/noti"
         app:showAsAction="ifRoom" />

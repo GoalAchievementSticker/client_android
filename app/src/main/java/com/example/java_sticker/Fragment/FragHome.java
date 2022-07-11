@@ -161,7 +161,7 @@ public class FragHome extends Fragment {
                     group_main.onFragmentChange(4);
                 }
                 if(id == R.id.noti){
-                    group_main.onFragmentChange(5);
+                    group_main.onFragmentChange(7);
                 }
                 return true;
             }

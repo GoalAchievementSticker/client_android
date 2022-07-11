@@ -26,7 +26,8 @@ import java.util.ArrayList;
 public class Notifications_adapter extends RecyclerView.Adapter<Notifications_adapter.ViewHolder> {
     ArrayList<CardviewFactor> items;
 
-    public Notifications_adapter() {
+    public Notifications_adapter(ArrayList<CardviewFactor> items) {
+        this.items=items;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

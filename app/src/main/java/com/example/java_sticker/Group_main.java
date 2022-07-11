@@ -28,11 +28,13 @@ import com.example.java_sticker.Fragment.FragHome;
 import com.example.java_sticker.Fragment.FragJoin;
 import com.example.java_sticker.Fragment.FragMypage;
 import com.example.java_sticker.Fragment.Hobby;
+import com.example.java_sticker.Fragment.Notifications;
 import com.example.java_sticker.Fragment.Routin;
 import com.example.java_sticker.Fragment.SearchCategory;
 import com.example.java_sticker.Fragment.Study;
 import com.example.java_sticker.Fragment.setup;
 import com.example.java_sticker.Fragment.setup_pofile_img;
+import com.example.java_sticker.group.CardviewFactor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -99,6 +101,7 @@ public class Group_main extends AppCompatActivity {
         fragment_exercise = new Exercise();
         fragment_hobby = new Hobby();
         fragment_routin = new Routin();
+        fragment_nofi=new Notifications();
 
         //마이페이지 각 버튼
         setup = new setup();
@@ -156,7 +159,7 @@ public class Group_main extends AppCompatActivity {
         }else if(index == 6){
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, setup_profile_img).addToBackStack(null).commit();
         }else if(index == 7){
-            getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, setup_profile_img).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_nofi).addToBackStack(null).commit();
         }
 
     }
