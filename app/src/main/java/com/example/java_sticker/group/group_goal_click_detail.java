@@ -1,7 +1,11 @@
 package com.example.java_sticker.group;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +83,6 @@ public class group_goal_click_detail extends Fragment {
     g_goal_c_detail_adapter gAdapter;
 
 
-
     //참여중 리사이클러뷰 아이템 클릭했던 값 받는 변수
     String auth;
     String title;
@@ -129,6 +133,7 @@ public class group_goal_click_detail extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_group_goal_click_detail, container, false);
 
+
         toolbar_group = (Toolbar) view.findViewById(R.id.toolbar_group);
         g_goal_c_total_per = (TextView) view.findViewById(R.id.g_goal_c_total_per);
         g_goal_c_item_ry = (RecyclerView) view.findViewById(R.id.g_goal_c_item_ry);
@@ -146,11 +151,29 @@ public class group_goal_click_detail extends Fragment {
         key = intent.getStringExtra("key");
         count = intent.getIntExtra("count", 5);
         limit_count = intent.getIntExtra("limit_count", 2);
-        auth=intent.getStringExtra("auth");
+        auth = intent.getStringExtra("auth");
 
+
+        @SuppressLint("WrongConstant")
+        SharedPreferences prefs =this.getActivity().getSharedPreferences("noti",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("noti_title", title);
+        editor.commit();
+
+
+        FirebaseMessaging.getInstance().subscribeToTopic(key)
+                .addOnCompleteListener(task -> {
+                    String msg = "Subscribed";
+                    if (!task.isSuccessful()) {
+                        msg = "Subscribe failed";
+
+                    }
+                    Log.d("subscribe", msg);
+                    Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                }).addOnFailureListener(Throwable::printStackTrace);
 
         //uid 접근
-        uid_key_ds=databaseReference.child(uid).child("dialog_group").child(key);
+        uid_key_ds = databaseReference.child(uid).child("dialog_group").child(key);
 
 
         toolbar_group.setNavigationOnClickListener(new View.OnClickListener() {
@@ -184,7 +207,7 @@ public class group_goal_click_detail extends Fragment {
             @Override
             public void run() {
                 //리사이클러뷰 각 아이템 정보도 가져오기
-                for(int j = 0; j<uid_key.size(); j++){
+                for (int j = 0; j < uid_key.size(); j++) {
                     uid_goal_group = databaseReference.child(uid_key.get(j)).child("dialog_group").child(key);
                     ReadDialogGroup();
                     Log.d("TAG", String.valueOf(per));
@@ -193,15 +216,13 @@ public class group_goal_click_detail extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        double per_count = (per/(count*limit_count))*100;
-                        g_goal_c_total_per.setText(String.valueOf((int)per_count)+"%");
+                        double per_count = (per / (count * limit_count)) * 100;
+                        g_goal_c_total_per.setText(String.valueOf((int) per_count) + "%");
                     }
-                },1000);
+                }, 1000);
 
             }
-        },400);
-
-
+        }, 400);
 
 
         // Inflate the layout for this fragment
@@ -221,6 +242,7 @@ public class group_goal_click_detail extends Fragment {
                     //Log.d("TAG", String.valueOf(uid_key));
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
@@ -230,9 +252,8 @@ public class group_goal_click_detail extends Fragment {
     }
 
 
-
     //각 uid_key에 해당하는 group_goal가져오기!!!
-    private double ReadDialogGroup(){
+    private double ReadDialogGroup() {
         per = 0;
         uid_goal_group.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -240,7 +261,7 @@ public class group_goal_click_detail extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String key = snapshot.getKey();
                 GroupDialog read_g = snapshot.getValue(GroupDialog.class);
-               // assert  read_g !=null;
+                // assert  read_g !=null;
                 if (read_g != null) {
                     read_g.key = key;
                 }

@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
-
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdk 33
@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        multiDexEnabled true
 
     }
 
@@ -37,9 +37,17 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.guava:guava:29.0-android'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.11'
+    implementation 'com.google.firebase:firebase-crashlytics-ndk:18.2.11'
+    implementation 'com.google.firebase:firebase-perf:20.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation('com.google.gms:google-services:4.3.13')
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.6'
-    implementation 'com.google.firebase:firebase-bom:30.2.0'
-    implementation 'com.google.firebase:firebase-core:21.0.0'
+    implementation 'com.google.firebase:firebase-bom:30.3.0'
+    implementation 'com.google.firebase:firebase-core:21.1.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0' //Circle ImageView
     implementation 'com.google.android.material:material:1.6.1'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
@@ -47,10 +55,12 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.android.material:material:<verson>'
     implementation 'com.github.bumptech.glide:glide:4.13.2'
-    implementation 'com.google.android.material:material:1.7.0-alpha02'
+    implementation 'com.google.android.material:material:1.7.0-alpha03'
     implementation 'com.android.car.ui:car-ui-lib:2.2.1'
     implementation 'com.google.firebase:firebase-messaging:23.0.6'
     implementation 'androidx.work:work-runtime:2.7.1'
+    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.1'
+    implementation 'com.android.volley:volley:1.2.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'in.srain.cube:grid-view-with-header-footer:1.0.12'

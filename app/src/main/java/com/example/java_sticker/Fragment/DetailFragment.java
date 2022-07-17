@@ -23,6 +23,9 @@ import androidx.fragment.app.FragmentManager;
 import com.example.java_sticker.R;
 import com.example.java_sticker.group.GroupDialog;
 import com.example.java_sticker.group.g_GridItem;
+import com.example.java_sticker.personal.MainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -135,6 +139,8 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_detail, container, false);
 
+
+
         uid_key = new ArrayList<>();
         gDialog = new ArrayList<>();
 
@@ -175,8 +181,6 @@ public class DetailFragment extends Fragment {
         }
 
 
-
-
         //참가하기 버튼을 눌렀을때 작동!!!
         //참가하기 버튼 기능
         //1. 클릭했을때 uid_key랑 비교해서 값이 있다면 이미 참가중이라고 알림주고 끝내기(완료)
@@ -184,54 +188,78 @@ public class DetailFragment extends Fragment {
         //3. 제한 인원 값과 uid_key사이즈 + 1 이 같다면 해당 리사이클러뷰(카테고리에 있는것만) 삭제!!(해결)
         //4. 클릭했을때 limit_count증가 반영!!! -> category의 limit_count db 반영(완료), 작성한 유저 limit_count 반영(완료), 참가한 유저 db의 limit_count반영 (해결!)
         //5. 참가한 인원 == 제한 인원이면 도장판 생성
-       add_button.setOnClickListener(new View.OnClickListener() {
+        add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        for(int i =0; i<uid_key.size(); i++){
+                        for (int i = 0; i < uid_key.size(); i++) {
                             status = uid_key.get(i).equals(uid);
                             //이미 있다면 true
-                            if(status){
+                            if (status) {
                                 //이미참여한사람임으로 버튼 참가 못하게 막기
                                 Toast.makeText(view.getContext(), "이미 참가한 도장판 입니다", Toast.LENGTH_SHORT).show();
                                 break;
                             }
                         }
 
+                        //Log.d("uid_key", "w_uid: " + databaseReference.child(uid_key.get(0))w_uid + "입니다");
+                        for (int i = 0; i < uid_key.size(); i++)
+                            Log.d("uid_key", "uid_key.get(i): " +databaseReference.child(uid_key.get(i)) + "입니다\n");
+
                         //위에 for문을 돌고 참가한 유저가 아니라면 uid에 추가해준다.
                         //카테고리 + GroupDialog(최초작성한 유저 uid에 들어감) + 참가한 유저 groupDialog 새로 추가해줌+uid반영..
-                        if(status == false){
+                        if (!status) {
                             //카테고리 uid 접근, 카테고리 limit_count 접근
                             DatabaseReference add_category_uid = categoryReference.child(_cate).child(_key).child("uid");
                             DatabaseReference add_category_limit_count = categoryReference.child(_cate).child(_key).child("limit_count");
+
+
+
+                            //uid_key가 정확히 무엇인지
+                            //uid_key(i)로그 찍으니까 자기 자신의 uid만 찍힘...
+                            //java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
                             //작성자 uid 접근
-                            DatabaseReference add_GroupDialog_uid = databaseReference.child(uid_key.get(0)).child("dialog_group").child(_key).child("uid");
-                            DatabaseReference add_GroupDialog_limit_count = databaseReference.child(uid_key.get(0)).child("dialog_group").child(_key).child("limit_count");
+                            DatabaseReference add_GroupDialog_uid = databaseReference.child(w_uid)
+                                    .child("dialog_group")
+                                    .child(_key)
+                                    .child("uid");
+
+                            //작성자 limit_count 접근
+                            DatabaseReference add_GroupDialog_limit_count = databaseReference.child(w_uid)
+                                    .child("dialog_group")
+                                    .child(_key)
+                                    .child("limit_count");
+
+                            //작성자 uid추가(완료)
+                            add_GroupDialog_uid.child(String.valueOf(uid)).setValue(uid);
+                            //작성자 limit_count(증가 반영)
+                            add_GroupDialog_limit_count.setValue(_limit_count + 1);
+
+
                             //참가한 유저 GroupDialog 값 접근. .
                             DatabaseReference add_GroupDialog_button_click_user = databaseReference.child(uid).child("dialog_group").child(_key);
                             //카테고리 uid추가(완료)
                             add_category_uid.child(uid).setValue(uid);
                             //카테고리 limit_count(증가 반영)
-                            add_category_limit_count.setValue(_limit_count+1);
-                            //작성자 uid추가(완료)
-                            add_GroupDialog_uid.child(String.valueOf(uid)).setValue(uid);
-                            //작성자 limit_count(증가 반영)
-                            add_GroupDialog_limit_count.setValue(_limit_count+1);
+                            add_category_limit_count.setValue(_limit_count + 1);
+
+
                             //참가한 유저 GroupDialog 추가 db단위로 추가안하면 배열값으로 들어감.
                             //여기 limit_count 값 그냥 기존값 불러와서 +1하면됨(해결)
-                            GroupDialog groupDialog = new GroupDialog(_count, _goal, _limit, _auth, _key, 0, _cate, _limit_count+1, w_uid,name,uid,false);
+                            GroupDialog groupDialog = new GroupDialog(_count, _goal, _limit, _auth, _key, 0, _cate, _limit_count + 1, w_uid, name, uid, false);
                             add_GroupDialog_button_click_user.setValue(groupDialog);
+
                             //for문 돌려서 이미 있는 uid_key안의 uid추가
-                            for(int i = 0; i<uid_key.size(); i++){
+                            for (int i = 0; i < uid_key.size(); i++) {
                                 add_GroupDialog_button_click_user.child("uid").child(uid_key.get(i)).setValue(uid_key.get(i));
                             }
                             //내 자신도 추가해야함!!
                             add_GroupDialog_button_click_user.child("uid").child(uid).setValue(uid);
 
-                            Log.d("TAG", String.valueOf(uid_key)+"첫번째");
-                            if (uid_key.size()+1 == _limit) {
+                            Log.d("TAG", String.valueOf(uid_key) + "첫번째");
+                            if (uid_key.size() + 1 == _limit) {
                                 uid_key.add(uid);
                                 int uid_size = uid_key.size();
                                 Log.d("TAG", String.valueOf(uid_key) + "두번째");
@@ -241,7 +269,7 @@ public class DetailFragment extends Fragment {
                                     uid_fixed = databaseReference.child(uid_key.get(t)).child("goal_group").child(_key).child("도장판");
                                     uid_boolen = databaseReference.child(uid_key.get(t)).child("dialog_group").child(_key).child("close");
                                     uid_boolen.setValue(true);
-                                    for (int j = 0; j <_count; j++) {
+                                    for (int j = 0; j < _count; j++) {
                                         addGoal(j);
                                     }
 
@@ -263,7 +291,7 @@ public class DetailFragment extends Fragment {
                         }
 
                     }
-                },1000);
+                }, 1000);
 
 
                 //만약 참가한 사람이 limit만큼 찼다면 카테고리 값을 삭제해준다.
@@ -272,14 +300,12 @@ public class DetailFragment extends Fragment {
                 //도장판 생성, uid기준 들어있는 사람들 group dialog - 유저 uid기준 -  goal_group - 리사이크럴뷰 아이디 기준 - 등록된 uid기준 - 각 도장판 배열 저장
 
 
-
             }
         });
 
 
         return view;
     }
-
 
 
     //클릭한 리사이클러뷰 아이템 값 가져오기 반영.
@@ -292,18 +318,20 @@ public class DetailFragment extends Fragment {
         _goal = bundle.getString("goal");
         _auth = bundle.getString("auth");
         _cate = bundle.getString("cate");
-        _key  = bundle.getString("key");
+        _key = bundle.getString("key");
         w_uid = bundle.getString("w_uid");
 
-        Log.d("getBundle",_count+"/ "+_limit+"/ "+_goal+"/ "+_auth+"/ "+_cate);
+        Log.d("getBundle", _count + "/ " + _limit + "/ " + _goal + "/ " + _auth + "/ " + _cate);
         goal.setText(_goal);
-        count.setText(String.valueOf(_count)+"개");
+        count.setText(String.valueOf(_count) + "개");
         auth.setText(_auth);
         limit.setText(String.valueOf(_limit));
         cate.setText(_cate);
 
-    }
 
+
+
+    }
 
 
     //도장판칸 생성
@@ -314,7 +342,6 @@ public class DetailFragment extends Fragment {
 
 
     }
-
 
 
     //클릭한 카테고리 값 가져오기
@@ -329,6 +356,7 @@ public class DetailFragment extends Fragment {
                     //Log.d("TAG", String.valueOf(uid_key));
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -339,7 +367,7 @@ public class DetailFragment extends Fragment {
     }
 
     //유저 이름 저장!
-    private void Read_name(){
+    private void Read_name() {
         profile_name.child("user").child(uid).child("userName").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

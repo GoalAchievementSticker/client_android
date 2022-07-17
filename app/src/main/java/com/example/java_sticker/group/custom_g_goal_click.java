@@ -1,14 +1,21 @@
 package com.example.java_sticker.group;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
+import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -33,12 +40,18 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.load.model.Model;
 import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
+import com.example.java_sticker.personal.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -56,20 +69,35 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 /*그룹도장판*/
-public class custom_g_goal_click extends Fragment  {
+
+public class custom_g_goal_click extends Fragment {
+
+
+    //noti
+    String noti_name;
+    private static String CHANNEL_ID = "channel1";
+    private static String CHANEL_NAME = "Channel1";
+
 
     private static final String TAG = "MainActivity";
     private static final int NOTIFICATION_REQUEST_CODE = 1234;
@@ -129,6 +157,7 @@ public class custom_g_goal_click extends Fragment  {
 
     ImageView s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16;
 
+    @RequiresApi(api = 33)
     @Nullable
     @Override
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -143,7 +172,6 @@ public class custom_g_goal_click extends Fragment  {
             }
         }
         // [END handle_data_extras]
-
 
 
         //권한허가
@@ -175,6 +203,7 @@ public class custom_g_goal_click extends Fragment  {
         header_goal = (TextView) header.findViewById(R.id.header_goal);
         gridView.addHeaderView(header);
         header_goal.setText(tittle);
+
 
         //bottom sheet
         v = getLayoutInflater().inflate(R.layout.g_bottom_sheet, null);
@@ -210,7 +239,6 @@ public class custom_g_goal_click extends Fragment  {
 
         camera = v.findViewById(R.id.camera);
         gallery = v.findViewById(R.id.gallery);
-
 
 
 //        //그리드뷰 각 칸 클릭시, 데이터 수정
@@ -334,8 +362,7 @@ public class custom_g_goal_click extends Fragment  {
             //progressBar.setVisibility(View.INVISIBLE);
 
             Toast.makeText(getContext(), "업로드 성공", Toast.LENGTH_SHORT).show();
-            Log.d("camera", "12");
-            //  imageView.setImageResource(R.drawable.ic_add_photo);
+            showNoti();
         })).addOnFailureListener(Throwable::printStackTrace);
         Log.d("camera", "13");
 
@@ -355,73 +382,6 @@ public class custom_g_goal_click extends Fragment  {
     }
 
 
-    public void runtimeEnableAutoInit() {
-        // [START fcm_runtime_enable_auto_init]
-        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-        // [END fcm_runtime_enable_auto_init]
-    }
-
-    public void deviceGroupUpstream() {
-        // [START fcm_device_group_upstream]
-        String to = "a_unique_key"; // the notification key
-        AtomicInteger msgId = new AtomicInteger();
-        FirebaseMessaging.getInstance().send(new RemoteMessage.Builder(to)
-                .setMessageId(String.valueOf(msgId.get()))
-                .addData("hello", "world")
-                .build());
-        // [END fcm_device_group_upstream]
-    }
-
-    public void sendUpstream() {
-        final String SENDER_ID = "YOUR_SENDER_ID";
-        final int messageId = 0; // Increment for each
-        // [START fcm_send_upstream]
-        FirebaseMessaging fm = FirebaseMessaging.getInstance();
-        fm.send(new RemoteMessage.Builder(SENDER_ID + "@fcm.googleapis.com")
-                .setMessageId(Integer.toString(messageId))
-                .addData("my_message", "Hello World")
-                .addData("my_action","SAY_HELLO")
-                .build());
-        // [END fcm_send_upstream]
-    }
-
-    private void subscribeTopics() {
-        // [START subscribe_topics]
-        FirebaseMessaging.getInstance().subscribeToTopic("weather")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Subscribed";
-                        if (!task.isSuccessful()) {
-                            msg = "Subscribe failed";
-                        }
-                        Log.d(TAG, msg);
-                        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-        // [END subscribe_topics]
-    }
-
-    private void logRegToken() {
-        // [START log_reg_token]
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                        return;
-                    }
-
-                    // Get new FCM registration token
-                    String token = task.getResult();
-
-                    // Log and toast
-                    String msg = "FCM Registration token: " + token;
-                    Log.d(TAG, msg);
-                    Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                });
-        // [END log_reg_token]
-    }
-
     @RequiresApi(33)
     // [START ask_post_notifications]
     private void askNotificationPermission() {
@@ -435,11 +395,10 @@ public class custom_g_goal_click extends Fragment  {
             //       If the user selects "No thanks," allow the user to continue without notifications.
         } else {
             // Directly ask for the permission
-            requestPermissions(new String[] { Manifest.permission.POST_NOTIFICATIONS }, NOTIFICATION_REQUEST_CODE);
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, NOTIFICATION_REQUEST_CODE);
         }
     }
     // [END ask_post_notifications]
-
 
 
     @RequiresApi(api = 33)
@@ -448,6 +407,7 @@ public class custom_g_goal_click extends Fragment  {
         bsd.show();
         //height 만큼 보이게 됨
         bsd.getBehavior().setState(STATE_COLLAPSED);
+
 
         //s1클릭
         s1.setOnClickListener(view -> {
@@ -459,19 +419,8 @@ public class custom_g_goal_click extends Fragment  {
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
 
-
-                        runtimeEnableAutoInit();
-                        deviceGroupUpstream();
-                        sendUpstream();
-                        logRegToken();
-                        askNotificationPermission();
-
-                        //fcm push
-                        Intent fcm = new Intent(getContext(), MyFirebaseMessagingService.class);
-                        requireContext().startService(fcm);
-
-
-
+                        //push Noti
+                        showNoti();
 
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
@@ -485,6 +434,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -497,6 +448,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -509,6 +462,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -521,6 +476,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -533,6 +490,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -545,6 +504,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -557,6 +518,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -569,6 +532,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -581,6 +546,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -593,6 +560,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -605,6 +574,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -617,6 +588,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -629,6 +602,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -641,6 +616,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -653,6 +630,8 @@ public class custom_g_goal_click extends Fragment  {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //push Noti
+                        showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -671,7 +650,8 @@ public class custom_g_goal_click extends Fragment  {
             }
 
             Toast.makeText(getContext(), "카메라 클릭", Toast.LENGTH_SHORT).show();
-
+            //push Noti
+           // showNoti();
         });
 
         //갤러리 클릭
@@ -683,15 +663,8 @@ public class custom_g_goal_click extends Fragment  {
             values.put("order", i);
             intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
             startActivityForResult(intent, GALLERY_REQUEST);
-//            storageRef.child("sprout.png").getDownloadUrl()
-//                    .addOnSuccessListener(uri -> {
-//                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-//                        bsd.dismiss();
-//
-//                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-//                        goal_count();
-//                    }).addOnFailureListener(Throwable::printStackTrace);
-            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+            //push Noti
+           // showNoti();
 
 
         });
@@ -699,36 +672,109 @@ public class custom_g_goal_click extends Fragment  {
 
     }
 
-    /**
-     * Bitmap이미지의 가로, 세로 사이즈를 리사이징 한다.
-     *
-     * @param source        원본 Bitmap 객체
-     * @param maxResolution 제한 해상도
-     * @return 리사이즈된 이미지 Bitmap 객체
-     */
-    public Bitmap resizeBitmapImage(Bitmap source, int maxResolution) {
-        int width = source.getWidth();
-        int height = source.getHeight();
-        int newWidth = width;
-        int newHeight = height;
-        float rate = 0.0f;
+    private void showNoti() {
+//        builder = null;
+//        manager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
+//        //버전 오레오 이상일 경우
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+//            manager.createNotificationChannel(
+//                    new NotificationChannel(CHANNEL_ID, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
+//            );
+//
+//            builder = new NotificationCompat.Builder(getContext(),CHANNEL_ID);
+//
+//            //하위 버전일 경우
+//        }else{
+//            builder = new NotificationCompat.Builder(getContext());
+//        }
+//
+//
+//        Intent intent = new Intent(getContext(), Group_main.class);
+////        intent.putExtra("name",name);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 101,
+//                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        //알림창 제목
+//        builder.setContentTitle("BetterMe");
+//
+//        //알림창 메시지
+//        builder.setContentText("user 님이 스티커를 찍었습니다");
+//
+//        //알림창 아이콘
+//        builder.setSmallIcon(R.mipmap.ic_main_round);
+//
+//        //알림창 터치시 상단 알림상태창에서 알림이 자동으로 삭제되게 합니다.
+//        builder.setAutoCancel(true);
+//
+//
+//        //pendingIntent를 builder에 설정 해줍니다.
+//        //알림창 터치시 인텐트가 전달할 수 있도록 해줍니다.
+//        builder.setContentIntent(pendingIntent);
+//
+//        Notification notification = builder.build();
+//
+//        //알림창 실행
+//        manager.notify(1,notification);
+//
 
-        if (width > height) {
-            if (maxResolution < width) {
-                rate = maxResolution / (float) width;
-                newHeight = (int) (height * rate);
-                newWidth = maxResolution;
+        DatabaseReference name = databaseReference.child(uid_auth).child("dialog_group").child(key).child("name");
+
+        //스티커 찍은 사람 이름을 가져오고 싶은데 null만 리턴됨...
+        name.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d("noti_name: ", snapshot.getValue(String.class));
+                    noti_name = snapshot.getValue(String.class);
+
+                }
+
             }
-        } else {
-            if (maxResolution < height) {
-                rate = maxResolution / (float) height;
-                newWidth = (int) (width * rate);
-                newHeight = maxResolution;
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.i("noti_name: ", String.valueOf(databaseError.toException()));
             }
+        });
+        Log.d("noti_body:  ", String.valueOf(name));
+
+
+        RequestQueue mRequestQue = Volley.newRequestQueue(getContext());
+        JSONObject json = new JSONObject();
+
+
+        try {
+            json.put("to", "/topics/" + key);
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title", header_goal);
+            notificationObj.put("body", noti_name + "이 스티커를 찍었습니다");
+            //replace notification with data when went send data
+            json.put("notification", notificationObj);
+
+            String URL = "https://fcm.googleapis.com/fcm/send";
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json,
+                    response -> Log.d("MUR", "onResponse: "),
+                    error -> Log.d("MUR", "onError: " + error.networkResponse)
+            ) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put("authorization", "key=AAAAD23x9HI:APA91bEWmpr5qSuL6l0GM4WqBP_KFza55YM83iWoBl35YydoQgx_785SyMJevytOHS50hgP4ZBIRWbEgtH8da85QRdiPYsPNkTEr_viTOlAUZAAfwXBhdke0kqyrTkDmGacI40qxkwhm");
+                    return header;
+                }
+            };
+
+
+            mRequestQue.add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        return Bitmap.createScaledBitmap(source, newWidth, newHeight, true);
+
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -737,22 +783,11 @@ public class custom_g_goal_click extends Fragment  {
         Log.d("camera", "4");
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
 
-            // filePath = data.getData();
             try {
-                //compressImage(imageUri);
 
                 assert data != null;
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-
-                //  Bitmap resized = resizeBitmapImage(imageBitmap, 80);
-//                getImageUri(requireContext(),imageBitmap);
-
-//               bitmap = MediaStore.Images.Media.getBitmap(
-//                        requireActivity().getContentResolver(), imageUri);
-
-
                 uploadToFirebase(String.valueOf(getImageUri(requireContext(), imageBitmap)));
 
             } catch (Exception e) {
@@ -760,16 +795,6 @@ public class custom_g_goal_click extends Fragment  {
                 e.printStackTrace();
             }
 
-//            assert data != null;
-//            final Bundle extras = data.getExtras();
-//            photo = extras.getParcelable("data");
-//            img.setImageBitmap(photo);
-//            uploadToFirebase(photo);
-
-
-//            mImageUri = data.getData();
-//            Log.d("uri", String.valueOf(mImageUri));
-//            img.setImageURI(mImageUri);
         }
         if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
             if (data == null) {
@@ -777,9 +802,8 @@ public class custom_g_goal_click extends Fragment  {
             }
             Uri selectedImage = data.getData();
             uploadToFirebase(String.valueOf(selectedImage));
-        }
 
-//        uploadToFirebase(photo);
+        }
 
 
     }
@@ -789,49 +813,6 @@ public class custom_g_goal_click extends Fragment  {
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
-    }
-
-    private void compressImage(Uri filePath) {
-        try {
-            OutputStream outStream = null;
-
-            Log.i("filePath", String.valueOf(filePath));
-            outStream = new FileOutputStream(String.valueOf(filePath));
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inSampleSize = 8;
-            bitmap = BitmapFactory.decodeFile(String.valueOf(filePath), bmOptions);
-
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-
-
-            outStream.flush();
-            outStream.close();
-
-
-            Log.i("file path compress", String.valueOf(filePath));
-
-        } catch (Exception e) {
-
-            Log.i("exception", e.toString());
-        }
-    }
-
-
-    private Bitmap resizeBitmap(Bitmap thumbnail, int i) {
-        int width = thumbnail.getWidth();
-        int height = thumbnail.getHeight();
-        double x;
-
-        if (width >= height && width > i) {
-            x = width / height;
-            width = i;
-            height = (int) (i / x);
-        } else if (height >= width && height > i) {
-            x = height / width;
-            height = i;
-            width = (int) (i / x);
-        }
-        return Bitmap.createScaledBitmap(thumbnail, width, height, false);
     }
 
 
