@@ -140,7 +140,6 @@ public class DetailFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_detail, container, false);
 
 
-
         uid_key = new ArrayList<>();
         gDialog = new ArrayList<>();
 
@@ -206,7 +205,7 @@ public class DetailFragment extends Fragment {
 
                         //Log.d("uid_key", "w_uid: " + databaseReference.child(uid_key.get(0))w_uid + "입니다");
                         for (int i = 0; i < uid_key.size(); i++)
-                            Log.d("uid_key", "uid_key.get(i): " +databaseReference.child(uid_key.get(i)) + "입니다\n");
+                            Log.d("uid_key", "uid_key.get(i): " + databaseReference.child(uid_key.get(i)) + "입니다\n");
 
                         //위에 for문을 돌고 참가한 유저가 아니라면 uid에 추가해준다.
                         //카테고리 + GroupDialog(최초작성한 유저 uid에 들어감) + 참가한 유저 groupDialog 새로 추가해줌+uid반영..
@@ -216,21 +215,22 @@ public class DetailFragment extends Fragment {
                             DatabaseReference add_category_limit_count = categoryReference.child(_cate).child(_key).child("limit_count");
 
 
-
                             //uid_key가 정확히 무엇인지
                             //uid_key(i)로그 찍으니까 자기 자신의 uid만 찍힘...
                             //java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
                             //작성자 uid 접근
-                            DatabaseReference add_GroupDialog_uid = databaseReference.child(w_uid)
+
+                            DatabaseReference add_GroupDialog_uid = databaseReference.child(uid_key.get(0))
                                     .child("dialog_group")
                                     .child(_key)
                                     .child("uid");
 
                             //작성자 limit_count 접근
-                            DatabaseReference add_GroupDialog_limit_count = databaseReference.child(w_uid)
+                            DatabaseReference add_GroupDialog_limit_count = databaseReference.child(uid_key.get(0))
                                     .child("dialog_group")
                                     .child(_key)
                                     .child("limit_count");
+
 
                             //작성자 uid추가(완료)
                             add_GroupDialog_uid.child(String.valueOf(uid)).setValue(uid);
@@ -327,8 +327,6 @@ public class DetailFragment extends Fragment {
         auth.setText(_auth);
         limit.setText(String.valueOf(_limit));
         cate.setText(_cate);
-
-
 
 
     }
