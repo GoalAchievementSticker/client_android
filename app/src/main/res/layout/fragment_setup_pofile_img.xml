@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="프로필 이미지 변경"
+            android:text="이미지 변경"
             android:textColor="#3F4739"
             android:textSize="20sp">
 

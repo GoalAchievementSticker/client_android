@@ -104,7 +104,7 @@ public class FragMypage extends Fragment {
                 String name = snapshot.child("userName").getValue(String.class);
                 String image = snapshot.child("profileImageUrl").getValue(String.class);
                 String email=snapshot.child("userEmail").getValue(String.class);
-                mypage_name.setText(name + "님");
+                mypage_name.setText(name + " 님");
                 user_email.setText(email);
                 Glide.with(view).load(image).into(mypage_image);
 

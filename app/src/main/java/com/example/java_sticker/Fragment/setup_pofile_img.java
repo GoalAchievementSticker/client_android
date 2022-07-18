@@ -1,5 +1,6 @@
 package com.example.java_sticker.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
 import com.example.java_sticker.UserRegister;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -123,12 +127,7 @@ public class setup_pofile_img extends Fragment {
 
         button_profile_img_ok = (Button) view.findViewById(R.id.button_profile_img_ok);
 
-        setup_profile_img_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
+        setup_profile_img_toolbar.setNavigationOnClickListener(view1 -> getActivity().onBackPressed());
         //파이어베이스 로그인 유저 가져오기기
         user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
@@ -144,23 +143,15 @@ public class setup_pofile_img extends Fragment {
         setProfile_img_url();
 
         //각 버튼 누르면 이미지 변경(프로필 이미지 확인)
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                profile_img_click();
-            }
-        },300);
+        new Handler().postDelayed(this::profile_img_click,300);
 
         //확인 버튼 클릭시 프로필 이미지 바꾸기
-        button_profile_img_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                img_path_url_ch = profile_databaseReference.child("user").child(uid).child("profileImageUrl");
-                img_path_url_ch.setValue(img_path);
-                Toast.makeText(getContext(), "프로필 변경을 성공했습니다!", Toast.LENGTH_SHORT).show();
+        button_profile_img_ok.setOnClickListener(view12 -> {
+            img_path_url_ch = profile_databaseReference.child("user").child(uid).child("profileImageUrl");
+            img_path_url_ch.setValue(img_path);
+            startActivity(new Intent(getContext(), Group_main.class));
+            Toast.makeText(getContext(), "프로필 사진을 변경했습니다", Toast.LENGTH_SHORT).show();
 
-
-            }
         });
 
         return view;
@@ -172,7 +163,9 @@ public class setup_pofile_img extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String image = snapshot.getValue(String.class);
-                Glide.with(getView()).load(image).into(circleImageView_setup);
+                Glide.with(requireActivity())
+                        .load(image)
+                        .into(circleImageView_setup);
 
             }
             @Override
@@ -242,7 +235,8 @@ public class setup_pofile_img extends Fragment {
             public void onClick(View view) {
                 img_path = profile_green_slow_url;
                 Glide.with(view).load(profile_green_slow_url).into(circleImageView_setup);
-                Log.d("TAG", img_path);
+                Log.d("TAG",
+                        img_path);
             }
         });
 

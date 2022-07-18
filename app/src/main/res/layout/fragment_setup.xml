@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="설정"
+            android:text="프로필 설정"
             android:textColor="#3F4739"
             android:textSize="20sp">
 
@@ -38,14 +38,14 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:gravity="left"
-        android:text="프로필 변경"
+        android:text="이미지 변경"
         android:textColor="#58806B"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setup_toolbar"
         app:layout_constraintVertical_bias="0.054" />
@@ -55,17 +55,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:gravity="left"
-        android:text="닉네임 변경"
+        android:text="이름 변경"
         android:textColor="#58806B"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setup_img_ch_button"
-        app:layout_constraintVertical_bias="0.071" />
+        app:layout_constraintVertical_bias="0.01" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

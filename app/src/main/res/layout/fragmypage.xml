@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/Theme.Java_Sticker"
     android:id="@+id/fragmypage"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/mypage_toolbar"
@@ -35,6 +35,7 @@
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -45,11 +46,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mypage_image"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="100dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
             android:src="@drawable/profile_green_or"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,34 +55,42 @@
             app:layout_constraintHorizontal_bias="0.051"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintWidth_percent="0.3" />
 
         <TextView
             android:id="@+id/mypage_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:gravity="center"
             android:text="oo님"
-            android:textSize="27sp"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textSize="23sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/user_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.141"
+            app:layout_constraintRight_toLeftOf="parent"
             app:layout_constraintStart_toEndOf="@+id/mypage_image"
-            app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintWidth_percent="0.6" />
 
         <TextView
             android:id="@+id/user_email"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="example@naver.com"
-            android:textSize="17sp"
+            android:textSize="15sp"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.6"
+            app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toEndOf="@+id/mypage_image"
-            app:layout_constraintTop_toBottomOf="@+id/mypage_name"
-            app:layout_constraintHorizontal_bias="0.25"  />
+            app:layout_constraintTop_toBottomOf="@+id/mypage_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -249,7 +255,7 @@
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
             android:gravity="left"
-            android:text="설정"
+            android:text="프로필 설정"
             android:textColor="#58806B"
             android:textSize="18sp" />
 

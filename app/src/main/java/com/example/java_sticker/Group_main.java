@@ -33,6 +33,7 @@ import com.example.java_sticker.Fragment.Routin;
 import com.example.java_sticker.Fragment.SearchCategory;
 import com.example.java_sticker.Fragment.Study;
 import com.example.java_sticker.Fragment.setup;
+import com.example.java_sticker.Fragment.setup_name;
 import com.example.java_sticker.Fragment.setup_pofile_img;
 import com.example.java_sticker.group.CardviewFactor;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -54,7 +55,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class Group_main extends AppCompatActivity {
+public class Group_main extends BaseActivity {
 
     private static final String TAG = "MainActivity";
     private static final int NOTIFICATION_REQUEST_CODE = 1234;
@@ -71,6 +72,7 @@ public class Group_main extends AppCompatActivity {
     Fragment SearchCategory;
     Fragment setup;
     Fragment setup_profile_img;
+    Fragment setup_name;
     //Fragment DetailFragment;
 
     Toolbar toolbar;
@@ -78,7 +80,7 @@ public class Group_main extends AppCompatActivity {
 
     @RequiresApi(api = 33)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_main);
 
@@ -115,6 +117,7 @@ public class Group_main extends AppCompatActivity {
         //마이페이지 각 버튼
         setup = new setup();
         setup_profile_img = new setup_pofile_img();
+        setup_name=new setup_name();
 
         //서치 툴바 작동하기
         SearchCategory = new SearchCategory();
@@ -186,6 +189,8 @@ public class Group_main extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, setup_profile_img).addToBackStack(null).commit();
         }else if(index == 7){
             getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_nofi).addToBackStack(null).commit();
+        }else if(index == 8){
+            getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, setup_name).addToBackStack(null).commit();
         }
 
     }

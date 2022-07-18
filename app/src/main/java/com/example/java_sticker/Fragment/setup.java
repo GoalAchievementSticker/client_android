@@ -21,6 +21,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link setup#newInstance} factory method to
@@ -105,12 +107,7 @@ public class setup extends Fragment {
         setup_img_ch_button = (Button) view.findViewById(R.id.setup_img_ch_button);
         setup_name_ch_button = (Button) view.findViewById(R.id.setup_name_ch_button);
 
-        setup_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
+        setup_toolbar.setNavigationOnClickListener(view1 -> requireActivity().onBackPressed());
 
         //파이어베이스 로그인 유저 가져오기기
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -118,16 +115,10 @@ public class setup extends Fragment {
         uid = user.getUid();
 
         //프로필 이미지 변경
-        setup_img_ch_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                group_main.onFragmentChange(6);
-            }
-        });
+        setup_img_ch_button.setOnClickListener(view12 -> group_main.onFragmentChange(6));
+        //이름 변경
+        setup_name_ch_button.setOnClickListener(view12 -> group_main.onFragmentChange(8));
 
-
-
-        //프로필 이름 변경
 
         return view;
     }

@@ -202,12 +202,14 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_detail.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_exercise.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_group_goal_click_detail.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_hobby.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_nofications.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_search_category.xml" value="0.35052083333333334" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_setup.xml" value="0.35052083333333334" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_setup_pofile_img.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_setup.xml" value="0.25" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_setup_name.xml" value="0.32395833333333335" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_setup_pofile_img.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragment_study.xml" value="0.35052083333333334" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragmypage.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/fragmypage.xml" value="0.33" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/g_bottom_sheet.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/ggoal_sticker_img.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/header.xml" value="0.35052083333333334" />
@@ -216,6 +218,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/w_fragjoin.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/menu/bottom_menu.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/menu/drawer_menu.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/menu/drawer_menu_personal.xml" value="0.31875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/menu/search.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1375" />
         <entry key="..\:/Users/user/AppData/Local/Android/Sdk/platforms/android-33/data/res/layout/simple_list_item_checked.xml" value="0.36614583333333334" />
