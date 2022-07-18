@@ -42,7 +42,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ndk:18.2.11'
     implementation 'com.google.firebase:firebase-perf:20.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
-
+    implementation('com.google.android.material:material:1.0.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation('com.google.gms:google-services:4.3.13')
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.6'

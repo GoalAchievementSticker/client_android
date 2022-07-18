@@ -160,18 +160,29 @@
         <entry key="..\:/Users/qmfps/StudioProjects/java_sticker_final/app/src/main/res/mipmap-anydpi-v26/ic_main.xml" value="0.1225" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/bottom_icon_color.xml" value="0.189" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/bottom_sheet_background.xml" value="0.189" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/category_bg_clicked.xml" value="0.222" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/categoty_bg.xml" value="0.222" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/detail_button.xml" value="0.222" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/empty_divider.xml" value="0.222" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/frgment_home_button.xml" value="0.222" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/gfab_bg.xml" value="0.222" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/gridview_line.xml" value="0.222" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.222" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/ic_launcher_background.xml" value="0.189" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/ic_main_background.xml" value="0.189" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/table_divider.xml" value="0.222" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/textlines.xml" value="0.29" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/drawable/toggle_selector.xml" value="0.222" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_close_add_goal.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_custom_g_goal_click_main.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_custom_g_input.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_custom_ggoal_click.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_custom_pgoal_click.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_group_main.xml" value="0.35052083333333334" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_login.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_main.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_mypage.xml" value="0.35052083333333334" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_signup.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/activity_signup.xml" value="0.33" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/bottom_sheet.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/close_dialog.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/layout/custom_fraghome.xml" value="0.35052083333333334" />

@@ -1,15 +1,20 @@
 package com.example.java_sticker.Account;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.java_sticker.Group_main;
-import com.example.java_sticker.personal.MainActivity;
 import com.example.java_sticker.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,22 +22,22 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity {
 
     private static final String TAG = null;
-    private Button login_check;
-    private Button register_change;
     private EditText login_user_id;
     private EditText login_user_password;
+    private TextView changePw;
 
     FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        login_check = (Button) findViewById(R.id.login_check);
-        register_change = (Button) findViewById(R.id.register_change);
+        Button login_check = (Button) findViewById(R.id.login_check);
+        TextView signup = findViewById(R.id.signup);
         login_user_id = (EditText) findViewById(R.id.login_user_id);
         login_user_password = (EditText) findViewById(R.id.login_user_password);
-
+        changePw = findViewById(R.id.change_pw);
         firebaseAuth = FirebaseAuth.getInstance();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -48,27 +53,72 @@ public class Login extends AppCompatActivity {
 //            Log.d(TAG, "onAuthStateChanged:signed_out");
 //        }
 
-        login_check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = login_user_id.getText().toString().trim();
-                String pwd = login_user_password.getText().toString().trim();
+        login_check.setOnClickListener(view -> {
+            String email = login_user_id.getText().toString().trim();
+            String pwd = login_user_password.getText().toString().trim();
 
-                firebaseAuth.signInWithEmailAndPassword(email,pwd).addOnCompleteListener(Login.this, task -> {
-                    if(task.isSuccessful()){
-                        Intent intent = new Intent(Login.this, Group_main.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-
-            }
+            firebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(Login.this, task -> {
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(Login.this, Group_main.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }).addOnFailureListener(e->
+                    Toast.makeText(Login.this, "로그인 실패했습니다", Toast.LENGTH_LONG).show());
         });
 
 
-        register_change.setOnClickListener(view -> {
+        signup.setOnClickListener(view -> {
             Intent intent2 = new Intent(Login.this, Signup.class);
             startActivity(intent2);
+        });
+
+        changePw.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("이메일 주소 입력하기");
+            LinearLayout linearLayout = new LinearLayout(this);
+            final EditText emailet = new EditText(this);
+
+            //가입한 이메일 입력
+            emailet.setHint("example@naver.com");
+            emailet.setMinEms(16);
+            emailet.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+            linearLayout.addView(emailet);
+            linearLayout.setPadding(10, 10, 10, 10);
+            builder.setView(linearLayout);
+
+            // 입력 버튼 누르면 이메일 전송
+            builder.setPositiveButton("입력", (dialog, which) -> {
+                String email = emailet.getText().toString().trim();
+                beginRecovery(email);
+            });
+
+            builder.setNegativeButton("취소", (dialog, which) -> dialog.dismiss());
+            builder.create().show();
+
+        });
+    }
+
+    private void beginRecovery(String email) {
+        ProgressDialog loadingBar = new ProgressDialog(this);
+        loadingBar.setMessage("Sending Email....");
+        loadingBar.setCanceledOnTouchOutside(false);
+        loadingBar.show();
+
+        // 비밀번호 재설정 이메일 발송
+        // 이메일에 접속해서 새 비밀번호 입력
+        // 새 비밀번호로 로그인 가능
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+            loadingBar.dismiss();
+            if (task.isSuccessful()) {
+                Toast.makeText(Login.this, "비밀번호 재설정 이메일이 발송됐습니다", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(Login.this, "이메일 발송 실패", Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(e -> {
+            loadingBar.dismiss();
+            Toast.makeText(Login.this, "Error Failed", Toast.LENGTH_LONG).show();
         });
     }
 }
