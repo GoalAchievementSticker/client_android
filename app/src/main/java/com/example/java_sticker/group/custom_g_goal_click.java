@@ -7,13 +7,16 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -28,6 +31,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
@@ -38,6 +44,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -80,7 +87,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -138,6 +147,11 @@ public class custom_g_goal_click extends Fragment {
     BottomSheetDialog bsd;
     private View view;
 
+    //공유
+    View container;
+
+    ActionBarDrawerToggle barDrawerToggle;
+
 
     //카메라 촬영
     private Bitmap mImageUri = null;
@@ -178,6 +192,10 @@ public class custom_g_goal_click extends Fragment {
         checkPermission();
         //toolbar
         toolbar = view.findViewById(R.id.goal_toolbar);
+        toolbar.inflateMenu(R.menu.goal_menu);
+
+
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,6 +203,54 @@ public class custom_g_goal_click extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.share) {
+                    //현재 화면 캡처 저장
+                    builder.setTitle("공유").setMessage("해당 도장판을 저장하시겠습니까?")
+                            .setPositiveButton("저장하기", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //공유
+//                                    view.buildDrawingCache();
+//                                    Bitmap caputer = view.getDrawingCache();
+//                                    FileOutputStream fos;
+//
+//                                    try{
+//                                        fos = new FileOutputStream(Environment.getExternalStorageDirectory().toString()+"/goal.jpeg");
+//                                        caputer.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                                        Toast.makeText(view.getContext(), "저장됐습니다", Toast.LENGTH_SHORT).show();
+//                                    }catch (FileNotFoundException e){
+//                                        e.printStackTrace();
+//                                    }
+
+                                       View rootView = getView();
+                                       File screenShot = ScreenShot(rootView);
+                                       if(screenShot !=null){
+                                           getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(screenShot)));
+                                           Toast.makeText(getContext(), "저장했습니다.", Toast.LENGTH_SHORT).show();
+                                       }
+
+
+
+                                }
+                            }).setNeutralButton("취소", null)
+                            .show();
+                }
+
+                return true;
+            }
+        });
+
+
+        setHasOptionsMenu(true);
 
 
         // Create a storage reference from our app
@@ -281,6 +347,38 @@ public class custom_g_goal_click extends Fragment {
         });
         return view;
     }
+
+    public File ScreenShot(View view){
+        view.setDrawingCacheEnabled(true);
+
+        Bitmap screenBitmap = view.getDrawingCache();
+
+        String filename = "goal.png";
+        File file = new File(Environment.getExternalStorageDirectory()+"/Pictures", filename);
+        FileOutputStream os = null;
+        try{
+            os = new FileOutputStream(file);
+            screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os);
+            os.close();
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+
+        view.setDrawingCacheEnabled(false);
+        return file;
+    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item){
+//        switch (item.getItemId()){
+//            case R.id.share:
+//                Toast.makeText(getContext(), "쉐어버튼 ", Toast.LENGTH_SHORT).show();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
 
     //사진찍기 권한 확인인
@@ -888,6 +986,13 @@ public class custom_g_goal_click extends Fragment {
                 });
 
         return p;
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.goal_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
 
     }
 
