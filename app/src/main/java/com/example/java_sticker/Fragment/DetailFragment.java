@@ -203,63 +203,38 @@ public class DetailFragment extends Fragment {
                             }
                         }
 
-                        //Log.d("uid_key", "w_uid: " + databaseReference.child(uid_key.get(0))w_uid + "입니다");
-                        for (int i = 0; i < uid_key.size(); i++)
-                            Log.d("uid_key", "uid_key.get(i): " + databaseReference.child(uid_key.get(i)) + "입니다\n");
-
                         //위에 for문을 돌고 참가한 유저가 아니라면 uid에 추가해준다.
                         //카테고리 + GroupDialog(최초작성한 유저 uid에 들어감) + 참가한 유저 groupDialog 새로 추가해줌+uid반영..
-                        if (!status) {
+                        if(status == false){
                             //카테고리 uid 접근, 카테고리 limit_count 접근
                             DatabaseReference add_category_uid = categoryReference.child(_cate).child(_key).child("uid");
                             DatabaseReference add_category_limit_count = categoryReference.child(_cate).child(_key).child("limit_count");
-
-
-                            //uid_key가 정확히 무엇인지
-                            //uid_key(i)로그 찍으니까 자기 자신의 uid만 찍힘...
-                            //java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
                             //작성자 uid 접근
-
-                            DatabaseReference add_GroupDialog_uid = databaseReference.child(uid_key.get(0))
-                                    .child("dialog_group")
-                                    .child(_key)
-                                    .child("uid");
-
-                            //작성자 limit_count 접근
-                            DatabaseReference add_GroupDialog_limit_count = databaseReference.child(uid_key.get(0))
-                                    .child("dialog_group")
-                                    .child(_key)
-                                    .child("limit_count");
-
-
-                            //작성자 uid추가(완료)
-                            add_GroupDialog_uid.child(String.valueOf(uid)).setValue(uid);
-                            //작성자 limit_count(증가 반영)
-                            add_GroupDialog_limit_count.setValue(_limit_count + 1);
-
-
+                            DatabaseReference add_GroupDialog_uid = databaseReference.child(uid_key.get(0)).child("dialog_group").child(_key).child("uid");
+                            DatabaseReference add_GroupDialog_limit_count = databaseReference.child(uid_key.get(0)).child("dialog_group").child(_key).child("limit_count");
                             //참가한 유저 GroupDialog 값 접근. .
                             DatabaseReference add_GroupDialog_button_click_user = databaseReference.child(uid).child("dialog_group").child(_key);
                             //카테고리 uid추가(완료)
                             add_category_uid.child(uid).setValue(uid);
                             //카테고리 limit_count(증가 반영)
-                            add_category_limit_count.setValue(_limit_count + 1);
-
-
+                            add_category_limit_count.setValue(_limit_count+1);
+                            //작성자 uid추가(완료)
+                            add_GroupDialog_uid.child(String.valueOf(uid)).setValue(uid);
+                            //작성자 limit_count(증가 반영)
+                            add_GroupDialog_limit_count.setValue(_limit_count+1);
                             //참가한 유저 GroupDialog 추가 db단위로 추가안하면 배열값으로 들어감.
                             //여기 limit_count 값 그냥 기존값 불러와서 +1하면됨(해결)
-                            GroupDialog groupDialog = new GroupDialog(_count, _goal, _limit, _auth, _key, 0, _cate, _limit_count + 1, w_uid, name, uid, false);
+                            GroupDialog groupDialog = new GroupDialog(_count, _goal, _limit, _auth, _key, 0, _cate, _limit_count+1, w_uid,name,uid,false);
                             add_GroupDialog_button_click_user.setValue(groupDialog);
-
                             //for문 돌려서 이미 있는 uid_key안의 uid추가
-                            for (int i = 0; i < uid_key.size(); i++) {
-                                add_GroupDialog_button_click_user.child("uid").child(uid_key.get(i)).setValue(uid_key.get(i));
+                            for(int k = 0; k<uid_key.size(); k++){
+                                add_GroupDialog_button_click_user.child("uid").child(uid_key.get(k)).setValue(uid_key.get(k));
                             }
                             //내 자신도 추가해야함!!
                             add_GroupDialog_button_click_user.child("uid").child(uid).setValue(uid);
 
-                            Log.d("TAG", String.valueOf(uid_key) + "첫번째");
-                            if (uid_key.size() + 1 == _limit) {
+                            Log.d("TAG", String.valueOf(uid_key)+"첫번째");
+                            if (uid_key.size()+1 == _limit) {
                                 uid_key.add(uid);
                                 int uid_size = uid_key.size();
                                 Log.d("TAG", String.valueOf(uid_key) + "두번째");
@@ -269,7 +244,7 @@ public class DetailFragment extends Fragment {
                                     uid_fixed = databaseReference.child(uid_key.get(t)).child("goal_group").child(_key).child("도장판");
                                     uid_boolen = databaseReference.child(uid_key.get(t)).child("dialog_group").child(_key).child("close");
                                     uid_boolen.setValue(true);
-                                    for (int j = 0; j < _count; j++) {
+                                    for (int j = 0; j <_count; j++) {
                                         addGoal(j);
                                     }
 
@@ -291,7 +266,7 @@ public class DetailFragment extends Fragment {
                         }
 
                     }
-                }, 1000);
+                }, 900);
 
 
                 //만약 참가한 사람이 limit만큼 찼다면 카테고리 값을 삭제해준다.
@@ -345,7 +320,7 @@ public class DetailFragment extends Fragment {
     //클릭한 카테고리 값 가져오기
     private void ReadCategoryDialog(String cate2, String key2) {
         uid_key.clear();
-        categoryReference.child(cate2).child(key2).addListenerForSingleValueEvent(new ValueEventListener() {
+        categoryReference.child(cate2).child(key2).addValueEventListener(new ValueEventListener() {
             //@SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

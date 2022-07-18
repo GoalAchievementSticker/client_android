@@ -117,7 +117,7 @@ public class Third extends Fragment  {
 
                         //카테고리 레코드 파이어베이스에도 저장
                         categoryRef.setValue(groupDialog);
-                        categoryRef.child("uid").setValue(uid);
+                        categoryRef.child("uid").child(uid).setValue(uid);
 
 
                         new Handler().postDelayed(new Runnable() {
