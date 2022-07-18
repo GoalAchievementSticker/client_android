@@ -62,6 +62,7 @@ public class FragHome extends Fragment {
     ActionBarDrawerToggle barDrawerToggle;
 
     //nav속 이미지, 이름
+    TextView user_email;
     TextView nav_name;
     CircleImageView nav_img;
 
@@ -71,33 +72,36 @@ public class FragHome extends Fragment {
     DatabaseReference databaseReference = firebaseDatabase.getReference("personalDialog");
     DatabaseReference profile_databaseReference = firebaseDatabase.getReference();
 
+    TextView userEmail;
 
 
     @Override
-    public void onAttach(Context context){
+    public void onAttach(Context context) {
         super.onAttach(context);
 
         group_main = (Group_main) getActivity();
     }
 
     @Override
-    public void onDetach(){
+    public void onDetach() {
         super.onDetach();
         group_main = null;
     }
 
     @Nullable
     @Override
-    public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fraghome, container, false);
 
         study_category = (ImageButton) view.findViewById(R.id.home_study_button);
-        exercise_category =(ImageButton) view.findViewById(R.id.home_exercise_button);
+        exercise_category = (ImageButton) view.findViewById(R.id.home_exercise_button);
         hobby_category = (ImageButton) view.findViewById(R.id.home_hobby_button);
         routin_category = (ImageButton) view.findViewById(R.id.home_routin_button);
 
+
         searchView_home = (Toolbar) view.findViewById(R.id.home_search);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(searchView_home);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(searchView_home);
+
 
 
         //파이어베이스
@@ -122,12 +126,17 @@ public class FragHome extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.child("userName").getValue(String.class);
                 String uri = snapshot.child("profileImageUrl").getValue(String.class);
+                String email = snapshot.child("userEmail").getValue(String.class);
                 nav_img = view.findViewById(R.id.iv_header);
                 Glide.with(navigationView)
                         .load(uri)
                         .into(nav_img);
                 nav_name = view.findViewById(R.id.nav_name);
-                nav_name.setText(name+"님");
+                nav_name.setText(name + "님");
+                user_email=view.findViewById(R.id.user_email);
+                user_email.setText(email);
+
+
 
             }
 
@@ -157,17 +166,15 @@ public class FragHome extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
-                if(id == R.id.search){
+                if (id == R.id.search) {
                     group_main.onFragmentChange(4);
                 }
-                if(id == R.id.noti){
+                if (id == R.id.noti) {
                     group_main.onFragmentChange(7);
                 }
                 return true;
             }
         });
-
-
 
 
         setHasOptionsMenu(true);

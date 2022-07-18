@@ -38,7 +38,7 @@ public class FragMypage extends Fragment {
     TextView mypage_goal_j;
     TextView mypage_goal_w;
     TextView mypage_goal_close;
-
+    TextView user_email;
     Button mypage_setup;
     Button mypage_logout;
 
@@ -84,6 +84,7 @@ public class FragMypage extends Fragment {
         mypage_goal_j = (TextView) view.findViewById(R.id.mypage_goal_j);
         mypage_goal_w = (TextView) view.findViewById(R.id.mypage_goal_w);
         mypage_goal_close = (TextView) view.findViewById(R.id.mypage_goal_close);
+        user_email=view.findViewById(R.id.user_email);
 
         mypage_setup = (Button) view.findViewById(R.id.mypage_setup_button);
         mypage_logout = (Button) view.findViewById(R.id.mypage_logout_button);
@@ -96,13 +97,15 @@ public class FragMypage extends Fragment {
         assert user != null;
         uid = user.getUid();
 
-        //이름, 이미지 가져오기
+        //이름,이메일,이미지 가져오기
         profile_databaseReference.child("user").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.child("userName").getValue(String.class);
                 String image = snapshot.child("profileImageUrl").getValue(String.class);
+                String email=snapshot.child("userEmail").getValue(String.class);
                 mypage_name.setText(name + "님");
+                user_email.setText(email);
                 Glide.with(view).load(image).into(mypage_image);
 
             }
@@ -114,34 +117,21 @@ public class FragMypage extends Fragment {
         //참가중, 대기중, 완료 가져오기
 
         GroupUserdata();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mypage_goal_close.setText(String.valueOf(goal_close));
-                mypage_goal_j.setText(String.valueOf(j_goal));
-                mypage_goal_w.setText(String.valueOf(w_goal));
-            }
+        new Handler().postDelayed(() -> {
+            mypage_goal_close.setText(String.valueOf(goal_close));
+            mypage_goal_j.setText(String.valueOf(j_goal));
+            mypage_goal_w.setText(String.valueOf(w_goal));
         },400);
 
 
         //각 버튼 클릭 -> 프래그먼트 연결 or 기능연결
         //설정(프래그먼트 전환)
-        mypage_setup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                group_main.onFragmentChange(5);
-
-            }
-        });
+        mypage_setup.setOnClickListener(view -> group_main.onFragmentChange(5));
 
         //로그아웃
-        mypage_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    FirebaseAuth.getInstance().signOut();
-                    //로그인 프래그먼트로 전환 해줘야함...(만들기..!)
-            }
+        mypage_logout.setOnClickListener(view -> {
+                FirebaseAuth.getInstance().signOut();
+                //로그인 프래그먼트로 전환 해줘야함...(만들기..!)
         });
 
         return view;

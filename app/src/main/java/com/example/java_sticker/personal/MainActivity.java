@@ -81,8 +81,9 @@ public class MainActivity extends AppCompatActivity {
     //FAB
     boolean isFabOpen;
 
-    //nav속 이미지, 이름
+    //nav속 이미지,이메일, 이름
     TextView nav_name;
+    TextView user_email;
     CircleImageView nav_img;
 
     //그리드뷰 데이터 저장
@@ -123,16 +124,20 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
 
-        //네비게이션 프로필 이름, 이미지 가져오기
+        //네비게이션 프로필 이름,이메일, 이미지 가져오기
         profile_databaseReference.child("user").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.child("userName").getValue(String.class);
                 String uri = snapshot.child("profileImageUrl").getValue(String.class);
+                String email=snapshot.child("userEmail").getValue(String.class);
                 nav_img = findViewById(R.id.iv_header);
                 Glide.with(navigationView).load(uri).into(nav_img);
                 nav_name = findViewById(R.id.nav_name);
+                user_email=findViewById(R.id.user_email);
+                user_email.setText(email);
                 nav_name.setText(name+"님");
+
 
             }
 

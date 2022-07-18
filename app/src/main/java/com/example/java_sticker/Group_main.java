@@ -110,6 +110,8 @@ public class Group_main extends AppCompatActivity {
         fragment_routin = new Routin();
         fragment_nofi=new Notifications();
 
+
+
         //마이페이지 각 버튼
         setup = new setup();
         setup_profile_img = new setup_pofile_img();
@@ -118,6 +120,7 @@ public class Group_main extends AppCompatActivity {
         SearchCategory = new SearchCategory();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.group_layout, fragment_home).commitAllowingStateLoss();
+
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -159,54 +162,6 @@ public class Group_main extends AppCompatActivity {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 });
         // [END log_reg_token]
-    }
-
-
-    public void runtimeEnableAutoInit() {
-        // [START fcm_runtime_enable_auto_init]
-        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-        // [END fcm_runtime_enable_auto_init]
-    }
-
-    public void deviceGroupUpstream() {
-        // [START fcm_device_group_upstream]
-        String to = "a_unique_key"; // the notification key
-        AtomicInteger msgId = new AtomicInteger();
-        FirebaseMessaging.getInstance().send(new RemoteMessage.Builder(to)
-                .setMessageId(String.valueOf(msgId.get()))
-                .addData("hello", "world")
-                .build());
-        // [END fcm_device_group_upstream]
-    }
-
-    public void sendUpstream() {
-        final String SENDER_ID = "YOUR_SENDER_ID";
-        final int messageId = 0; // Increment for each
-        // [START fcm_send_upstream]
-        FirebaseMessaging fm = FirebaseMessaging.getInstance();
-        fm.send(new RemoteMessage.Builder(SENDER_ID + "@fcm.googleapis.com")
-                .setMessageId(Integer.toString(messageId))
-                .addData("my_message", "Hello World")
-                .addData("my_action", "SAY_HELLO")
-                .build());
-        // [END fcm_send_upstream]
-    }
-
-    private void subscribeTopics() {
-        // [START subscribe_topics]
-        FirebaseMessaging.getInstance().subscribeToTopic("weather")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Subscribed";
-                        if (!task.isSuccessful()) {
-                            msg = "Subscribe failed";
-                        }
-                        Log.d(TAG, msg);
-                        Toast.makeText(Group_main.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-        // [END subscribe_topics]
     }
 
 

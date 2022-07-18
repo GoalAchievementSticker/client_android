@@ -62,6 +62,7 @@ public class Signup extends AppCompatActivity {
         String password = user_password.getText().toString();
         String password_check = user_password_check.getText().toString();
         String name = user_name.getText().toString();
+
         //이메일 정규식
         Pattern pattern = android.util.Patterns.EMAIL_ADDRESS;
 
@@ -80,6 +81,7 @@ public class Signup extends AppCompatActivity {
                                         userRegister.userName = name;
                                         userRegister.uid = uid;
                                         userRegister.profileImageUrl = path;
+                                        userRegister.userEmail=id;
 
 
                                         mDatabase.getReference().child("user").child(uid).setValue(userRegister);
