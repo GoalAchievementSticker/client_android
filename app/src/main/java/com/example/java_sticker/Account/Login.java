@@ -112,7 +112,7 @@ public class Login extends AppCompatActivity {
         auth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
             loadingBar.dismiss();
             if (task.isSuccessful()) {
-                Toast.makeText(Login.this, "비밀번호 재설정 이메일이 발송됐습니다", Toast.LENGTH_LONG).show();
+                Toast.makeText(Login.this, "비밀번호 재설정 이메일이 "+email+"로 발송됐습니다", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(Login.this, "이메일 발송 실패", Toast.LENGTH_LONG).show();
             }
