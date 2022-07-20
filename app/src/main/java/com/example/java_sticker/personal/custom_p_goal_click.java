@@ -7,10 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +36,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -64,12 +77,16 @@ public class custom_p_goal_click extends AppCompatActivity {
     StorageReference storageRef = storage.getReference();
     private ValueEventListener postListener;
 
+    AlertDialog.Builder builder;
+
 
 
     Toolbar toolbar;
     ImageView s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16;
     View v;
     BottomSheetDialog bsd;
+
+    private static final String CAPTURE_PATH = "/CAPTURE_TEST";
 
     @SuppressLint({"NonConstantResourceId", "ResourceType"})
     @Override
@@ -82,6 +99,8 @@ public class custom_p_goal_click extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
+
+        //toolbar.inflateMenu(R.menu.goal_menu);
 
 
 
@@ -109,6 +128,7 @@ public class custom_p_goal_click extends AppCompatActivity {
         gridView.setAdapter(adapter);
 
 
+        builder = new AlertDialog.Builder(getApplicationContext());
 
         ds = databaseReference.child(uid).child("goal_personal").child(key).child("도장판");
         header_goal.setText(p_tittle);
@@ -170,6 +190,67 @@ public class custom_p_goal_click extends AppCompatActivity {
         //gridView.setAdapter(adapter);
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.goal_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.share: {
+                //툴바의 아이콘이 할 기능 정의할 것
+                //현재 화면 캡처 저장
+                builder.setTitle("공유").setMessage("해당 도장판을 저장하시겠습니까?").setPositiveButton("저장하기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        View container;
+                        container = getWindow().getDecorView();
+                        container.buildDrawingCache();
+                        Bitmap captureView = container.getDrawingCache();
+
+                        //이미지 저장하기
+
+                        //폴더 경로
+                        File adress = Environment.getExternalStoragePublicDirectory("/DCIM/Camera/");
+
+                        FileOutputStream fos;
+                        if (!adress.exists()) {
+                            adress.mkdir();
+                        }
+
+                        //저장
+                        String strFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera/";
+                        try {
+                            fos = new FileOutputStream(strFilePath + System.currentTimeMillis() + ".jpeg");
+                            captureView.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+                            //sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(adress))));
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        //이미지 공유
+                        // Uri uir = Uri.fromFile(new File(adress));
+
+                        //위의 uri이용해서 intent로 값 보내주기기
+
+                    }
+                }).setNeutralButton("취소", null).show();
+            }
+            break;
+            case android.R.id.home:{
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void stickerClick(int i) {
         //bottom sheet dialog 보이기기
@@ -376,16 +457,7 @@ public class custom_p_goal_click extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case android.R.id.home:{
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 
     private GridItem addGoal(int i) {
         // Handle any errors
@@ -459,4 +531,8 @@ public class custom_p_goal_click extends AppCompatActivity {
         return p;
 
     }
+
+
+
+
 }
