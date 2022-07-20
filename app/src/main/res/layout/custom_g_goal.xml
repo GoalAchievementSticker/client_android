@@ -45,20 +45,21 @@
 
             <TextView
                 android:id="@+id/custom_g_goal_tittle"
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="goal_title"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
                 android:textColor="@color/black"
                 android:textSize="17dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/customProgress_g_goal_c"
-                app:layout_constraintHorizontal_bias="0.834"
+                app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.317" />
+                app:layout_constraintVertical_bias="0.45" />
 
             <com.example.java_sticker.CustomProgress
                 android:id="@+id/customProgress_g_goal_c"

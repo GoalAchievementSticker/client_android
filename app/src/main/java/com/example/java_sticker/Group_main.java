@@ -55,7 +55,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class Group_main extends BaseActivity {
+public class Group_main extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final int NOTIFICATION_REQUEST_CODE = 1234;

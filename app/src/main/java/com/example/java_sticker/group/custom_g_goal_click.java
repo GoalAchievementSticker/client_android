@@ -14,6 +14,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -49,6 +51,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
@@ -167,9 +170,15 @@ public class custom_g_goal_click extends Fragment {
     ContentValues values = new ContentValues();
     String[] permission_list = {Manifest.permission.WRITE_CONTACTS};
     private Uri filePath;
-    private Bitmap bitmap;
+
 
     ImageView s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16;
+
+    //스크린샷 공유 변수
+    View screenView;
+    Bitmap bitmap;
+    static File file;
+    static String dirPath;
 
     @RequiresApi(api = 33)
     @Nullable
@@ -195,8 +204,6 @@ public class custom_g_goal_click extends Fragment {
         toolbar.inflateMenu(R.menu.goal_menu);
 
 
-
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -205,48 +212,41 @@ public class custom_g_goal_click extends Fragment {
         });
 
 
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int id = item.getItemId();
-                if (id == R.id.share) {
-                    //현재 화면 캡처 저장
-                    builder.setTitle("공유").setMessage("해당 도장판을 저장하시겠습니까?")
-                            .setPositiveButton("저장하기", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //공유
-//                                    view.buildDrawingCache();
-//                                    Bitmap caputer = view.getDrawingCache();
-//                                    FileOutputStream fos;
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.share) {
+                //현재 화면 캡처 저장
+                builder.setTitle("공유").setMessage("해당 도장판을 저장하시겠습니까?")
+                        .setPositiveButton("저장하기", (dialogInterface, i) -> {
+
+
+                            //현재화면
+                            View rootView = getActivity().getWindow().getDecorView();
+
+                            getScreenShot(rootView);
+                            store(bitmap, "fileName");
+                            shareImage(file);
+
+
+//                            assert rootView != null;
+//                            File screenShot = ScreenShot(rootView);
 //
-//                                    try{
-//                                        fos = new FileOutputStream(Environment.getExternalStorageDirectory().toString()+"/goal.jpeg");
-//                                        caputer.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-//                                        Toast.makeText(view.getContext(), "저장됐습니다", Toast.LENGTH_SHORT).show();
-//                                    }catch (FileNotFoundException e){
-//                                        e.printStackTrace();
-//                                    }
-
-                                       View rootView = getView();
-                                       File screenShot = ScreenShot(rootView);
-                                       if(screenShot !=null){
-                                           getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(screenShot)));
-                                           Toast.makeText(getContext(), "저장했습니다.", Toast.LENGTH_SHORT).show();
-                                       }
+//
+//                            if (screenShot != null) {
+//                                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(screenShot)));
+//                                Toast.makeText(getContext(), "저장했습니다.", Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                Toast.makeText(getContext(), "저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
+//                            }
 
 
-
-                                }
-                            }).setNeutralButton("취소", null)
-                            .show();
-                }
-
-                return true;
+                        }).setNeutralButton("취소", null)
+                        .show();
             }
+
+            return true;
         });
 
 
@@ -348,19 +348,116 @@ public class custom_g_goal_click extends Fragment {
         return view;
     }
 
-    public File ScreenShot(View view){
+    //현재 화면을 이미지 파일로 저장하기 위한 작업
+    public void getScreenShot(View view) {
+        //screenView = view.getRootView();
+        //  screenView.layout(0, 0, screenView.getMeasuredWidth(), screenView.getMeasuredHeight());
+        view.setDrawingCacheEnabled(true);
+
+
+        //현재화면을 스크린샷 찍는다
+        view.buildDrawingCache();
+
+        //bitmap = Bitmap.createBitmap(screenView.getMeasuredWidth(), screenView.getMeasuredHeight(),
+        //  Bitmap.Config.ARGB_8888);
+
+        //스크린샷을 Bitmap 형식으로 가져옴
+        bitmap = view.getDrawingCache();
+
+        //screenView.setDrawingCacheEnabled(false);
+        //Canvas canvas = new Canvas(bitmap);
+        //screenView.draw(canvas);
+
+    }
+
+    //비트맵을 SDC카드에 저장하기
+    public static void store(Bitmap bm, String fileName) {
+        dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/com.betterme/BetterMe" + "/Screenshot.jpeg";
+        Log.d("sns_dirpath: ", dirPath);
+
+
+        File dir = new File(dirPath);
+        if (!dir.exists())
+            dir.mkdirs();
+
+        file = new File(dirPath,fileName);
+
+        FileOutputStream fOut;
+        try {
+            //이미지를 뽑아오기 위해 주소를
+            //FileOutputStream 에 대입입
+            fOut = new FileOutputStream(file);
+
+            //위에서 저장한 bitmap 을 파일 형태로 저장
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void shareImage(File file) {
+        Uri uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".provider", file);
+
+        Log.d("sns_uri: ", String.valueOf(uri));
+        //Uri uri=Uri.fromFile(new File(dirPath));
+
+        // Define image asset URI
+//        Uri stickerAssetUri = Uri.parse(String.valueOf(uri));
+//        String sourceApplication = "com.example.java_sticker";
+
+        //다른 앱에 이미지 공유하기
+        //share sheet 사용
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+//        intent.putExtra("source_application", sourceApplication);
+//        intent.putExtra("interactive_asset_uri", uri);
+//        intent.putExtra("top_background_color", "#33FF33");
+//        intent.putExtra("bottom_background_color", "#FF00FF");
+
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setAction(Intent.ACTION_SEND);
+
+        //공유할 파일 형식: 이미지 파일
+        //이라는 것을 설명
+        intent.setType("image/*");
+
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+        //주소에서 Uri 를 받아온 것을 Intent 에 보내기
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        try {
+            startActivity(Intent.createChooser(intent, "Share Screenshot"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "No App Available", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    //외부 저장소 경로
+//get external file path
+    public static String getExternalFilePath(Context context) {
+        String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/";
+        return filePath;
+    }
+
+    public File ScreenShot(View view) {
         view.setDrawingCacheEnabled(true);
 
         Bitmap screenBitmap = view.getDrawingCache();
 
         String filename = "goal.png";
-        File file = new File(Environment.getExternalStorageDirectory()+"/Pictures", filename);
+        File file = new File(Environment.getExternalStorageDirectory() + "/Pictures", filename);
         FileOutputStream os = null;
-        try{
+        try {
             os = new FileOutputStream(file);
             screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os);
             os.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -749,7 +846,7 @@ public class custom_g_goal_click extends Fragment {
 
             Toast.makeText(getContext(), "카메라 클릭", Toast.LENGTH_SHORT).show();
             //push Noti
-           // showNoti();
+            // showNoti();
         });
 
         //갤러리 클릭
@@ -762,7 +859,7 @@ public class custom_g_goal_click extends Fragment {
             intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
             startActivityForResult(intent, GALLERY_REQUEST);
             //push Noti
-           // showNoti();
+            // showNoti();
 
 
         });
@@ -901,6 +998,14 @@ public class custom_g_goal_click extends Fragment {
             Uri selectedImage = data.getData();
             uploadToFirebase(String.valueOf(selectedImage));
 
+        }
+
+        if (requestCode == 5) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(getContext(), "스토리 공유 성공", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "스토리 공유 실패", Toast.LENGTH_SHORT).show();
+            }
         }
 
 

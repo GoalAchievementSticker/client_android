@@ -2,14 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.java_sticker">
+
+    <queries>
+        <intent>
+            <action android:name='com.instagram.share.ADD_TO_STORY' />
+            <data android:mimeType='image/*' />
+        </intent>
+    </queries>
+
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:node="remove"/>
 
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
 
@@ -23,6 +31,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:appComponentFactory">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
@@ -58,6 +76,10 @@
             android:name=".Account.Signup"
             android:exported="true"
             android:theme="@style/MyThemeNoActionBar" />
+        <activity
+            android:name=".group.custom_g_goal_click"
+            android:theme="@style/MyThemeNoActionBar"
+            android:exported="true" />
         <activity
             android:name=".Group_main"
             android:exported="true"

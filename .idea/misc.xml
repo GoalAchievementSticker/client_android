@@ -222,6 +222,22 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/menu/drawer_menu_personal.xml" value="0.31875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/menu/search.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1375" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/activity_close_add_goal.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/activity_custom_g_goal_click_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/activity_custom_g_input.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/activity_custom_ggoal_click.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/activity_custom_pgoal_click.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/activity_group_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/activity_mypage.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/activity_signup.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/custom_fraghome.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/custom_g_goal.xml" value="0.33" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/drawer_header.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/fragment_setup.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/fragmypage.xml" value="0.33" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/layout/notis_cardview_item.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/java_sticker_final/app/src/main/res/xml/provider_paths.xml" value="0.3203125" />
         <entry key="..\:/Users/user/AppData/Local/Android/Sdk/platforms/android-33/data/res/layout/simple_list_item_checked.xml" value="0.36614583333333334" />
       </map>
     </option>
