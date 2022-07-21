@@ -205,12 +205,7 @@ public class custom_g_goal_click extends Fragment {
         toolbar.inflateMenu(R.menu.goal_menu);
 
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> getActivity().onBackPressed());
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -219,28 +214,16 @@ public class custom_g_goal_click extends Fragment {
             int id = item.getItemId();
             if (id == R.id.share) {
                 //현재 화면 캡처 저장
-                builder.setTitle("공유").setMessage("해당 도장판을 저장하시겠습니까?")
-                        .setPositiveButton("저장하기", (dialogInterface, i) -> {
+                builder.setTitle("SNS 공유").setMessage("해당 도장판을 공유하시겠습니까?")
+                        .setPositiveButton("공유하기", (dialogInterface, i) -> {
 
 
                             //현재화면
                             View rootView = getActivity().getWindow().getDecorView();
 
                             getScreenShot(rootView);
-                            store(bitmap, "fileName",screenView);
+                            store(bitmap, "내 도장판",screenView);
                             shareImage(file);
-
-
-//                            assert rootView != null;
-//                            File screenShot = ScreenShot(rootView);
-//
-//
-//                            if (screenShot != null) {
-//                                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(screenShot)));
-//                                Toast.makeText(getContext(), "저장했습니다.", Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                Toast.makeText(getContext(), "저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
-//                            }
 
 
                         }).setNeutralButton("취소", null)
@@ -412,15 +395,11 @@ public class custom_g_goal_click extends Fragment {
     private void shareImage(File file) {
         Uri uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".provider", file);
 
-        Log.d("sns_uri: ", String.valueOf(uri));
-        //Uri uri=Uri.fromFile(new File(dirPath));
 
-        // Define image asset URI
+        // 이미지 자산 uri 정의
         Uri stickerAssetUri = Uri.parse(String.valueOf(uri));
         String sourceApplication = "com.example.java_sticker";
 
-
-        Log.d("sns_uriParse: ", String.valueOf(stickerAssetUri));
         //다른 앱에 이미지 공유하기
         //share sheet 사용
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -432,8 +411,8 @@ public class custom_g_goal_click extends Fragment {
         intent.putExtra("interactive_asset_uri", stickerAssetUri);
         intent.putExtra("source_application", sourceApplication);
 
-//        intent.putExtra("top_background_color", "#33FF33");
-//        intent.putExtra("bottom_background_color", "#FF00FF");
+        intent.putExtra("top_background_color", "#33FF33");
+        intent.putExtra("bottom_background_color", "#FF00FF");
 
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setAction(Intent.ACTION_SEND);
@@ -464,7 +443,6 @@ public class custom_g_goal_click extends Fragment {
 
 
     //외부 저장소 경로
-//get external file path
     public static String getExternalFilePath(Context context) {
         String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/";
         return filePath;
