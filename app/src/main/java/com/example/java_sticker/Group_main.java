@@ -1,32 +1,22 @@
 package com.example.java_sticker;
 
 
-import static androidx.fragment.app.FragmentManager.TAG;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.bumptech.glide.Glide;
 import com.example.java_sticker.Fragment.Exercise;
 import com.example.java_sticker.Fragment.FragHome;
 import com.example.java_sticker.Fragment.FragJoin;
-import com.example.java_sticker.Fragment.FragMypage;
+import com.example.java_sticker.Fragment.FragMypage_Login;
 import com.example.java_sticker.Fragment.Hobby;
 import com.example.java_sticker.Fragment.Notifications;
 import com.example.java_sticker.Fragment.Routin;
@@ -35,24 +25,8 @@ import com.example.java_sticker.Fragment.Study;
 import com.example.java_sticker.Fragment.setup;
 import com.example.java_sticker.Fragment.setup_name;
 import com.example.java_sticker.Fragment.setup_pofile_img;
-import com.example.java_sticker.group.CardviewFactor;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class Group_main extends AppCompatActivity {
@@ -103,7 +77,7 @@ public class Group_main extends AppCompatActivity {
         //네비게이션연결 프래그먼트
         fragment_home = new FragHome();
         fragment_group_join = new FragJoin();
-        fragment_mypage = new FragMypage();
+        fragment_mypage = new FragMypage_Login();
 
         //카테고리 프래그먼트
         fragment_study = new Study();

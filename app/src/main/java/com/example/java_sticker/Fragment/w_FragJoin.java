@@ -133,8 +133,10 @@ public class w_FragJoin extends Fragment {
 
         //파이어베이스
         user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
-        uid = user.getUid();
+//        assert user != null;
+        if (user != null) {
+            uid = user.getUid();
+        }
 
         //다이얼로그 선언
         gDialog = new ArrayList<>();

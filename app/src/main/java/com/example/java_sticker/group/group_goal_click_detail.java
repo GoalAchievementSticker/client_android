@@ -93,6 +93,7 @@ public class group_goal_click_detail extends Fragment {
     int limit_count;
 
     private Intent intent;
+    Group_main group_main;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -125,6 +126,12 @@ public class group_goal_click_detail extends Fragment {
         super.onAttach(context);
 
     }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -177,7 +184,7 @@ public class group_goal_click_detail extends Fragment {
 
                     }
                     Log.d("subscribe", msg);
-                    Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(Throwable::printStackTrace);
 
         //uid 접근

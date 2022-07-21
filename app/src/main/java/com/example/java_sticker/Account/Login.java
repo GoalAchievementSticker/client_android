@@ -64,7 +64,7 @@ public class Login extends AppCompatActivity {
                     finish();
                 }
             }).addOnFailureListener(e->
-                    Toast.makeText(Login.this, "로그인 실패했습니다", Toast.LENGTH_LONG).show());
+                    Toast.makeText(Login.this, "아이디와 비밀번호를 확인해주세요", Toast.LENGTH_LONG).show());
         });
 
 
@@ -101,7 +101,7 @@ public class Login extends AppCompatActivity {
 
     private void beginRecovery(String email) {
         ProgressDialog loadingBar = new ProgressDialog(this);
-        loadingBar.setMessage("Sending Email....");
+        loadingBar.setMessage("이메일 발송 중....");
         loadingBar.setCanceledOnTouchOutside(false);
         loadingBar.show();
 
@@ -113,12 +113,10 @@ public class Login extends AppCompatActivity {
             loadingBar.dismiss();
             if (task.isSuccessful()) {
                 Toast.makeText(Login.this, "비밀번호 재설정 이메일이 "+email+"로 발송됐습니다", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(Login.this, "이메일 발송 실패", Toast.LENGTH_LONG).show();
-            }
+            } 
         }).addOnFailureListener(e -> {
             loadingBar.dismiss();
-            Toast.makeText(Login.this, "Error Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(Login.this, "이메일 형식을 확인해주세요", Toast.LENGTH_LONG).show();
         });
     }
 }
