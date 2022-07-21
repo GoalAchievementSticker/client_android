@@ -44,7 +44,7 @@ public class Login extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        //자동 로그인
+        //유저가 null 이 아니라면 Group_main 화면으로 이동
         if (user != null) {
             // User is signed in (getCurrentUser() will be null if not signed in)
             Intent i = new Intent(Login.this, Group_main.class);
