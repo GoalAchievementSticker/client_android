@@ -1,5 +1,6 @@
 package com.example.java_sticker.group;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,10 +21,12 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.example.java_sticker.CustomProgress;
 import com.example.java_sticker.Fragment.DetailFragment;
 import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
+import com.example.java_sticker.personal.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,12 +51,16 @@ public class g_goal_c_detail_adapter extends RecyclerView.Adapter<g_goal_c_detai
 
     String uid = user.getUid();
 
+
+
+
     public g_goal_c_detail_adapter(Context context, ArrayList<GroupDialog> items) {
         this.context = context;
         this.items = items;
 
 
     }
+
 
 
     @NonNull
@@ -84,7 +91,10 @@ public class g_goal_c_detail_adapter extends RecyclerView.Adapter<g_goal_c_detai
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String uri = snapshot.getValue(String.class);
-                            Glide.with(context)
+
+
+
+                            Glide.with(context.getApplicationContext())
                                     .load(uri)
                                     .into(holder.g_img);
                         }

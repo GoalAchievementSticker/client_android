@@ -30,6 +30,10 @@ import com.example.java_sticker.personal.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -46,13 +50,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     private String title;
-    private String body = "";
+//    private String body = "";
     private String from = "";
     private String color = "";
     private int requestId;
-
+    String body;
     // [START receive_message]
     //푸시메시지 수신시 할 작업
+
+    String channelId = getString(R.string.default_notification_channel_id);
+    Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
@@ -61,8 +69,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //목표 제목 읽기
         SharedPreferences preferences =getSharedPreferences("noti",MODE_PRIVATE);
         title = preferences.getString("noti_title", " ");
-        Log.d("FMS", "noti_title: " + title);
 
+
+//
+//        try {
+//            JSONObject jsonObject = new JSONObject(String.valueOf(remoteMessage));
+//            JSONArray results = jsonObject.getJSONArray("to");
+//            for (int i = 0; i < results.length(); i++) {
+//                JSONObject jo = results.getJSONObject(i);
+//               body = String.valueOf(jo.getJSONObject("body"));
+//
+//               // String username = body.optString("username");
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+        Log.d("FMS", "noti_json_body: " +body); //알람테스트 ok
 
         //
         if (remoteMessage.getData().size() > 0) {
@@ -134,7 +156,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    //fore
+    //앱 실행 중
     private void fore_sendNotification(Map<String, String> data) {
         int noti_id = 1;
         String getMessage = "";
@@ -154,14 +176,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         @SuppressLint("UnspecifiedImmutableFlag")
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0
-                , intent, PendingIntent.FLAG_ONE_SHOT);
+                , intent, PendingIntent.FLAG_IMMUTABLE);
 
         String channelId = getString(R.string.default_notification_channel_id);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.mipmap.ic_main_round)
                 .setContentTitle(title)
-                .setContentText(getMessage)
+                .setContentText(body)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
@@ -180,20 +202,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification(String messageBody) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-        SharedPreferences preferences =getSharedPreferences("noti",MODE_PRIVATE);
-        String fore_title= preferences.getString("noti_title", " ");
 
 //        String channelName = getString(R.string.default_notification_channel_name);
 //        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        String channelId = getString(R.string.default_notification_channel_id);
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.ic_main_round)
-                        .setContentTitle(fore_title)
-                        .setContentText(messageBody)
+                        .setContentTitle(title)
+                        .setContentText(body)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
                         .setContentIntent(pendingIntent);

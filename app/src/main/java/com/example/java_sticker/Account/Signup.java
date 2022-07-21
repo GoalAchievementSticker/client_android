@@ -77,7 +77,7 @@ public class Signup extends AppCompatActivity {
                                         // Got the download URL for 'plus.png'
                                         String path = uri.toString();
 
-                                        UserRegister userRegister = new UserRegister();
+                                        UserRegister userRegister = new UserRegister(name,path,id,uid);
                                         userRegister.userName = name;
                                         userRegister.uid = uid;
                                         userRegister.profileImageUrl = path;

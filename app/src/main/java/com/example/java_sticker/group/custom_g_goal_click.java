@@ -61,6 +61,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.load.model.Model;
 import com.example.java_sticker.Group_main;
 import com.example.java_sticker.R;
+import com.example.java_sticker.UserRegister;
 import com.example.java_sticker.personal.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -134,6 +135,7 @@ public class custom_g_goal_click extends Fragment {
     FirebaseUser user;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference("GroupDialog");
+    DatabaseReference user_databaseReference = firebaseDatabase.getReference("user");
     private ImageView sticker_img;
     DatabaseReference ds;
     DatabaseReference uid_key_ds;
@@ -179,7 +181,9 @@ public class custom_g_goal_click extends Fragment {
     Bitmap bitmap;
     static File file;
     static String dirPath;
-    static boolean cachePreviousState=true;
+    static boolean cachePreviousState = true;
+
+    String myname;
 
     @RequiresApi(api = 33)
     @Nullable
@@ -222,7 +226,7 @@ public class custom_g_goal_click extends Fragment {
                             View rootView = getActivity().getWindow().getDecorView();
 
                             getScreenShot(rootView);
-                            store(bitmap, "내 도장판",screenView);
+                            store(bitmap, "내 도장판", screenView);
                             shareImage(file);
 
 
@@ -336,7 +340,7 @@ public class custom_g_goal_click extends Fragment {
     public void getScreenShot(View view) {
         screenView = view.getRootView();
         screenView.layout(0, 0, screenView.getMeasuredWidth(), screenView.getMeasuredHeight());
-        cachePreviousState =  screenView.isDrawingCacheEnabled();
+        cachePreviousState = screenView.isDrawingCacheEnabled();
         final int backgroundPreviousColor = screenView.getDrawingCacheBackgroundColor();
         screenView.setDrawingCacheEnabled(true);
         screenView.setDrawingCacheBackgroundColor(0xfffafafa);
@@ -358,7 +362,7 @@ public class custom_g_goal_click extends Fragment {
     }
 
     //비트맵을 SDC카드에 저장하기
-    public static void store(Bitmap bm, String fileName,View screenView) {
+    public static void store(Bitmap bm, String fileName, View screenView) {
         dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/com.betterme/BetterMe" + "/Screenshot.png";
         Log.d("sns_dirpath: ", dirPath);
 
@@ -915,26 +919,27 @@ public class custom_g_goal_click extends Fragment {
 //        manager.notify(1,notification);
 //
 
-        DatabaseReference name = databaseReference.child(uid_auth).child("dialog_group").child(key).child("name");
+        //내 uid 뽑아서 userName 접근하면 이름 get
+        DatabaseReference name = user_databaseReference.child(uid);
+
 
         //스티커 찍은 사람 이름을 가져오고 싶은데 null만 리턴됨...
         name.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Log.d("noti_name: ", snapshot.getValue(String.class));
-                    noti_name = snapshot.getValue(String.class);
+                if (dataSnapshot.exists()) {
+                        myname = dataSnapshot.child("userName").getValue(String.class);
+                        Log.d("찍은사람: ", "" + myname);
 
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.i("noti_name: ", String.valueOf(databaseError.toException()));
+                Log.d("noti_err", databaseError.getMessage());
             }
         });
-        Log.d("noti_body:  ", String.valueOf(name));
+//        Log.d("noti_body:  ", String.valueOf(name));
 
 
         RequestQueue mRequestQue = Volley.newRequestQueue(getContext());
@@ -945,7 +950,7 @@ public class custom_g_goal_click extends Fragment {
             json.put("to", "/topics/" + key);
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title", header_goal);
-            notificationObj.put("body", noti_name + "이 스티커를 찍었습니다");
+            notificationObj.put("body", myname + " 님이 스티커를 찍었습니다");
             //replace notification with data when went send data
             json.put("notification", notificationObj);
 
