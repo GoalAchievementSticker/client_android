@@ -5,7 +5,7 @@
 
     <queries>
         <intent>
-            <action android:name='com.instagram.share.ADD_TO_STORY' />
+            <action android:name='android.intent.action.SEND' />
             <data android:mimeType='image/*' />
         </intent>
     </queries>
@@ -22,6 +22,7 @@
 
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:appComponentFactory="true"
         android:largeHeap="true"
         android:allowBackup="true"
@@ -76,10 +77,7 @@
             android:name=".Account.Signup"
             android:exported="true"
             android:theme="@style/MyThemeNoActionBar" />
-        <activity
-            android:name=".group.custom_g_goal_click"
-            android:theme="@style/MyThemeNoActionBar"
-            android:exported="true" />
+
         <activity
             android:name=".Group_main"
             android:exported="true"

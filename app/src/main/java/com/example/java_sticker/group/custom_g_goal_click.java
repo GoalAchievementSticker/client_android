@@ -179,6 +179,7 @@ public class custom_g_goal_click extends Fragment {
     Bitmap bitmap;
     static File file;
     static String dirPath;
+    static boolean cachePreviousState=true;
 
     @RequiresApi(api = 33)
     @Nullable
@@ -226,7 +227,7 @@ public class custom_g_goal_click extends Fragment {
                             View rootView = getActivity().getWindow().getDecorView();
 
                             getScreenShot(rootView);
-                            store(bitmap, "fileName");
+                            store(bitmap, "fileName",screenView);
                             shareImage(file);
 
 
@@ -350,46 +351,57 @@ public class custom_g_goal_click extends Fragment {
 
     //현재 화면을 이미지 파일로 저장하기 위한 작업
     public void getScreenShot(View view) {
-        //screenView = view.getRootView();
-        //  screenView.layout(0, 0, screenView.getMeasuredWidth(), screenView.getMeasuredHeight());
-        view.setDrawingCacheEnabled(true);
-
+        screenView = view.getRootView();
+        screenView.layout(0, 0, screenView.getMeasuredWidth(), screenView.getMeasuredHeight());
+        cachePreviousState =  screenView.isDrawingCacheEnabled();
+        final int backgroundPreviousColor = screenView.getDrawingCacheBackgroundColor();
+        screenView.setDrawingCacheEnabled(true);
+        screenView.setDrawingCacheBackgroundColor(0xfffafafa);
 
         //현재화면을 스크린샷 찍는다
-        view.buildDrawingCache();
+        screenView.buildDrawingCache();
 
-        //bitmap = Bitmap.createBitmap(screenView.getMeasuredWidth(), screenView.getMeasuredHeight(),
-        //  Bitmap.Config.ARGB_8888);
+        bitmap = Bitmap.createBitmap(screenView.getWidth(), screenView.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        screenView.setDrawingCacheBackgroundColor(backgroundPreviousColor);
+
+        Canvas canvas = new Canvas(bitmap);
+        screenView.draw(canvas);
 
         //스크린샷을 Bitmap 형식으로 가져옴
-        bitmap = view.getDrawingCache();
+        // bitmap = view.getDrawingCache();
 
-        //screenView.setDrawingCacheEnabled(false);
-        //Canvas canvas = new Canvas(bitmap);
-        //screenView.draw(canvas);
 
     }
 
     //비트맵을 SDC카드에 저장하기
-    public static void store(Bitmap bm, String fileName) {
-        dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/com.betterme/BetterMe" + "/Screenshot.jpeg";
+    public static void store(Bitmap bm, String fileName,View screenView) {
+        dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/com.betterme/BetterMe" + "/Screenshot.png";
         Log.d("sns_dirpath: ", dirPath);
 
 
         File dir = new File(dirPath);
-        if (!dir.exists())
-            dir.mkdirs();
 
-        file = new File(dirPath,fileName);
+
+        Log.d("dirPath", dirPath);
+        Log.d("dir", String.valueOf(dir));
+
 
         FileOutputStream fOut;
         try {
+            //원하는 경로에 폴더가 있는지 확인
+            if (!dir.exists())
+                dir.mkdirs(); //하위폴더를 포함한 폴더를 전부 생성
+
+            file = new File(dirPath, fileName);
+
             //이미지를 뽑아오기 위해 주소를
             //FileOutputStream 에 대입입
             fOut = new FileOutputStream(file);
 
             //위에서 저장한 bitmap 을 파일 형태로 저장
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+            screenView.setDrawingCacheEnabled(cachePreviousState);
             fOut.flush();
             fOut.close();
         } catch (Exception e) {
@@ -404,29 +416,42 @@ public class custom_g_goal_click extends Fragment {
         //Uri uri=Uri.fromFile(new File(dirPath));
 
         // Define image asset URI
-//        Uri stickerAssetUri = Uri.parse(String.valueOf(uri));
-//        String sourceApplication = "com.example.java_sticker";
+        Uri stickerAssetUri = Uri.parse(String.valueOf(uri));
+        String sourceApplication = "com.example.java_sticker";
 
+
+        Log.d("sns_uriParse: ", String.valueOf(stickerAssetUri));
         //다른 앱에 이미지 공유하기
         //share sheet 사용
         Intent intent = new Intent(Intent.ACTION_SEND);
 
-//        intent.putExtra("source_application", sourceApplication);
-//        intent.putExtra("interactive_asset_uri", uri);
+
+        //공유할 파일 형식: 이미지 파일
+        intent.setType("image/*");
+
+        intent.putExtra("interactive_asset_uri", stickerAssetUri);
+        intent.putExtra("source_application", sourceApplication);
+
 //        intent.putExtra("top_background_color", "#33FF33");
 //        intent.putExtra("bottom_background_color", "#FF00FF");
 
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setAction(Intent.ACTION_SEND);
 
-        //공유할 파일 형식: 이미지 파일
-        //이라는 것을 설명
-        intent.setType("image/*");
 
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
         intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
         //주소에서 Uri 를 받아온 것을 Intent 에 보내기
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.putExtra(Intent.EXTRA_STREAM, stickerAssetUri);
+
+//        // 액티비티 인스턴스화를 하면 그것이 암시적 인텐트를 해결한다
+//        Activity activity = getActivity();
+//        assert activity != null;
+//        activity.grantUriPermission(
+//                "com.instagram.android", stickerAssetUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        if (activity.getPackageManager().resolveActivity(intent, 0) != null) {
+//            activity.startActivityForResult(intent, 0);
+//        }
 
         try {
             startActivity(Intent.createChooser(intent, "Share Screenshot"));
