@@ -55,10 +55,10 @@
             android:value="false" />
 
 
-        <service android:name=".group.MyFirebaseMessagingService"
+        <service android:name=".group.MaFIrebaseMessagingService"
             android:enabled="true"
             android:exported="false"
-            android:parentActivityName=".group.custom_g_goal_click">
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>

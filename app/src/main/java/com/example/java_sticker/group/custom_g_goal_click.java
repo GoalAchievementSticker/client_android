@@ -923,13 +923,24 @@ public class custom_g_goal_click extends Fragment {
         DatabaseReference name = user_databaseReference.child(uid);
 
 
+
+        SharedPreferences prefs =this.getActivity().getSharedPreferences("noti",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
         //스티커 찍은 사람 이름을 가져오고 싶은데 null만 리턴됨...
-        name.addValueEventListener(new ValueEventListener() {
+        name.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                         myname = dataSnapshot.child("userName").getValue(String.class);
                         Log.d("찍은사람: ", "" + myname);
+
+
+                    Log.d("noti_name_put: ",""+ myname);
+                    //이름 저장
+                    editor.putString("noti_name", myname);
+                    editor.commit();
+
 
                 }
             }
@@ -942,15 +953,26 @@ public class custom_g_goal_click extends Fragment {
 //        Log.d("noti_body:  ", String.valueOf(name));
 
 
-        RequestQueue mRequestQue = Volley.newRequestQueue(getContext());
-        JSONObject json = new JSONObject();
+
+
 
 
         try {
+            //이름 읽기
+            String noti_name= prefs.getString("noti_name", " ");
+
+            RequestQueue mRequestQue = Volley.newRequestQueue(getContext());
+            JSONObject json = new JSONObject();
+
+            //목표 제목 읽기
+
+            String noti_title = prefs.getString("noti_title", " ");
+            Log.d("Noti_title: ",""+noti_title);
+
             json.put("to", "/topics/" + key);
             JSONObject notificationObj = new JSONObject();
-            notificationObj.put("title", header_goal);
-            notificationObj.put("body", myname + " 님이 스티커를 찍었습니다");
+            notificationObj.put("title", noti_title);
+            notificationObj.put("body", noti_name + " 님이 스티커를 찍었습니다");
             //replace notification with data when went send data
             json.put("notification", notificationObj);
 
@@ -971,7 +993,7 @@ public class custom_g_goal_click extends Fragment {
 
 
             mRequestQue.add(request);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -1008,13 +1030,13 @@ public class custom_g_goal_click extends Fragment {
 
         }
 
-        if (requestCode == 5) {
-            if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(getContext(), "스토리 공유 성공", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "스토리 공유 실패", Toast.LENGTH_SHORT).show();
-            }
-        }
+//        if (requestCode == 5) {
+//            if (resultCode == Activity.RESULT_OK) {
+//                Toast.makeText(getContext(), "스토리 공유 성공", Toast.LENGTH_SHORT).show();
+//            } else {
+//                Toast.makeText(getContext(), "스토리 공유 실패", Toast.LENGTH_SHORT).show();
+//            }
+//        }
 
 
     }
