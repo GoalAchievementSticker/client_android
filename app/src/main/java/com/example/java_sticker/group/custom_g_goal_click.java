@@ -185,6 +185,15 @@ public class custom_g_goal_click extends Fragment {
 
     String myname;
 
+
+    //날짜
+    Date mDate;
+    long mNow;
+    SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    String date;
+
+
     @RequiresApi(api = 33)
     @Nullable
     @Override
@@ -270,7 +279,10 @@ public class custom_g_goal_click extends Fragment {
         img = cv.findViewById(R.id.img);
         ok = cv.findViewById(R.id.ok);
 
+        ReadPersonalDate();
+
         adapter.notifyDataSetChanged();
+
 
 
         s1 = v.findViewById(R.id.s1);
@@ -299,7 +311,15 @@ public class custom_g_goal_click extends Fragment {
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
             if (uid_auth.equals(uid)) {
                 Log.d("TAG", String.valueOf(i));
-                stickerClick(i);
+                //파베저장된 날짜와 현재 날짜가 같다면
+                if(date.equals(getTime())){
+                    //도장을 찍을 수가 없다
+                    Toast.makeText(getContext(), "오늘은 도장을 찍으셨습니다", Toast.LENGTH_SHORT).show();
+                }else{
+                    //다르다면 도장을 찍고 db에 날짜를 새로 넣어서 갱신해준다
+                    stickerClick(i);
+
+                }
             } else {
                 Toast.makeText(getContext(), "본인 도장판만 스티커를 찍을 수 있습니다", Toast.LENGTH_SHORT).show();
             }
@@ -334,6 +354,15 @@ public class custom_g_goal_click extends Fragment {
             }
         });
         return view;
+    }
+
+    //날짜 구하기
+    private String getTime(){
+        mNow = System.currentTimeMillis();
+        mDate = new Date(mNow);
+
+        Log.d("TAG", "오늘 날짜"+mFormat.format(mDate));
+        return mFormat.format(mDate);
     }
 
     //현재 화면을 이미지 파일로 저장하기 위한 작업
@@ -621,6 +650,10 @@ public class custom_g_goal_click extends Fragment {
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
 
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
 
@@ -636,6 +669,11 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -650,6 +688,11 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -664,6 +707,11 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -678,6 +726,10 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -692,6 +744,10 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -706,6 +762,11 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -720,6 +781,11 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -734,12 +800,17 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
-        //s1클릭
+        //s10클릭
         s10.setOnClickListener(view -> {
             storageRef.child("goal_sticker/moon_3.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
@@ -748,6 +819,12 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -762,6 +839,11 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -776,6 +858,12 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -790,6 +878,12 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -804,6 +898,12 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -818,6 +918,12 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -832,6 +938,11 @@ public class custom_g_goal_click extends Fragment {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                         //push Noti
                         showNoti();
                     }).addOnFailureListener(Throwable::printStackTrace);
@@ -849,6 +960,9 @@ public class custom_g_goal_click extends Fragment {
 
             if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                //날짜를 db에 넣어준다
+                databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+                ReadPersonalDate();
             }
 
             Toast.makeText(getContext(), "카메라 클릭", Toast.LENGTH_SHORT).show();
@@ -865,6 +979,11 @@ public class custom_g_goal_click extends Fragment {
             values.put("order", i);
             intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
             startActivityForResult(intent, GALLERY_REQUEST);
+
+            //날짜를 db에 넣어준다
+            databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").setValue(getTime());
+            ReadPersonalDate();
+
             //push Noti
             // showNoti();
 
@@ -1097,6 +1216,25 @@ public class custom_g_goal_click extends Fragment {
     private void goal_count() {
         databaseReference.child(uid_auth).child("dialog_group").child(key).child("gGoal").setValue(++p);
         ReadPersonalDialog();
+    }
+
+    //다이얼로그 저장된 날짜 가져오기
+    private String ReadPersonalDate(){
+        date = null;
+        databaseReference.child(uid_auth).child("dialog_group").child(key).child("date").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                date = snapshot.getValue(String.class);
+                Log.d("TAG", date);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return date;
     }
 
     //다이얼로그 저장된 함수 가져오기

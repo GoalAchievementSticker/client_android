@@ -13,6 +13,7 @@ public class GroupDialog {
     String name;//본인 이름
     String uid_auth; //본인 uid(참가버튼 누른 uid or 작성자 자신 uid)
     boolean close; //마감버튼 클릭시 true변경하고 마감
+    String date;
    // String[] uid;
 
 
@@ -20,7 +21,7 @@ public class GroupDialog {
 
     }
 
-    public GroupDialog(int gCount, String gTittle,int limit,String auth, String key, int gGoal,String cate, int limit_count, String w_uid, String name, String uid_auth, boolean close){
+    public GroupDialog(int gCount, String gTittle,int limit,String auth, String key, int gGoal,String cate, int limit_count, String w_uid, String name, String uid_auth, boolean close, String date){
         this.gCount = gCount;
         this.gTittle = gTittle;
         this.limit=limit;
@@ -33,6 +34,7 @@ public class GroupDialog {
         this.name = name;
         this.uid_auth = uid_auth;
         this.close = close;
+        this.date = date;
 
     }
 
@@ -132,5 +134,13 @@ public class GroupDialog {
 
     public void setClose(boolean close) {
         this.close = close;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
     }
 }
