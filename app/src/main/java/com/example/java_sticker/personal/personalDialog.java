@@ -8,16 +8,18 @@ public class personalDialog {
         int pGoal;
         String pTittle;
         String key;
+        String date;
 
         public personalDialog(){
 
         }
 
-        public personalDialog(int pCount, String pTittle, String key, int pGoal){
+        public personalDialog(int pCount, String pTittle, String key, int pGoal, String date){
             this.pCount = pCount;
             this.pTittle = pTittle;
             this.key = key;
             this.pGoal = pGoal;
+            this.date = date;
 
         }
 
@@ -51,5 +53,13 @@ public class personalDialog {
 
     public void setpGoal(int pGoal) {
         this.pGoal = pGoal;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

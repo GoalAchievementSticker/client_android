@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
             String key = databaseReference.push().getKey();
             DatabaseReference keyRef = databaseReference.child(uid).child("dialog_personal").child(key);
             //list에 추가
-            personalDialog personalDialog = new personalDialog(vi, goal, key, 0);
+            personalDialog personalDialog = new personalDialog(vi, goal, key, 0, "");
             pDialog.add(personalDialog);
 
             pAdapter.notifyDataSetChanged();

@@ -43,7 +43,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -84,6 +86,15 @@ public class custom_p_goal_click extends AppCompatActivity {
     ImageView s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16;
     View v;
     BottomSheetDialog bsd;
+
+
+    //날짜
+    Date mDate;
+    long mNow;
+    SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    String date;
+
 
 
     @SuppressLint({"NonConstantResourceId", "ResourceType"})
@@ -160,6 +171,12 @@ public class custom_p_goal_click extends AppCompatActivity {
             }
         });
 
+        //날짜 불러오기
+        ReadPersonalDate();
+
+        Log.d("TAG", "date"+date);
+        Log.d("TAG", "getTime"+getTime());
+
 
         adapter.notifyDataSetChanged();
 
@@ -184,15 +201,35 @@ public class custom_p_goal_click extends AppCompatActivity {
 //        //그리드뷰 각 칸 클릭시, 데이터 수정
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
             Log.d("TAG", String.valueOf(i));
-            stickerClick(i);
+
+
+            //파베저장된 날짜와 현재 날짜가 같다면
+            if(date.equals(getTime())){
+                //도장을 찍을 수가 없다
+                Toast.makeText(getApplicationContext(), "오늘은 도장을 찍으셨습니다", Toast.LENGTH_SHORT).show();
+            }else{
+                //다르다면 도장을 찍고 db에 날짜를 새로 넣어서 갱신해준다
+                stickerClick(i);
+
+            }
 
         });
+
 
 
         //0으로초기화 방지
         ReadPersonalDialog();
         //gridView.setAdapter(adapter);
 
+    }
+
+    //날짜 구하기
+    private String getTime(){
+        mNow = System.currentTimeMillis();
+        mDate = new Date(mNow);
+
+        Log.d("TAG", "오늘 날짜"+mFormat.format(mDate));
+        return mFormat.format(mDate);
     }
 
     @Override
@@ -306,74 +343,110 @@ public class custom_p_goal_click extends AppCompatActivity {
 
         //s1클릭
         s1.setOnClickListener(view -> {
-            storageRef.child("goal_sticker/cat_green.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
+                storageRef.child("goal_sticker/cat_green.png").getDownloadUrl()
+                        .addOnSuccessListener(uri -> {
+                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                            bsd.dismiss();
 
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
+                            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                            goal_count();
+                            //날짜를 db에 넣어준다
+                            databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                            ReadPersonalDate();
+
+
+                        }).addOnFailureListener(Throwable::printStackTrace);
+
         });
 
         //s2클릭
         s2.setOnClickListener(view -> {
-            storageRef.child("goal_sticker/cat_black.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
+                storageRef.child("goal_sticker/cat_black.png").getDownloadUrl()
+                        .addOnSuccessListener(uri -> {
+                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                            bsd.dismiss();
 
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
+                            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                            goal_count();
+                            //날짜를 db에 넣어준다
+                            databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                            ReadPersonalDate();
+
+
+                        }).addOnFailureListener(Throwable::printStackTrace);
+
         });
 
         //s3클릭
         s3.setOnClickListener(view -> {
-            storageRef.child("goal_sticker/cat_grap.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
+                storageRef.child("goal_sticker/cat_grap.png").getDownloadUrl()
+                        .addOnSuccessListener(uri -> {
+                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                            bsd.dismiss();
 
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
+                            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                            goal_count();
+                            //날짜를 db에 넣어준다
+                            databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                            ReadPersonalDate();
+
+
+                        }).addOnFailureListener(Throwable::printStackTrace);
+
         });
 
         //s4클릭
         s4.setOnClickListener(view -> {
-            storageRef.child("goal_sticker/cat_pink.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
+                storageRef.child("goal_sticker/cat_pink.png").getDownloadUrl()
+                        .addOnSuccessListener(uri -> {
+                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                            bsd.dismiss();
 
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
+                            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                            goal_count();
+                            //날짜를 db에 넣어준다
+                            databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                            ReadPersonalDate();
+
+
+                        }).addOnFailureListener(Throwable::printStackTrace);
+
         });
 
         //s5클릭
         s5.setOnClickListener(view -> {
-            storageRef.child("goal_sticker/check_green.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
+                storageRef.child("goal_sticker/check_green.png").getDownloadUrl()
+                        .addOnSuccessListener(uri -> {
+                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                            bsd.dismiss();
 
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
+                            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                            goal_count();
+                            //날짜를 db에 넣어준다
+                            databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                            ReadPersonalDate();
+
+
+                        }).addOnFailureListener(Throwable::printStackTrace);
+
         });
 
         //s6클릭
         s6.setOnClickListener(view -> {
-            storageRef.child("goal_sticker/check_1.png").getDownloadUrl()
-                    .addOnSuccessListener(uri -> {
-                        ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
-                        bsd.dismiss();
+                storageRef.child("goal_sticker/check_1.png").getDownloadUrl()
+                        .addOnSuccessListener(uri -> {
+                            ds.child(String.valueOf(i)).child("test").setValue(uri.toString());
+                            bsd.dismiss();
 
-                        //도장을 클릭했다면 프로그래스바 숫자를 늘린다
-                        goal_count();
-                    }).addOnFailureListener(Throwable::printStackTrace);
+                            //도장을 클릭했다면 프로그래스바 숫자를 늘린다
+                            goal_count();
+                            //날짜를 db에 넣어준다
+                            databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                            ReadPersonalDate();
+
+
+                        }).addOnFailureListener(Throwable::printStackTrace);
+
         });
 
         //s7클릭
@@ -385,6 +458,11 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -397,6 +475,11 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -409,10 +492,15 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
-        //s1클릭
+        //s10클릭
         s10.setOnClickListener(view -> {
             storageRef.child("goal_sticker/moon_3.png").getDownloadUrl()
                     .addOnSuccessListener(uri -> {
@@ -421,6 +509,11 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -433,6 +526,11 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -445,6 +543,12 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
+
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -469,6 +573,11 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -481,6 +590,11 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -493,6 +607,12 @@ public class custom_p_goal_click extends AppCompatActivity {
 
                         //도장을 클릭했다면 프로그래스바 숫자를 늘린다
                         goal_count();
+
+                        //날짜를 db에 넣어준다
+                        databaseReference.child(uid).child("dialog_personal").child(key).child("date").setValue(getTime());
+                        ReadPersonalDate();
+
+
                     }).addOnFailureListener(Throwable::printStackTrace);
         });
 
@@ -555,6 +675,25 @@ public class custom_p_goal_click extends AppCompatActivity {
     private void goal_count(){
         databaseReference.child(uid).child("dialog_personal").child(key).child("pGoal").setValue(++p);
         ReadPersonalDialog();
+    }
+
+    //다이얼로그 저장된 날짜 가져오기
+    private String ReadPersonalDate(){
+        date = null;
+        databaseReference.child(uid).child("dialog_personal").child(key).child("date").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                date = snapshot.getValue(String.class);
+                Log.d("TAG", date);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return date;
     }
 
     //다이얼로그 저장된 함수 가져오기
