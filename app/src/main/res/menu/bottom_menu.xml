@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/ic_baseline_home_24"
+        android:id="@+id/home"
+        android:title="홈"
+        android:enabled="true"/>
+    <item
+        android:icon="@drawable/ic_baseline_group_24"
+        android:id="@+id/join_group"
+        android:title="참여중"
+        android:enabled="true"/>
+    <item
+        android:icon="@drawable/ic_baseline_person_24"
+        android:id="@+id/mypage"
+        android:title="마이페이지"
+        android:enabled="true"/>
+
+</menu>

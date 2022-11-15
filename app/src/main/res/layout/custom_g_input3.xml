@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/Toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="카테고리"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:layout_editor_absoluteX="154dp"
+                tools:layout_editor_absoluteY="14dp">
+
+            </TextView>
+        </androidx.appcompat.widget.Toolbar>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:padding="10dp"
+                    android:textColor="#3F4739"
+                    android:text="카테고리" />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:showDividers="middle">
+
+                    <TableRow
+                        android:layout_marginBottom="10dp"
+                        >
+
+                        <ToggleButton
+                            android:id="@+id/exercise"
+                            android:layout_width="0dp"
+                            android:layout_height="150dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:textColor="#3F4739"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:textOn="운동"
+                            android:textOff="운동"
+                            android:background="@drawable/toggle_selector" />
+
+                        <ToggleButton
+                            android:id="@+id/study"
+                            android:layout_width="0dp"
+                            android:layout_height="150dp"
+                            android:layout_weight="1"
+                            android:textColor="#3F4739"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:textOn="공부"
+                            android:textOff="공부"
+                            android:background="@drawable/toggle_selector"/>
+
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <ToggleButton
+                            android:id="@+id/hobby"
+                            android:layout_width="0dp"
+                            android:layout_height="150dp"
+                            android:layout_marginEnd="10dp"
+                            android:textOn="취미"
+                            android:textOff="취미"
+                            android:textColor="#3F4739"
+                            android:background="@drawable/toggle_selector"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_weight="1" />
+
+                        <ToggleButton
+                            android:id="@+id/routine"
+                            android:layout_width="0dp"
+                            android:layout_height="150dp"
+                            android:textOn="루틴"
+                            android:textOff="루틴"
+                            android:textColor="#3F4739"
+                            android:background="@drawable/toggle_selector"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_weight="1" />
+
+
+                    </TableRow>
+                </TableLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/preBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:textColor="#3F4739"
+                style="?android:attr/buttonBarButtonStyle"
+                android:text="이전" />
+
+
+            <Button
+                android:id="@+id/OKBtn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#3F4739"
+                android:text="다음" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:text="1/3" />
+    </LinearLayout>
+
+</LinearLayout>
+
